@@ -1,0 +1,152 @@
+ \documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\usepackage{polynom}
+\usepackage{hyperref}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\usepackage[utf8]{inputenc}\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+\newcommand{\function}[5]{
+\begin{array}{cccl}
+#1 :& #2 	& \longrightarrow 	& #3\\
+	& #4	& \longmapsto		& #5
+\end{array}
+}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+
+\title{T2 V1 NUMERICO 521230 UDEC}
+
+\begin{minipage}{0.12\textwidth}
+\includegraphics[width=\textwidth]{logoudec.eps}
+\end{minipage}
+\hspace{5mm}
+\begin{minipage}{0.9\textwidth}
+UNIVERSIDAD DE CONCEPCION\\
+{\small\small\bf 
+FACULTAD DE CIENCIAS\\ 
+FISICAS Y MATEMATICAS}\\
+DEPARTAMENTO DE INGENIERIA MATEMATICA\\
+\rule{0.66\textwidth}{.5pt} Franco A. Milanese
+\end{minipage}
+
+\vspace{0.5cm}
+\centerline{\bf Test II (521230)}
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &       \\
+ \hline
+ \end{tabular}
+ \end{center}
+ Enviar documentos solicitados en el formato solicitado a 
+ %\textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item Considere el P.V.I.
+$$
+\begin{array}{rl|}
+y''''+cos(x)y & =sin(x)\\
+y(0)	&=1\\
+y'(0)	&=2\\
+y''(0)	&=-1\\
+y'''(0)	&=1\\
+x	&\in [0,3]\\
+\hline
+\end{array}.
+$$
+\begin{enumerate}
+\item Transforme el P.V.I. en un sistema de orden 1.
+\item En una funci\'on de Matlab llamada \texttt{f.m}, programe la funci\'on obtenida en el sistema calculado anteriormente.
+\item Resuelva el P.V.I. usando la funci\'on \texttt{ode45()} en un rutero llamado \texttt{p1.m}. En este mismo rutero grafique la funci\'on soluci\'on y su derivada.
+
+\end{enumerate}
+Adjunte el programa \texttt{f.m} y el rutero \texttt{p1.m} al correo.
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+	\item Mediante la sustituci\'on $u_1=y$, $u_2=y'$, $u_3=y''$, $u_4=y'''$, se llega al sistema
+    $$
+    \begin{bmatrix}
+    u_1\\u_2\\u_3\\u_4
+    \end{bmatrix}'
+    =\begin{bmatrix}
+    u_2\\u_3\\u_4\\sin(x)-cos(x)u_1
+    \end{bmatrix}
+    $$
+    \item La funci\'on \texttt{f.m} es de la forma
+    \begin{lstlisting}
+    function du=f(x,u);
+    du=[u(2:4),sin(x)-cos(x)*u(1)];
+    \end{lstlisting}
+    \item El rutero \texttt{p1.m} debe tener instrucciones similares a
+    \begin{lstlisting}
+    [x,u]=ode45(@f,[0,3],[1;2;-1;1])
+    plot(x,u(:,1:2));
+    \end{lstlisting}
+\end{enumerate}
+
+\item Cargue la funci\'on de Matlab disponible en
+\begin{center}
+\texttt{http://www2.udec.cl/\~{}fmilanese/raphson.m}
+\end{center}
+esta contiene una implementaci\'on del m\'etodo de la bisecci\'on.
+
+\begin{enumerate}
+	\item Usando la funci\'on \texttt{raphson()}, en un rutero llamado \texttt{raices.m}, aproxime la ra\'iz de la funci\'on 
+    $$
+		f(x)=cos(\pi x^2+1)
+	$$
+    que est\'a a la derecha de $1$ con un error menor a $10^{-4}$.
+    \item En este mismo rutero grafique la funci\'on $f$.
+    \item En este mismo rutero, usando la funci\'on \texttt{bisect()} calcule todas las raices de $f$ que est\'an entre $0$ y $10$.
+    \item En este mismo rutero, a\~{n}ada al gr\'afico de la funci\'on las ra\'ices calculadas con asteriscos rojos.
+\end{enumerate}
+
+\textbf{Desarollo:} El programa debe tener instrucciones similares a
+\begin{lstlisting}
+clear all; close all; clc;
+f=@(x) cos(pi *x.^2);
+df=@(x) -sin(pi*x.^2)*pi*2.*x;
+[raiz,err]=raphson(f,df,0.5,10^(-4)) %La primera raiz pedida
+x=0:0.001:2.5;
+plot(x,f(x)); grid on; hold on;  %La grafica pedida
+r1=raphson(f,df,0.5,10^(-6));
+r2=raphson(f,df,1.2,10^(-6));
+r3=raphson(f,df,1.5,10^(-6));
+r4=raphson(f,df,1.7,10^(-6));
+r5=raphson(f,df,2.1,10^(-6));
+r6=raphson(f,df,2.3,10^(-6));
+r=[r1,r2,r3,r4,r5,r6] %Las raices pedidas
+ plot(r,zeros(size(r)),'*r') %Grafica las raices calculadas
+\end{lstlisting}
+\end{enumerate}
+\end{document}  

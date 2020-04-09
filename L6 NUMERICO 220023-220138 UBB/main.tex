@@ -1,0 +1,315 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+
+\begin{document}
+
+\title{L6 NUMERICO 220023-220138 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Primer Semestre de 2016}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2016}}
+\end{picture}}
+
+
+\vspace*{0.5cm} \centerline {\bf\underline{Laboratorio 6, M\'etodos Num\'ericos I 220023-220138}}
+\centerline{\textrm{Semana 23 de mayo de 2016.}}  \vspace{0.2cm}
+
+% \textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+% \vspace{0.1cm}
+% \textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+%  \begin{center}
+%  \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+%  \hline
+%  Pregunta 1 &  Pregunta 2 &     Total\\
+%  \hline
+
+%   \vspace{1.5cm} & &       \\
+%  \hline
+%  \end{tabular}
+%  \end{center}
+% Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+
+\section{Integraci\'on num\'erica y reglas de cuadratura}
+
+Sea $f:\mathbb{R}\longrightarrow \mathbb{R}$, en esta secci\'on buscamos estimar el valor de 
+$$
+\int_{a}^b f(x)dx.
+$$
+La expresi\'on cuadratura nos recuerda la idea b\'asica de estimar el \'area bajo una curva como la suma 
+de una serie de pequeños cuadrados definidos a partir de la gr\'afica de esta curva. 
+
+En la pr\'actica la mayor\'ia de las reglas de cuadratura permiten estimar
+$$
+\displaystyle
+\int_{a}^b f(x)dx= \sum_{i=0}^n A_if(x_i),
+$$
+donde a $\{x_0,x_1,\cdots,x_n\}$ se le dice una partici\'on del intervalo $[a,b]$, a sus elementos se les llama nodos de la partici\'on. $A_i$ son los pesos o coeficientes de la regla de cuadratura. A continuaci\'on se resumen las tres reglas mas sencillas de cuadratura
+
+\subsection{Regla del punto medio} 
+La idea es aproximar el \'area de una integral por el \'area de un rect\'angulo
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[xlabel=$x$,ylabel=$f(x)$]
+    \addplot[domain=0.5:5.5,blue,samples=500] {0.01*x*(x-2)*(x-4)*(x-5)+2};
+    \draw[color=red] (axis cs:1,0) -- (axis cs:1,2.0600);
+    \draw[color=red] (axis cs:5,2.0600) -- (axis cs:1,2.0600);
+    \draw[color=red] (axis cs:5,2.0600) -- (axis cs:5,0);
+    \draw[dotted] (axis cs:3,2.0600) -- (axis cs:3,0);
+    \addplot[soldot] coordinates{(3,2.0600)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+de altura el valor de la funci\'on en el punto medio del intervalo de integraci\'on. En su versi\'on simple se llega a la regla
+$$\int_a^bf(x)dx\approx(b-a)f\left(\frac{b+a}{2}\right).$$
+En su versi\'on compuesta la regla es
+$$\int_a^b f(x)dx = h\sum_{i=1^n}f\left(\frac{x_{i}+x_{i-1}}{2}\right).$$
+
+\subsection{Regla del trapezoide}
+La idea es aproximar el \'area de una integral por el \'area de un rect\'angulo
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[xlabel=$x$,ylabel=$f(x)$]
+    \addplot[domain=0.5:5.5,blue,samples=500] {0.01*x*(x-2)*(x-4)*(x-5)+2};
+    \draw[color=red] (axis cs:1,0) -- (axis cs:1,1.88);
+    \draw[color=red] (axis cs:5,0) -- (axis cs:5,2);
+    \draw[color=red] (axis cs:1,1.88) -- (axis cs:5,2);
+    \draw[dotted] (axis cs:1,2.0600) -- (axis cs:3,0);
+    \addplot[soldot] coordinates{(1,1.88)(5,2)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+de alturas en valor de la funci\'on en los extremos del intervalo de integraci\'on
+$$\int_a^bf(x)dx\approx(b-a)\frac{f(a)+f(b)}{2}$$
+En su versi\'on compuesta la regla es
+$$\int_a^b f(x)dx = \frac{h}{2}\sum_{i=1^n}f(x_{i})+f(+x_{i-1})=\frac{h}{2}\left(f(a)+2f(x_1)+\cdots +2f(x_{n-1})+f(b)\right)$$
+
+\subsection{Regla de Simpson}
+La idea es aproximar el \'area de la integral por el \'area bajo el polinomio de grado dos que mejor interpola a la funci\'on en tres puntos.
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[xlabel=$x$,ylabel=$f(x)$]
+    \addplot[domain=0.5:5.5,blue,samples=500] {0.01*x*(x-2)*(x-4)*(x-5)+2};
+    \draw[color=red] (axis cs:1,0) -- (axis cs:1,1.88);
+    \draw[color=red] (axis cs:5,0) -- (axis cs:5,2);
+    \addplot[domain=1:5,red,samples=500] {1.88*(x-3)*(x-5)/(2*4)+2.06*(x-1)*(x-5)/(-2*2)+2*(x-1)*(x-3)/((-4)*(-2)};
+    \addplot[soldot] coordinates{(1,1.88)(3,2.0600)(5,2)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+Se utilizan los extremos y el punto medio del intervalo de integraci\'on para definir la regla
+$$\int_a^bf(x)dx\approx\frac{b-a}{6}\left(f(a)+f\left(\frac{a+b}{2}\right)+f(b)\right).$$
+En su versi\'on compuesta la regla es
+$$\int_a^b f(x)dx = \sum_{i=1}^{\frac{n}{2}} \frac{h}{3}\left(f(x_{2i-2})+4f(x_{2i-1})+f(x_{2i})\right)$$
+donde se requiere de una cantidad impar de n\'umeros, es decir $n$ es par. 
+
+\section{C\'odigo en Matlab}
+Las funciones integradas en Matlab, que veremos al final de este laboratorio, vienen diseñadas para trabajar con versiones optimizadas de estos algoritmos. La siguientes funciones implementan las reglas compuestas vistas anteriormente
+\begin{lstlisting}
+function val=quadPM(f,a,b,h)
+x=a:h:b;
+val=h*sum(f((x(2:end)+x(1:end-1))./2));
+end
+\end{lstlisting}
+para la regla del trapecio. 
+\begin{lstlisting}
+function val=quadT(f,a,b,h)
+x=a:h:b;
+val=h/2*(f(x(1))+f(x(end))+2*sum(f(x(2:end-1))));
+end
+\end{lstlisting}
+y para la regla de Simpson
+\begin{lstlisting}
+function val=quadS(f,a,b,n)
+x=linspace(a,b,n);
+h=(b-a)/(n-1);
+val=h/3*sum(f(x(1:3:end))+4*f(x(2:3:end))+f(3:3:end));
+end
+\end{lstlisting}
+Las entradas de estas funciones son \texttt{f,a,b,n} la funci\'on de integrando \texttt{f}, los l\'imites inferiores y superiores de integraci\'on \texttt{a} y \texttt{b} respectivamente y, aparte, la cantidad de nodos $n$ con los que se ejecutar\'a la integraci\'on.
+
+\section{Especificaci\'on de los integrandos}
+Como hemos visto Matlab tiene diversas formas de especificar una funci\'on. El arreglo de funciones es una forma sencilla de expeficar una funci\'on de una l\'inea, por ejemplo
+\begin{lstlisting}
+> f = @(x) 1./sqrt(1+x^4)
+Q = quadT(f,0,1,0.1)
+\end{lstlisting}
+realiza los c\'alculos de la integral $\int_0^1\frac{1}{\sqrt{1+x^4}}dx$ seg\'un el c\'odigo visto anteriormente.
+
+Si intentamos calcular la integral $\int_0^1\frac{sen(x)}{x}dx$ suceder\'a un error
+\begin{lstlisting}
+> f = @(x) sin(x)./x
+Q = quadT(f,0,1,0.1)
+\end{lstlisting}
+puesto en estas instrucciones se realiza una divisi\'on por cero. Una opci\'on es considerar la integraci\'on desde la menor cantidad posible cercana al cero 
+\begin{lstlisting}
+> f = @(x) sin(x)./x
+Q = quadT(f,realmin,1,0.1)
+\end{lstlisting}
+\'o redefinir la funci\'on en $0$ para evitar la divisi\'on por cero. Esto se puede hacer en un fichero tipo funci\'on llamado \texttt{send.m} 
+que contenga el c\'odigo
+\begin{lstlisting}
+function f = send(x)
+	if x == 0
+	f = 1;
+	else
+	f = sin(x)/x;
+	end
+end
+\end{lstlisting}
+donde la instrucci\'on
+\begin{lstlisting}
+Q = quadT(send,0,1,0.1)
+\end{lstlisting}
+es la aproximaci\'on buscada.
+
+\section{Ejemplos de uso de la funci\'on privada de matlab \texttt{quad()}}
+
+Matlab tiene integradas ciertas funciones que facilitan el c\'alculo de integrales definidas
+
+\begin{longtable}{||c|p{0.7\textwidth}||}
+\hline
+\texttt{quad(f,a,b,tol)} 			& Utiliza la regla de Simpson extrapolada, adaptativa y recursiva. Para aproximar $\int_a^b f(x)dx$, la funci\'on $f$ debe ser dada de forma vectorial en su entrada y salida o atrav\'es de un objeto inline. \\
+\hline
+\end{longtable}
+
+Si el fichero \texttt{mifun.m} contiene la funci\'on
+\begin{lstlisting}
+       function y = mifun(x)
+       y = 1./(x.^3-2*x-5);
+\end{lstlisting}
+entonces la instrucci\'on 
+\begin{lstlisting}
+Q = quad(@myfun,0,2);
+\end{lstlisting}
+estima el valor de $\int_0^2\frac{1}{x^3-2x-5} dx$ y lo graba en la variable Q, con un error de $10^{-6}$.
+
+Si el fichero \texttt{funcion.m} contiene la funci\'on
+\begin{lstlisting}
+       function y = funcion(x,a)
+       y = sin(2*a*x);
+\end{lstlisting}
+entonces la instrucci\'on
+\begin{lstlisting}
+Q=[];
+for i=1:10
+	Q(end+1)=quad(@(x) funcion(x,i),0,1,10^(-6))
+end
+\end{lstlisting}
+crea un vector \texttt{Q} de las integrales 
+$$
+\begin{bmatrix}
+\int_0^1sen(2x)dx & \int_0^1sen(4x)dx & \int_0^1sen(6x)dx &  \cdots 
+&\int_0^1sen(20x)dx
+\end{bmatrix}^T
+$$
+\section{Ejercicios}
+\begin{enumerate}
+\item Los siguientes puntos provienen del muestreo de una funci\'on
+$$
+\begin{array}{c|cccccccc}
+x 		& 0  & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+\hline
+f(x)	& -1 & 2 & 3 & -1 & 2 & 3 & -1 & 2 
+\end{array}
+$$
+utilice el polinomio interpolante para aproximar $f$ y estimar 
+$$
+\int_1^6 f(x) dx,
+$$
+utilizando la regla de Simpson compuesta con 15 nodos.
+
+\item Se sabe que 
+$$
+\pi=\int_{-1}^1\frac{2}{1+x^2}dx
+$$
+utilize las reglas del punto medio, del trapecio y de Simpson para calcular el valor aproximado de $\pi$ mediante aproximaciones de la integral anterior. \textquestiondown Cu\'antas puntos se requiere para tener un error menor a $10^{-8}$ respectivamente?.
+
+\item La funci\'on $erf()$ se define como
+$$
+erf(x)=\frac{2}{\pi}\int_0^xe^{-x^2}dx,
+$$
+usando la funci\'on \texttt{quad()} de Matlab estime los valores de $erf(0)$, $erf(1)$, $erf(2)$. Luego haga una gr\'afica de la funci\'on $erf()$ en el intervalo $[0,1]$.
+
+\item La funci\'on $\Gamma$ se define como
+$$
+\Gamma(x)=\int_0^\infty t^{x-1}e^{-t}dt
+$$
+estime $\Gamma(0)$, $\Gamma(1)$ y $\Gamma(2)$ utilizando la funci\'on \texttt{quad()}.
+
+\item Sea $f(x)=x\,sen\left(\frac{1}{x}\right)$ con $x\in[0,1]$,
+\begin{enumerate}
+	\item Use la funci\'on \texttt{ezplot()} para graficar $f$,
+    \item ¿Qu\'e sucede si ejecutas \texttt{quadTS(f,0,1,10)},
+    \item ¿Qu\'e puedes hacer para solucionar esta dificultad?.
+\end{enumerate}
+\end{enumerate}
+
+
+
+
+
+\begin{thebibliography}{9}
+\bibitem{Mo2} Moler, Cleve, Numerical Computing with MATLAB, S.I.A.M. Disponible en http://www.mathworks.com/moler/quad.pdf.
+
+\bibitem{MH} Heath, Michael, Scientific Computing: an introductory survey. McGraw Hill 2005.
+
+%\bibitem{DB} de Boor, Charles, A Practical Guide to Splines, Springer-Verlag, New York, 1978.
+
+% http://www.uam.es/personal_pdi/ciencias/barcelo/cnumerico/recursos/interpolacion.html
+
+%\bibitem{H1} N. J. Higham, Accuracy and Stability of Numerical Algorithms, SIAM, Philadelphia, 2002
+\end{thebibliography}
+
+\end{document}

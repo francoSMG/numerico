@@ -1,0 +1,416 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\begin{document}
+
+\title{L2 NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Laboratorio 1, M\'etodos Num\'ericos I 220028 }}
+\centerline{\textrm{Semana 9 de noviembre 2015.}}  \vspace{0.2cm}
+
+
+% \textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+% \vspace{0.1cm}
+% \textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+%  \begin{center}
+%  \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+%  \hline
+%  Pregunta 1 &  Pregunta 2 &     Total\\
+%  \hline
+
+%   \vspace{1.5cm} & &       \\
+%  \hline
+%  \end{tabular}
+%  \end{center}
+% Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\centerline{Introducci\'on  a Matlab \circledR:  ruteros, funciones, cadenas, celdas y errores} 
+%
+
+
+\section{Ruteros}
+  Los c\'odigos descargados y escritos en el editor de Matlab, que hemos visto hasta el momento,  son todos ejemplos de ruteros. Los ruteros tienen por objetivo ejecutarse directamente en la memoria local (workspace) y efectuar una serie de procedimientos l\'inea a l\'inea.
+  
+Para crear un directorio donde guardaremos nuestros programas usamos el comando
+\begin{verbatim}
+	mkdir nombredirectorio
+\end{verbatim}
+Para que Matlab reconozca los programas dentro de un directorio, debemos ingresar a \'el mediante el comando:
+\begin{verbatim}
+	cd nombredirectorio
+\end{verbatim}
+o llevando el directorio actual (Current folder) a este directorio. Todos los archivos con programas Matlab deben terminar con la extensi\'on \texttt{.m}. 
+  
+Para crear un rutero se utiliza el comando del editor y se acompaña el nombre del fichero, por ejemplo la sentencia 
+  \begin{verbatim}
+   edit nuevofichero
+  \end{verbatim}
+ejecutada en la ventana de comandos crear\'a un nuevo fichero con el nombre \texttt{nuevofichero.m} en el directorio actual.
+
+\section{Funciones}
+  Las funciones de MATLAB se llaman as\'i por qu\'e son precisamente cosas que transforman un conjunto dado en otro conjunto dado. En la pr\'actica las funciones siguen siendo texto plano el cual podemos crear y editar con el editor de Matlab, pero para que Matlab las reconozca como tales debemos seguir una estructura predeterminada en la primera l\'inea de comandos del fichero. Una funci\'on debe empezar como
+  \begin{verbatim}
+   function out=name(in)
+  \end{verbatim}
+  a continuaci\'on se puede programar cualquier cosa, utilizando o no una variable de entrada de nombre \texttt{in}, pero obligatoriamente construyendo una variable de salida de nombre \texttt{out}. Para llamar a una funci\'on desde la ventana de comandos se ejecuta
+  \begin{verbatim}
+   name(in)
+  \end{verbatim}
+  donde el fichero que contiene la funci\'on de nombre \texttt{name} debe llamarse \texttt{name.m} y estar en el directorio de trabajo y la variable de entrada \texttt{in} debe existir en la memoria local.
+  
+Por ejemplo, la siguiente funci\'on crea una matriz de orden $n$ con puros n\'umeros $A$ en la fila $j$
+  \begin{verbatim}
+      function MATRIX=creador(n,A,j)
+      MATRIX(1:n,1:n)=0;
+      MATRIX(1:n,j)=A;
+  \end{verbatim}
+  para usar la funci\'n \texttt{creador()} debemos ejecutar en la ventana de comandos, por ejemplo, la instrucci\'on
+  \begin{verbatim}
+   creador(4,6,2);
+  \end{verbatim}
+  para grabar la salida de la funci\'on \texttt{creador()} en una variable de nombre \texttt{matriz}, debemos ejecutar
+  \begin{verbatim}
+   matriz=creador(10,45,5);
+  \end{verbatim}
+
+  \subsection{MATLAB y sus funciones}
+  La versatilidad de MATLAB se basa en sus funciones. En particular la funci\'on \texttt{help} es muy importante, esta funci\'on nos permite leer un resumen del uso de otras funciones, por ejemplo si ejecutamos 
+  \begin{verbatim}
+   help abs
+  \end{verbatim}
+  obtendremos una salida como
+  \begin{verbatim}
+    abs    Absolute value.
+    abs(X) is the absolute value of the elements of X. When
+    X is complex, abs(X) is the complex modulus (magnitude) of
+    the elements of X.
+  \end{verbatim}
+  una breve lectura nos permite observar que la funci\'on \texttt{abs()} nos permite obtener el valor absoluto de los elementos de una matriz. Entre las principales funciones de matlab cuentan:
+  \begin{center}
+      \begin{tabular}{p{5cm}|l}
+        \hline
+	Sentencia	  & Significado\\
+	\hline
+       abs()		  & Valor absoluto\\
+       cos(),sin(),tan()  & Funciones trigonom\'etricas en radianes\\
+       if()		& Verificador l\'ogico\\
+       plot()		& Permite dibujar figuras planas\\
+       ones()		& Crea una matriz con todas las entradas en 1\\
+       zeros()		& Crea una matriz con entradas todas nulas \\
+       find()		& Encuentra los \'indices de una matriz que son no nulos\\
+       disp()		& Muestra una cadena\footnote{Ver siguiente secci\'on} en la ventana de comando\\
+       input()		& Recibe una variable a trav\'es del teclado del ordenador\\
+       norm() 		& Norma Euclideana de un vector \\
+       cross()		& Producto cruz de vectores \\
+       dot()		& Producto interior o punto de vectores
+      \end{tabular}
+  \end{center}
+
+Utilice la funci\'on \texttt{help()} para conocer los distintos funcionamientos de cada uno de estas funciones.
+\section{Cadenas y celdas}
+  Si bien MATLAB est\'a dise$\tilde{n}$ado desde sus comienzos para trabajar con matrices, con el tiempo se ha extendido a otro tipo de variables. En particular ser\'an utilizadas las cadenas (del ingl\'es ``string''). Las cadenas son sucesiones de caracteres, tal cual como los que esta leyendo ahora. Para ingresar cadenas a MATLAB se utilizan los operadores de comillas simples $'$. Por ejemplo la sentencia
+  \begin{verbatim}
+   string='Hola mundo';
+  \end{verbatim}
+  grabar\'a en la memoria local una variable llamada \texttt{string} cuyo valor es la cadena \texttt{Hola mundo}. Un trabajo com\'un con las cadenas es la concadenaci\'on de ellas. En este caso, podemos concadenarlas usando f\'acilmente usando el mismo operador que concadena matrices, por ejemplo la sentencia
+  \begin{verbatim}
+   cadena1='Me llamo';
+   cadena2='MATLAB';
+   quiensoy=[cadena1,cadena2];
+  \end{verbatim}
+  crear\'a una cadena que es la concadenaci\'on de dos.
+  
+  Las celdas o variables tipo \texttt{cell} son arreglos indexados, como las matrices, pero que permiten contener m\'as cosas que n\'umeros, en efecto pueden contener cualquier tipo de variable de Matlab. Para declarar celdas, se ocupa el operador \{, por ejemplo
+  \begin{verbatim}
+   P='Esto es una cadena';
+   A=ones(1,20);
+   C={P,A};
+  \end{verbatim}
+  crea una celda \texttt{C} donde la primera entrada es la cadena \texttt{P} y la segunda entrada es la matriz \texttt{A}. 
+  Para recuperar una entrada de una celda, se debe recorrer su \'indice con el operador \{.
+
+
+\section{Errores comunes en MATLAB}
+Los errores son una parte fundamental de nuestras vidas, interactuemos o no con Matlab. La única diferencia es que, cuando intereactuamos con ordenadores, se nos indican inmediatamente nuestros errores.
+
+Hay que advertir que programar en MATLAB requiere de tiempo y concentración. Si no tenemos el tiempo o la concentración adecuada se puede volver muy irritante, si por un momento no hacemos la distinción entre (,[ \'o \{ o simplemente no distinguimos entre : y ;, o nos olvidamos de considerar que \texttt{a} es distinto de \texttt{A}, entonces programar en MATLAB se volverá largo y tedioso.
+
+A continuaci\'on se enlistan los errores mas comunes con los que nos encontraremos mientras trabajamos con MATLAB. Se adjuntan ejemplos de los errores y explicaciones de ellos.
+
+\subsection{Indices de asignaci\'on no coinciden}
+\begin{verbatim}
+>> D=zeros(3); d=[1,2];
+D(2:3,:)=d;
+Subscripted assignment dimension mismatch.
+\end{verbatim}
+Este error sucede cuando hay asignaciones de matrices  y las matrices que están a ambos lados del signo \texttt{=} no tienen la misma dimensi\'on. Utiliza el comando \texttt{size()} para 
+chequear las dimensiones de ambos elementos y asegurarte que coincidan. En este 
+ejemplo tendriamos que
+\begin{verbatim}
+>> size(D(2:3,:))
+
+ans =
+
+     2     3
+
+>> size(d)
+
+ans =
+
+     1     2
+\end{verbatim}
+
+\subsection{Mal uso de (,[,\{}
+\begin{verbatim}
+>>  (x,y)=sphere(5)
+ (x,y)=sphere(5)
+   |
+Error: Expression or statement is incorrect--possibly unbalanced (, {, or [.
+\end{verbatim}
+Aqu\'i lo que sucede es que MATLAB se confunde con las variables de salida de 
+\texttt{circlefn()}. Al verlas dentro de par\'entesis ( ellas representan 
+indices de una matriz y no variables. Las salidas de una funci\'on 
+deben ser encerrada en par\'entesis [. 
+
+Tambi\'en, cuando los par\'entesis no est\'an escritos correctamente 
+el mismo error es mostrado, por ejemplo
+\begin{verbatim} 
+>> (x,y]=sphere(5)
+ (x,y]=sphere(5)
+   |
+Error: Expression or statement is incorrect--possibly unbalanced (, {, or [.
+\end{verbatim}
+
+\subsection{Errores de \'indice y dimensi\'on}
+\begin{verbatim}
+>> x=1:100;
+v=0:3:45;
+s=x(v);
+Subscript indices must either be real positive integers or logicals.
+\end{verbatim}
+El primer elemento del vector de \'indices \texttt{v} es cero. En consecuencia, estamos 
+intentando obtener el $0^{avo}$ elemento de \texttt{x}, pero cero no es un \'indice v\'alido 
+para un vector ni para una matriz. El mismo error sucede cuando un n\'umero negativo aparece 
+como \'indice. Adem\'as, cuando un \'indice excede el la dimensi\'on de una variable, 
+tambi\'en sucede un error, siguiendo el ejemplo anterior:
+\begin{verbatim}
+>> x=1:100;
+v=1:3:103;
+s=x(v);
+Index exceeds matrix dimensions.
+\end{verbatim}
+Los ejemplos aqu\'i ilustrados son casi triviales. La mayor\'ia de las veces, 
+estos errores aparecen cuando los \'indices son creados, incrementados 
+o manipulados dentro de un ciclo.
+
+\subsection{Operaciones matriciales}
+\begin{verbatim}
+>> x=1:10; y=20:-2:1; 
+x*y
+? ? Error using ==> mtimes
+Inner matrix dimensions must agree.
+\end{verbatim}
+Cuando realizamos la multiplicaci\'on matricial \texttt{x*y}, el n\'umero de columnas 
+de \texttt{x} debe coincidir con el n\'umero de filas de \texttt{y}. En el ejemplo anterior 
+\texttt{x} e \texttt{y} son ambos vectores de tamaño $1\times 10$, por lo tanto 
+no se pueden multiplicar. Sin embargo, \texttt{x*y'} y \texttt{x'*y} si se puede ejecutar, 
+los que representan los productos exterior (cruz) e interior (punto) del vector \texttt{x} con el 
+vector \texttt{y}.
+
+Muchas otras operaciones que involucren matrices de dimensiones no apropiadas producir\'an un error
+similar a este. Una regla general para solucionar este problema es escribir la operaci\'on en papel 
+y pensar si las operaci\'on tiene sentido. Si no tiene sentido, muy probablemente MATLAB muestre un error.
+Por ejemplo \texttt{A\^{} 2} s\'olo tiene sentido si la matriz \texttt{A} es cuadrada.
+
+Una fuente muy com\'un de este tipo de errores es usar operaciones matriciales 
+cuando lo que se busca es una operaci\'on componente a componente, por ejemplo
+\texttt{y.\^{} x} nos entrega al potenciaci\'on componente a componente, mientras que 
+\begin{verbatim}
+  
+>> y^x
+? ? ? Error using ==> mpower
+
+At least one operand must be scalar
+\end{verbatim}
+
+\subsection{Mal llamado de una funci\'on}
+\begin{verbatim}
+creador();
+? ? ? Input argument ''n" is undefined.
+Error in ==> CREADOR at 3
+MATRIX(1:n,1:n)=0;
+\end{verbatim}
+Este error sucede cuando un fichero tipo funci\'on no ha sido ejecutado con 
+las entradas adecuadas. Este es un de los pocos errores en los cuales el mensaje 
+del error nos provee exactamente la l\'inea del fichero en el que se produce el error.
+
+\subsection{Mal llamado de un rutero}
+\begin{verbatim}
+ >> x=codigo1(4)
+??? Attempt to execute SCRIPT codigo1 as a function:
+\end{verbatim}
+Aqu\'i \texttt{codigo1} es un rutero. Las entradas y salidas no pueden 
+ser especificadas en un rutero. A continuaci\'on presentamos un caso 
+m\'as interesante que produce el mismo error. Esto sucede cuando se intente 
+ejecutar la siguiente funci\'on
+\begin{verbatim}
+ funcion [x,y]=circle(r) 
+%CIRCLE -dibuja un circulo de radio r
+theta = linspace(0,2*pi,100);   %Declaro vector angular
+x=r*cos(theta);                 %Coordenadas x
+y=r*sin(theta);                 %Coordenadas y
+plot(x,y) ;                     %Dibujo
+\end{verbatim}
+al hacer
+\begin{verbatim}
+ >> circle(4)
+??? Attempt to execute SCRIPT circle as a function
+\end{verbatim}
+El lector dir\'a: ¡Pero si no es un script!. Y tiene raz\'on, no es un script 
+pero tampoco es un funci\'on. La primera palabra de una funci\'on debe ser 
+\texttt{function} y no \texttt{funcion}!.
+
+\subsection{Variables no definidas}
+\begin{verbatim}
+>> x=c+22;
+Undefined function or variable 'c'.
+\end{verbatim}
+En este ejemplo la variable \texttt{c} no est\'a definida al momento de la operaci\'on. Este 
+mensaje es preciso. Cuando este mensaje aparece en funciones o ficheros que nosotros hemos escrito puede 
+deberse a que tal funci\'on o fichero se encuentra en otro directorio distinto 
+al directorio actual. Puedes usar los comandos \texttt{what()}, \texttt{dir} o \texttt{ls} para 
+enlistar los archivos de tu directorio actual. Si el archivo no est\'a en la lista 
+entonces MATLAB no puede acceder a \'el, deber\'as localizar el directorio y cambiar 
+el directorio actual al directorio indicado, para esto puedes usar el comando \texttt{cd}.
+%
+
+  \subsection{Pr\'acticas recomendables}
+  Siempre que trabajemos con ficheros estaremos trabajo con la memoria local. Esto tiene ventajas 
+  y desventajas, por un lado tenemos la ventaja de que podemos modificar directamente las variables 
+  que est\'an en el fichero. Pero en algunas ocasiones esto puede ser una desventaja, puesto 
+  puede producir resultados no esperados en el c\'odigo. Baje el fichero ubicado en la siguiente 
+  URL y ejec\'utelo.
+
+\url{http://www2.udec.cl/~fmilanese/codigo2.m}
+  
+  Podr\'a percartarse que este c\'odigo realiza el llenado de una matriz diagonal llamada $Ac$ con los 
+  n\'umero $1,2,3$ y $4$. Observe que si usted ejecuta m\'as de una vez este c\'odigo la matriz $Ac$ pierde 
+  esta caracter\'istica. Esto sucede por qu\'e al ejecutarse por segunda vez las instrucciones del fichero 
+  se sobreescribe la variable $Ac$. Para evitar este error MATLAB posee un comando que borra todas las variables 
+  que est\'an en la memoria local, basta ejecutar la sentencia 
+  \begin{verbatim}
+   clear all
+  \end{verbatim}
+  o mas precisamente puede eliminar \'unicamente la variable $Ac$, ejecutando
+  \begin{verbatim}
+   clear Ac
+  \end{verbatim}
+  %
+  Muchas veces el c\'odigo que en un momento nos puede parecer sencillo al momento en que se escriba, al ser rel\'eido 
+  se olvida parte del razonamiento que lo produjo. Por esto, los lenguajes de programaci\'on permiten 
+  comentar en el mismo c\'odigo. En matlab los c\'odigos se comentar con el s\'imbolo de porcentaje \%. Por ejemplo, 
+  descargue el c\'odigo ubicado en la siguiente URL y lealo en el editor.
+  
+  \url{ http://www.udec.cl/~fmilanese/codigo3.m}
+    
+
+
+\newpage
+  \section{Ejercicios}
+  \begin{enumerate}
+  
+  \item Construya un programa que eval\'ue la funci\'on. 
+  $f(x)=\begin{cases}																					sin^2(x)\quad \text{ si } x\leq -2\\														1-e^{-x}\quad \text{ si } -2 < x< 2\\														\frac{1}{x+1} \quad \text{ si }  x\geq 2\\												\end{cases}$
+  
+\item Cree un programa tipo function que determine el \'angulo existente entre dos vectores de $\mathbb{R}^{n}$. Testee con los vectores base de $\mathbb{R}^3$.
+								
+\item Construya un programa que calcule el producto cruz \textbf{s\'olo} entre dos vectores de $\mathbb{R}^3$. Utilize este programa para calcular el \'area contenida por el paralelepipedo generado por ambos vectores.
+
+\item Construya un programa tipo function que calcule el volumen del paralelep\'ipedo generado por tres vectores de $\mathbb{R}^3$.
+
+\item Construya un programa tipo function que calcule la distancia de un punto a una recta.
+
+\item Construya un programa tipo function que calcule la distancia de un punto a un plano.
+
+\item Construya un programa tipo function que calcule la distancia entre dos rectas cualquiera.
+
+\item Construya un programa que reciba como entrada una funci\'on $f: \mathbb{R}\to\mathbb{R}$ y un conjunto de puntos de $\mathbb{R}^2$, $\{(x_i,y_i)\}_{i=1}^n$ y realice lo siguiente.
+\begin{enumerate}
+\item Entregue como salida un vector con los puntos que pasan por la curva.
+\item Grafique la curva de $f$, y los puntos dados, diferenciando explicitamente aquellos que pasan por la curva de los que no mediante colores.
+\end{enumerate}
+\textbf{Sugerencias:}
+\begin{itemize}
+\item La funci\'on $f$ puede ingresarse como una variable tipo \texttt{string}, por ejemplo.
+\begin{verbatim}
+f='x+1'
+\end{verbatim}
+y dentro del programa se transforma a funci\'on mediante el comando \texttt{fcnchk()} o \texttt{inline()}. 
+\item Dado un escalar o vector \texttt{x}, una funci\'on se evalua de la forma
+\begin{verbatim}
+y=feval(f,x);
+\end{verbatim}
+\item El conjunto de puntos pueden ingresarse como una matriz $P\in \mathcal{M}_{2,n}$ de la forma.
+$$P=\begin{bmatrix}
+x_1 & x_2 & \cdots & x_n \\
+y_1 & y_2 & \cdots & y_n 
+\end{bmatrix}.
+$$
+\end{itemize}
+
+   \item Utilize la funci\'on \texttt{plot()} para dibujar la ecuaci\'on de la curva $y=cos(x^2)$ entre $[0,\pi]$.  Utilice las funciones \texttt{legend()} y \texttt{title()} para agregar un t\'itulo y leyenda al gr\'afico.
+   
+   \item Construya una funci\'on que grafique la curva $y=cos(x^n)$ para un numero $n$ dado. ¿Que sucede para $n$ muy grandes?.
+   
+   \item Modifique el fichero disponible en 
+   
+   \url{http://www.udec.cl/~fmilanese/saludador.m}
+   
+  de forma tal que sus entradas sean letras y no n\'umeros, y que chequee que la entrada es una letra. Utilize la funci\'on \texttt{isnumeric()}.
+    \item Utilize la funci\'on \texttt{creador()}, descrita anteriomente, para construir otra funci\'on que construya una matriz que es la suma de dos matrices de $10\times 10$, una que tiene sólo el n\'umero 7 en su quinta columna y la otra s\'olo el n\'umero 6 en su tercera fila.
+    \item Baje el rutero disponible en \url{http://www.udec.cl/~fmilanese/codigo7M.m} y corrija todos los errores.
+
+  \end{enumerate}
+
+
+
+\end{document}  

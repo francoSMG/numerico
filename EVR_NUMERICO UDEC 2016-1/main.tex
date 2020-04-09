@@ -1,0 +1,92 @@
+\documentclass[11pt]{article}
+
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\newcommand{\buena}{[BUENA]}
+\newcommand{\justifique}{[JUSTIFIQUE]}
+\newcommand{\nojustifique}{[NOJUSTIFIQUE]}
+
+\begin{document}
+\title{EVR_NUMERICO UDEC 2016-1}
+\begin{itemize}
+
+\item Considerando los puntos 
+$$
+\{(0,1/3),(1,1),(-1,1/3)\},
+$$
+la funci\'on del tipo 
+$$
+p(x)=ax^2+bx+c
+$$
+que mejor se ajusta a dichos puntos satisface
+\begin{enumerate} 
+\item $a=\frac{1}{3}$, $b=0$ y $c=\frac{2}{3}$.
+\item $a=\frac{1}{3}$, $b=1$ y $c=\frac{2}{3}$.
+\item $a=\frac{-1}{3}$, $b=0$ y $c=\frac{-4}{3}$.
+\item \buena $a=\frac{-1}{3}$, $b=0$ y $c=\frac{4}{3}$.
+\end{enumerate}
+\justifique 
+
+\item Para solucionar num\'ericamente el sistema de E.D.O.'s
+$$
+\begin{array}{rl|}
+y''+2y'	&=cos(x)\\
+x'+y'	&=sen(x)\\\hline
+\end{array}
+$$
+se requiere de 
+\begin{enumerate}
+	\item Transformar el sistema en uno de cinco ecuaciones diferenciales.
+    \item Transformar el sistema en uno de cuatro ecuaciones diferenciales.
+    \item Transformar el sistema en uno de tres ecuaciones diferenciales.
+    \item Transformar el sistema en uno de orden uno.
+\end{enumerate}
+Es correcto afirmar
+\begin{enumerate}
+	\item Sólo i) y ii) son verdaderas.
+    \item Sólo i) y iii) son verdaderas.
+    \item \buena Sólo iii) y iv) son verdaderas.
+    \item Sólo iii) es verdaderas.
+\end{enumerate}
+\justifique 
+
+\item Se establecen las siguientes proposiciones
+\begin{enumerate}
+	\item Todo sistema de dos E.D.O.'s de orden dos se transforma en un sistema de cuatro E.D.O's de orden 1.
+    \item El método RK45 tiene un error global de orden 4.
+    \item El método de Adams-Bashfoth puede solucionar cualquier P.V.I.
+\end{enumerate}
+Decida cual de las siguientes opciones es correcta
+\begin{enumerate}
+	\item Sólo i) es falsa.
+    \item Sólo i) y ii) son falsas.
+    \item i), ii) y iii) son falsas.
+    \item \buena Sólo iii) es falsa.
+\end{enumerate}
+\nojustifique 
+
+\item Decida cu\'al de las siguientes proposiciones es \textbf{falsa} y justifique su elecci\'on mostrando un contraejemplo.
+\begin{enumerate}
+	\item Existen m\'etodos num\'ericos para resolver P.V.I. de orden 5.
+    \item \buena Toda soluci\'on num\'erica de un P.V.I. generada por un m\'etodo Runge-Kutta tiene error global mayor que cero.
+    \item Existen integrales que se no se pueden calcular exactamente con la regla del punto medio.
+    \item El método de Newton permite encontrar ra\'ices de un sistema de ecuaciones no lineales.
+\end{enumerate}
+\justifique
+
+\end{itemize}
+\end{document}

@@ -1,0 +1,259 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+\usepackage{pgfplots}
+\usepackage{polynom}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+
+\begin{document}
+
+\title{C2 NUMERICO 220138 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Certamen II, M\'etodos Num\'ericos I 220028-220138 }}
+\centerline{\textrm{12 de junio de 2016.}}  \vspace{0.2cm}
+
+
+\textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+
+\vspace{0.1cm}
+\textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+
+\begin{center}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Pregunta 3  & Pregunta 4 &Total\\
+ \hline
+
+  \vspace{1.5cm} & & & & \\
+ \hline
+ \end{tabular}
+ \end{center}
+%Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (30 pt) Determine el valor de verdad de las siguientes proposiciones, en caso de ser falsas justifique o muestre un contraejemplo.
+\begin{enumerate}
+\item
+\fbox{ \begin{minipage}{1cm}  \hfill\vspace{1cm}   	V	
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth} 
+	Existen raices de  funciones que se puede estimar usando el m\'etodo de la secante.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \fbox{4pt valor de verdad}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}  F \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Toda ra\'iz de una funci\'on se puede estimar usando el m\'etodo de la bisecci\'on.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    $f(x)=x^2$
+    
+    \fbox{2pt valor de verdad, 6pt contraejemplo}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   V \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El método de Euler permite aproximar la soluci\'on del P.V.I. 
+    $$
+    \begin{array}{c|}
+    y'''(x)=2x+1\\
+    y(0)=1   \\
+    y'(0)=1  \\ 
+    y''(0)=0 \\ \hline
+    \end{array}.
+    $$
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    
+     \fbox{4pt valor de verdad}
+
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}  V \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	La funci\'on $y(x)=1$ es la curva de la forma $e^{ax^2+bx}$ que mejor se ajusta a los puntos $\{(1,1),(2,1),(3,1)\}$.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+   \fbox{4pt valor de verdad}
+    \end{minipage}
+    %
+\item
+\fbox{ \begin{minipage}{1cm}  V \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+   	La regla de cuadratura del punto medio permite calcular exactamente integrales.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    
+       \fbox{4pt valor de verdad}
+
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   F\hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+    El método de Euler permite el cálculo de intepolantes.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+  Resuelve P.V.I. 
+  
+  \fbox{ 2pt valor de verdad, 4pt la justificaci\'on}
+    \end{minipage}
+\end{enumerate}
+
+\newpage 
+\item  (20 pt)
+Calcule usando la regla del punto medio compuesta en una partici\'on de tama\~{n}o $0.5$ la integral
+$$
+\int_-1^1 sin(\pi x) dx,
+$$
+calcule el error cometido, sabiendo que 
+$$
+\int sin(\pi x)dx = \frac{-1}{\pi}sen(\pi x) +C.
+$$
+\textbf{Desarrollo:} 
+ La partici\'on est\'a formada por los nodos 
+ $$
+ -1, \quad -0.5, \quad 0, \quad 0.5, \quad 1
+ $$
+ y la aproximaci\'on es
+ $$
+ \begin{array}{cl}
+ I_{PM}
+ &= 0.5 \left\{ f(-0.75)+f(-0.25)+f(0.25)+f(0.75)\right\} \\
+ &= 0.5 \left\{sin\left(\frac{-3\pi}{4}\right)
+     			+sin\left(\frac{-\pi}{4}\right)
+                +sin\left(\frac{\pi}{4}\right)
+                +sin\left(\frac{3\pi}{4}\right)\right\}\\
+ &= 0.5 \left\{ \frac{-\sqrt{2}}{2}
+    				-\frac{\sqrt{2}}{2}
+                     +\frac{\sqrt{2}}{2}
+                     +\frac{\sqrt{2}}{2}\right\}=0. 
+ \end{array}\quad \fbox{10 pt}
+ $$
+El error cometido es 
+$$
+\displaystyle
+\left|\int_{-1}^| sin(\pi x) dx - I_{PM}\right|=
+\left|\left.\frac{-1}{\pi}cos(\pi x)\right|_{-1}^1 - 0\,\right|=0.
+$$
+
+\newpage
+\item  (25 pt) Ejecute el m\'etodo de Euler expl\'icito en una partici\'on de tamaño 0.5, para graficar una estimaci\'on de la soluci\'on del P.V.I.
+$$
+\begin{array}{cl|}
+y'(x)	& =cos(\pi x)+sin(\pi x)\\
+y(0)	& =1 \\ \hline
+\end{array}
+$$
+en el intervalo $[0,3]$.
+
+\textbf{Desarrollo:}
+La partici\'on es 
+$$
+0, \quad 0.5, \quad 1, \quad 1.5, \quad 2, \quad 2.5, \quad 3\,.
+$$
+Se tiene que la ejecuci\'on del m\'etodo define
+$$
+\begin{array}{cl}
+y_{i+1}	&=y_i+h\, f(x_i,y_i)\\
+		&=y_i+\frac{1}{2}\, left(cos(\pi x_i)+sin(\pi x_i))
+\end{array}\quad \fbox{5pt}
+$$
+de donde
+$$
+\begin{array}{cl}
+y_0	&=1\\
+y_1	&=1+\frac{1}{2}\, left(cos(\pi\, 0)+sin(\pi\, 0))=1.5\\
+y_2	&=1+\frac{1}{2}\, left(cos(\pi\, 0.5)+sin(\pi\, 0.5))=2\\
+y_3	&=1+\frac{1}{2}\, left(cos(\pi\, 1)+sin(\pi\, 1))=1.5\\
+y_4	&=1+\frac{1}{2}\, left(cos(\pi\, 1.5)+sin(\pi\, 1.5))=1\\
+y_5	&=1+\frac{1}{2}\, left(cos(\pi\, 2)+sin(\pi\, 2))=1.5\\
+y_6	&=1+\frac{1}{2}\, left(cos(\pi\, 2.5)+sin(\pi\, 2.5))=2\\
+\end{array} \quad \fbox{10pt}
+$$
+la gr\'afica de esta soluci\'on num\'erica tiene la forma
+ \begin{center}
+            \begin{tikzpicture}
+            \begin{axis}[xlabel=$x_i$,ylabel=$y_i$]
+            \addplot[holdot] coordinates{(0,1)(0.5,1.5)(1,2)(1.5,1.5)(2,1)(2.5,1.5)(3,2)};
+            \end{axis}
+        \end{tikzpicture}
+        \fbox{10pt.}
+        \end{center}
+
+\newpage
+\item  (20 pt) Calcule la tercera aproximaci\'on del m\'etodo de Newton-Raphson empezando con  $x_1=10$ para la funci\'on
+$$f(x)=sin\left(\frac{\pi}{2} (x+1)\right).$$
+\textbf{Desarrollo:} Tenemos que 
+$$
+f(9)=sin\left(\frac{\pi}{2}\left(9+1\right)\right)=sin\left(\frac{\pi}{2}\, 10\right)=0
+,\quad\fbox{10pt}
+$$
+entonces el m\'etodo ya encontr\'o una ra\'iz de la funci\'on. De ahi en adelante todas sus aproximaciones son la misma y se debe incluir un criterio de detenci\'on. \fbox{10pt}
+
+
+\end{enumerate}
+\end{document}  

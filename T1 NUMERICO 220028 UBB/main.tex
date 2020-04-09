@@ -1,0 +1,139 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+
+\title{T1 NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Primer Semestre de 2016}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2016}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Test 1, M\'etodos Num\'ericos I 220023 }}
+\centerline{\textrm{Lunes 9 de mayo 2015.}}  \vspace{0.2cm}
+
+
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2  &     Total\\
+ \hline
+ \vspace{1.5cm} & &     \\
+ \hline
+ \end{tabular}
+ \end{center}
+ Enviar archivos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item Descargue el archivo ubicado en 
+\begin{center}
+\url{http://www.udec.cl/~fmilanese/data.xlsx}
+\end{center}
+este contiene el detalle de los ingresos recibidos por impuestos relacionados con la venta de veh\'iculos durante el a\~no 2012 por la Tesorer\'ia General de la Rep\'ublica.
+\begin{enumerate}
+	\item (10 pt) En un rutero llamado \texttt{tesoreria.m} cargue a Matlab el archivo descargado usando el comando \texttt{xlsread()}, 
+    \item (20 pt) En el mismo rutero ingrese las instrucciones para generar las gr\'aficas de la cantidad de veh\'iculos vendidos por mes y los ingresos recibidos por este concepto por mes. Las gr\'aficas deben ser en color rojo con lineas rectas y ambas deben estar en gr\'aficos separados dentro de una misma figura. 
+    \item (15 pt) En el mismo rutero, a continuación, grafique los polinomios interpolantes de Newton de los datos descargados en sus respectivos gr\'aficos.
+    \item (10 pt) Grabe la figura generada como \texttt{vehiculos2012.jpg}
+    \item (10 pt)Ingrese a continuaci\'on el promedio de ventas, el promedio de impuestos recibidos por Tesorería y responda cual fue el mes con menos ventas de veh\'iculos, a partir de los datos descargados.
+
+\fbox{ \begin{minipage}{0.8\textwidth}  
+
+\hfill\vspace{2cm} 
+\end{minipage} } 
+    
+\end{enumerate}
+Adjunte el programa \texttt{tesoreria.m} y la gr\'afica \texttt{vehiculos2012.jpg} al correo.
+
+\newpage
+\textbf{Desarrollo:}
+El programa \texttt{tesoreria.m} debe contener las instrucciones o similares
+
+\begin{minipage}{0.8\textwidth}
+\begin{lstlisting}
+clear all; close all; clc;
+[N,T,R]=xlsread('data.xlsx');
+subplot(1,2,1);
+plot(1:12,N(1:12,1),'-r'); hold all;
+subplot(1,2,2);
+plot(1:12,N(1:12,2),'-r'); hold all; 
+c1=polyfit(1:12,N(1:12,1)',11);
+c2=polyfit(1:12,N(1:12,2)',11);
+xVec=1:0.05:12;
+subplot(1,2,1);
+plot(xVec,polyval(c1,xVec),'--b');
+subplot(1,2,2);
+plot(xVec,polyval(c2,xVec),'--b');
+\end{lstlisting}
+\end{minipage}
+\,\fbox{45 pt.}
+
+la gr\'afica generada \texttt{vehiculos2012.jpg} debe tener la forma
+\begin{center}
+\includegraphics[width=\textwidth]{./p1.jpg}\,\fbox{10 pt.}
+\end{center}
+y las respuestas solicitadas son 
+
+\begin{minipage}{0.8 \textwidth}
+\begin{itemize}
+\item En promedio durante los meses del 2012 se vendieron 
+\texttt{62101}
+autos.
+\item En promedio durante los meses del 2012 se recibieron 
+\$\,\texttt{4.219.157.350} por concepto de impuesto a las ventas de autos.
+\item El mes en que menos se vendieron autos en el año 2012 fue Septiembre.
+\end{itemize}
+\end{minipage}
+\,\fbox{10 pt.}
+\end{enumerate}
+\end{document}   

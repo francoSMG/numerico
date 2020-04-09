@@ -1,0 +1,32 @@
+\begin{pregunta}
+\begin{cuerpo}
+Un modelo SIR modela la poblaci\'on de suceptibles $S(t)$, infectados $I(t)$ y recuperados $R(t)$ en una poblaci\'on sujeta a la presencia de una enfermedad seg\'un el sistema de E.D.O.
+$$
+\begin{array}{c|}
+\begin{array}{cl}
+S'(t)	&=-0.1 S(t)\, I(t)\\
+I'(t)	&=0.1 S(t)\, I(t)-0.01I(t)\\
+R'(t)	&=0.01I(t)
+\end{array}
+\quad
+\begin{array}{cl}
+S(0)	&=20\\
+I(0)	&=1\\
+R(0)	&=0
+\end{array} \\
+\hline
+\end{array}
+$$
+Sobre resolver num\'ericamente este problema es \textbf{incorrecto} afirmar que
+\end{cuerpo}
+
+\begin{multicols}{2}
+\begin{alternativas}
+{Se deben hacer tres sustituciones para aplicar alguno de los m\'etodo vistos en clases.}
+{Una aplicaci\'on simult\'anea del m\'etodo RK45 con un tamaño de paso suficientemente pequeño para resolver num\'ericamente.}
+{Una aplicaci\'on simult\'anea del me\'todo de Euler Expl\'icito con un tamaño de paso suficientemente pequeño para resolver num\'ericamente.}
+{Para aplicar un m\'etodo visto en clases no es necesario reducir de orden.}
+\end{alternativas}
+\end{multicols}
+\justificacion{0cm}
+\end{pregunta}

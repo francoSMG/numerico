@@ -1,0 +1,176 @@
+ \documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\usepackage{polynom}
+\usepackage{hyperref}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\usepackage[utf8]{inputenc}\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+\newcommand{\function}[5]{
+\begin{array}{cccl}
+#1 :& #2 	& \longrightarrow 	& #3\\
+	& #4	& \longmapsto		& #5
+\end{array}
+}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+
+\title{T1 V1 NUMERICO 521230 UDEC}
+
+\begin{minipage}{0.12\textwidth}
+\includegraphics[width=\textwidth]{logoudec.eps}
+\end{minipage}
+\hspace{5mm}
+\begin{minipage}{0.9\textwidth}
+UNIVERSIDAD DE CONCEPCION\\
+{\small\small\bf 
+FACULTAD DE CIENCIAS\\ 
+FISICAS Y MATEMATICAS}\\
+DEPARTAMENTO DE INGENIERIA MATEMATICA\\
+\rule{0.66\textwidth}{.5pt} Franco A. Milanese
+\end{minipage}
+
+\vspace{0.5cm}
+\centerline{\bf Test I (521230)}
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &       \\
+ \hline
+ \end{tabular}
+ \end{center}
+ Enviar documentos solicitados en el formato solicitado a 
+ %\textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (40 pt) Cree un rutero llamado \texttt{graficador.m} en el cual se carge el archivo ubicado en
+\begin{center}
+\url{http://www.udec.cl/~fmilanese/temp.mat}
+\end{center}
+usando el comando \texttt{load temp.mat}. Este archivo contiene un vector llamado \texttt{temp} que contiene las mediciones cada una hora de la temperatura ambiental en una estaci\'on de monitoreo.
+
+En el rutero \texttt{graficador.m} incluya las funciones para realizar las siguientes operaciones con los datos
+\begin{enumerate}
+	\item Grafique todos los datos del vector \texttt{temp} con asteriscos azules,
+    \item en el mismo gráfico anterior, grafique los polinomios de grado 1, 2, 3, y 4 que mejor se ajusten a los datos, usando una l\'inea continua de colores amarillo, rojo, verde y negro respectivamente.
+    \item Calcule cuantas horas de monitoreo hay registradas.
+    \item Usando la funci\'on \texttt{max} determine la temperatura m\'axima registrada.
+\end{enumerate}
+Adjunte el rutero \texttt{graficador.m} y la gr\'afica generada como \texttt{grafica.jpg}.
+
+ \textbf{Desarollo:} 
+Las instrucciones del rutero \texttt{graficador} deben ser similares a
+
+ \begin{minipage}{0.8\textwidth}
+\begin{lstlisting}
+clear all;close all;clc;
+load temp.mat   %Cargamos los datos
+plot(temp,'*b'); hold all;    	%Graficamos puntos
+vec=[1:length(temp)]';
+p=polyfit(vec,temp,1);
+plot(vec,polyval(p,vec),'-y');  %Grafica de interpolante grado 1
+p=polyfit(vec,temp,2);
+plot(vec,polyval(p,vec),'-r');  %Grafica de interpolante grado 2
+p=polyfit(vec,temp,3);
+plot(vec,polyval(p,vec),'-g');  %Grafica de interpolante grado 3
+p=polyfit(vec,temp,4);
+plot(vec,polyval(p,vec),'-k');  %Grafica de interpolante grado 4
+
+tempMax=max(temp)  %Temperatura maxima
+totalhoras=length(temp) %Cantidad de mediciones=cantidad de horas
+\end{lstlisting}
+\end{minipage}
+\fbox{30pt}
+
+Con lo cual se genera la gr\'afica 
+\begin{center}
+\includegraphics[width=0.8\textwidth]{grafica.jpg} 
+\fbox{5pt}
+\end{center}
+
+y adem\'as se calculan los datos solicitados\\ 
+ \begin{minipage}{0.8\textwidth}
+\begin{lstlisting}
+>>
+tempMax =
+
+   31.5000
+
+
+totalhoras =
+
+       17199
+
+\end{lstlisting}
+\end{minipage}
+\fbox{5pt}
+
+
+\item (20 pt) Considere la funci\'on
+$$
+\begin{array}{crcl}
+f:	&[-2,2] & \longrightarrow 	& \mathbb{R} \\
+	& x		& \longmapsto		& cos(e^{2\,x})
+\end{array}
+$$
+En una misma figura grafique las funciones dadas por $f(x)$, $f(f(x))$, $f(x+1)$ y $f(x^2+1)$. Grabe esta im\'agen como \texttt{funciones2.jpg}. Adjunto al correo la imagen \texttt{funciones2.jpg} y todo rutero o funci\'on necesario para generarla.
+
+ \textbf{Desarrollo:} Utilizando una funci\'on de matlab dada por
+\begin{lstlisting}
+function y=f(x)
+y=cos(exp(x));
+end
+\end{lstlisting}
+y con el rutero
+
+\begin{minipage}{0.8\textwidth}
+\begin{lstlisting}
+x=-2:0.1:2;
+subplot(2,2,1)
+plot(x,f(x));
+subplot(2,2,2)
+plot(x,f(f(x)));
+subplot(2,2,3)
+plot(x,f(x+1));
+subplot(2,2,4)
+plot(x,f(x.^2+1));
+\end{lstlisting}
+\end{minipage}
+ \fbox{10pt}
+ 
+se crea la gr\'afica solicitada
+\begin{center}
+\includegraphics[width=0.7\textwidth]{funciones.jpg} 
+\fbox{10 pt}
+\end{center}
+
+\end{enumerate}
+\end{document}  

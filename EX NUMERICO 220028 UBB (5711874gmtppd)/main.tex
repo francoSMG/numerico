@@ -1,0 +1,246 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+\usepackage{pgfplots}
+\usepackage{polynom}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+
+\begin{document}
+
+\title{EX NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Examen, M\'etodos Num\'ericos I 220023-220028-220138 }}
+\centerline{\textrm{19 de julio de 2016.}}  \vspace{0.2cm}
+
+
+\textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+
+\vspace{0.1cm}
+\textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+
+\begin{center}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Pregunta 3  & Pregunta 4 &Total\\
+ \hline
+
+  \vspace{1.5cm} & & & & \\
+ \hline
+ \end{tabular}
+ \end{center}
+%Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (30 pt) Determine el valor de verdad de las siguientes proposiciones, en caso de ser falsas justifique o muestre un contraejemplo.
+\begin{enumerate}
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   F		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Las ra\'ices de la funci\'on $e^{x^2+1}$ se pueden encontrar con el m\'etodo de la bisecci\'on.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    No tiene raíces. 
+    
+    \fbox{2pt valor de verdad, 3 pt. justificaci\'on}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   F		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Las ra\'ices de la funci\'on $e^{x^2+1}$ se pueden encontrar con el m\'etodo de Newton-Raphson.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    No tiene raíces.
+    
+    \fbox{2pt valor de verdad, 3 pt. justificaci\'on}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}    \hfill\vspace{1cm}   V		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El método de RK45 permite aproximar la soluci\'on del P.V.I. 
+    $$
+    \begin{array}{c|}
+    y'''(x)=2x+1\\
+    y(0)=1  \\
+    y'(0)=1 \\
+    y''(0)=0\\ \hline
+    \end{array}.
+    $$
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \fbox{5pt valor de verdad}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}  \hfill\vspace{1cm}   	F	
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	La instrucci\'on 
+    \texttt{[ones(10);eye(10);1:10]}
+    genera una matriz de orden $20\times10$.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    De orden $21\times 10$.
+    
+    \fbox{2pt valor de verdad, 3 pt. justificaci\'on}
+    \end{minipage}
+    %
+\item
+\fbox{ \begin{minipage}{1cm}  \hfill\vspace{1cm}   		V
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Si $A$ es antisim\'etrica, entonces se puede descomponer LU.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \fbox{5pt valor de verdad}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   	F	
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Si $A$ y $B$ se factorizan LU con la misma matriz $U$, entonces $A=B$.
+	\end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    $I\cdot I\neq 2I\cdot I$.
+    \end{minipage}
+    \fbox{2pt valor de verdad, 3 pt. justificaci\'on}
+\end{enumerate}
+
+\newpage 
+\item  (20 pt)
+Calcule y grafique la funci\'on de la forma
+$$
+y(x)=e^{ax^2+bx+c}
+$$
+donde $a,b,c\in\mathbb{R}$ son par\'ametros, que mejor se ajusta a los puntos
+$$
+\{(0,1),(1,1),(2,1)\}.
+$$
+\textbf{Desarrollo:} Debemos linealizar el problema considerando la transformaci\'on
+$$
+ln(y(x))=ax^2+bx+c, \fbox{5pt.}
+$$
+donde, observamos que el modelo linealizado es un polinomio de grado dos que se ajusta a los puntos $$
+\{(0,0),(1,0),(2,0)\}
+$$
+as\'i se llega al interpolante de Newton, que en este caso es $p(x)=0$, de donde $a=b=c=0$ y la curva $y(x)=e^0=1$  es la que mejor se ajusta a dichos puntos, su gr\'afica es \fbox{10pt.}
+    \begin{center}
+            \begin{tikzpicture}
+            \begin{axis}[xlabel=$x$,ylabel=$y(x)$]
+            \addplot[domain=-1:3,blue] {1};
+            \addplot[holdot] coordinates{(0,1)(1,1)(2,1)};
+            \end{axis}
+        \end{tikzpicture}
+        \fbox{5pt.}
+        \end{center}
+
+
+\newpage
+\item  (20 pt) Se sabe que 
+$$
+\pi=\int_{-1}^1\frac{2}{1+x^2}dx
+$$
+utilize las reglas del punto medio y del trapecio para estimar, en una partici\'on de cuatro nodos, el valor de la integral anterior. Calcule en cada caso el error cometido.
+
+\textbf{Desarrollo:} La partici\'on de cuatro nodos del intervalo de integraci\'on es de tamaño de paso $\frac{1-^-1}{3}=\frac{2}{3}$ y sus nodos son
+$$
+-1,\quad \frac{-1}{3},\quad \frac{1}{3}, \quad 1.
+$$
+La regla de cuadratura del punto medio en esta partici\'on entrega la aproximaci\'on
+$$
+I_{PM}=\frac{\frac{2}{3}}{2}\cdot \left( f(-2/3)+f(0)+f(2/3) \right)=\frac{2}{6}\left(\frac{18}{13}+2+\frac{18}{13}\right)=\frac{124}{39}\approx 3.1794 \fbox{5pt}
+$$
+análogamente, la regla del trapecio entrega la aproximaci\'on
+$$
+I_{T}=\frac{2}{3}\cdot \left(f(-1)+f(1)+2f(-1/3)+2f(1/3)\right)=\frac{2}{3}\left(1+1+\frac{18}{5}+\frac{18}{5}\right)=\frac{46}{15}\approx 3.0666 \fbox{5pt}
+$$
+el error cometido en ambos casos es
+$$
+|\pi-I_{PM}|\approx 0.0379, \quad |\pi-I_{T}|\approx0.0749. \fbox{10pt}
+$$
+\newpage
+\item  (20 pt) Calcule la tercera aproximaci\'on de una ra\'iz, mediante el m\'etodo de Newton-Raphson empezando con $x_0=-1$ para la funci\'on
+$$f(x)=sin\left(\frac{\pi}{2}x \right)+2x$$
+
+\textbf{Desarrollo:} Para ejecutar el paso del m\'etodo de Newton-Raphson debemos conocer la derivada de la funci\'on, esta es
+$$
+f'(x)=\frac{\pi}{2}cos\left(\frac{\pi}{2}x \right)+2, \fbox{3pt}
+$$
+de donde el paso del m\'etodo de Newton-Raphson es
+$$
+x_{i+1}=x_{i}-\frac{f(x_i)}{f'(x_i)}=x_{i}-\frac{sin\left(\frac{\pi}{2}x_i \right)+2x_i}{\frac{\pi}{2}cos\left(\frac{\pi}{2}x_i \right)+2}  \fbox{5pt}
+$$
+as\'i
+$$
+x_1=-1-\frac{sin\left(\frac{\pi}{2}(-1) \right)+2(-1)}{\frac{\pi}{2}cos\left(\frac{\pi}{2}(-1) \right)+2}=-1-\frac{-3}{2}=0.5 \fbox{2pt}
+$$
+an\'alogamente
+$$
+x_2=0.5-\frac{sin\left(\frac{\pi}{2}(0.5) \right)+2(0.5)}{\frac{\pi}{2}cos\left(\frac{\pi}{2}(0.5) \right)+2}=-0.04878 \fbox{5pt}
+$$
+y finalmente
+$$
+x_3=-0.04878-\frac{sin\left(\frac{\pi}{2}(-0.04878) \right)+2(-0.04878)}{\frac{\pi}{2}cos\left(\frac{\pi}{2}(-0.04878) \right)+2}=-4.202\times 10^{-5} \fbox{5pt}
+$$
+
+
+\end{enumerate}
+\end{document}  

@@ -1,0 +1,660 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\usepackage{pgfplots}
+\usepackage{polynom}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+
+\title{C1 NUMERICO 220138 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Primer Semestre de 2016}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2016}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Certamen 1, M\'etodos Num\'ericos I 220138 }}
+\centerline{\textrm{14 de junio 2015.}}  \vspace{0.2cm}
+
+
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2.1cm}|p{2.1cm}|p{2.1cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &    Pregunta 3 & Pregunta 4 & Total\\
+ \hline
+ \vspace{1.5cm} & & & &   \\
+ \hline
+ \end{tabular}
+ \end{center}
+ \begin{enumerate}
+ \item (25 pt) Determine el valor de verdad de las siguientes proposiciones, en caso de ser falsas justifique o muestre un contraejemplo.
+\begin{enumerate}
+	\item \fbox{ \begin{minipage}{1cm} F  \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+		Si $cond_\infty(A)=1$ entonces $||A||_{\infty}=1$.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    $A=\begin{bmatrix} 2 & 0 \\ 0 & 2
+    \end{bmatrix}$
+    
+    \fbox{2pt. valor de verdad 3pt. contraejemplo}
+    \end{minipage}
+    %
+    \vspace{5mm}
+    \item \fbox{ \begin{minipage}{1cm}  F \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Los puntos $\{(0,1),(1,1),(1,2)\}$ tiene un \'unico polinomio interpolante de grado 2.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+	No existe el interpolante de estos puntos.
+    
+    \fbox{2pt. valor de verdad 3pt. justificaci\'on}
+	\end{minipage}
+       %    
+       \vspace{5mm}
+    \item \fbox{ \begin{minipage}{1cm}  
+    \hfill\vspace{1cm} F  \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Si $A$ es triangular superior entonces $A-2I$ es triangular inferior.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+	$A=\begin{bmatrix} 2 & 2 \\ 0 & 2\end{bmatrix}$
+    
+    \fbox{2pt. valor de verdad 3pt. contraejemplo}
+    \end{minipage} 
+     %
+    \vspace{5mm}
+    \item \fbox{ \begin{minipage}{1cm}  
+    \hfill\vspace{1cm}  F \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	La matriz generada por la instrucci\'on \texttt{diag(1:10)+diag(2*diag(ones(10,10)+1))} es llena.
+	\end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+	Es diagonal.
+    
+        \fbox{2pt. valor de verdad 3pt. justificaci\'on}
+    \end{minipage} 
+    %
+        \vspace{5mm}
+    \item \fbox{ \begin{minipage}{1cm}  
+    \hfill\vspace{1cm}  F \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Una soluci\'on en el sentido de m\'inimos cuadrados de un sistema es soluci\'on de ese sistema de ecuaciones.
+	\end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+	Ver problema 4 c).
+    
+        \fbox{2pt. valor de verdad 3pt. contraejemplo}
+    \end{minipage} 
+\end{enumerate}
+
+ 
+ \newpage
+ \item ( 25 pt)  Resuelva los siguientes problemas.
+\begin{enumerate}
+\item
+Factorice LU las siguientes matrices
+ \begin{multicols}{3}
+ \begin{enumerate}
+ \item 
+ $A=
+ \begin{bmatrix}
+2 & 1 & 0 \\
+1 & 1 & 1 \\
+1 & 0 & 1
+\end{bmatrix}$,
+
+ \item 
+ $B=
+ \begin{bmatrix}
+3 & 1 & 1 & 1 \\
+0 & 1 & 1 & 2 \\
+1 & 0 & 1 & 0 \\
+1 & 0 & 0 & 2
+\end{bmatrix}$,
+
+\item $A+A$.
+\end{enumerate}
+\end{multicols}
+\item Represente matricialmente el sistema
+$$
+\begin{array}{ll|}
+4x_1+x_2		&=0\\
+2x_1+2x_2+2x_3	&=1 \\
+2x_1+2x_3		&=0 \\
+\hline
+\end{array}.
+$$
+\item Resuelva utilizando el m\'etodo LU el sistema anterior.
+\end{enumerate}
+\textbf{Desarrollo:}
+\begin{enumerate}
+\item Hacemos operaciones elementales por filas
+$$
+ \begin{bmatrix}
+2 & 1 & 0 \\
+1 & 1 & 1 \\
+1 & 0 & 1
+\end{bmatrix}
+	 \stackrel{\begin{array}{c}
+     m_{21}=\frac{1}{2}\\m_{31}=\frac{1}{2}
+     			\end{array}
+     			}{\sim}
+     		 \begin{bmatrix}
+              2 & 1 			& 0		\\
+              0 & \frac{1}{2}  	& 1 	\\
+              0 & -\frac{1}{2} 	& 1
+              \end{bmatrix}
+   	\stackrel{\begin{array}{c}
+     m_{32}=-1
+     			\end{array}
+     			}{\sim}
+              \begin{bmatrix}
+              2 & 1 			& 0		\\
+              0 & \frac{1}{2}  	& 1 	\\
+              0 & 0 			& 2
+              \end{bmatrix}
+$$
+as\'i, la factorizaci\'on LU de $A$ es
+$$
+A=\begin{bmatrix}
+1 & 0 & 0 \\
+\frac{1}{2} & 1 & 0 \\
+\frac{1}{2} & -1 & 0 \\
+\end{bmatrix}
+              \begin{bmatrix}
+              2 & 1 			& 0		\\
+              0 & \frac{1}{2}  	& 1 	\\
+              0 & 0 			& 2
+              \end{bmatrix}. \quad \fbox{2 pt}
+$$
+
+An\'alogamente
+$$
+\begin{bmatrix}
+3 & 1 & 1 & 1 \\
+0 & 1 & 1 & 2 \\
+1 & 0 & 1 & 0 \\
+1 & 0 & 0 & 2
+\end{bmatrix}
+   	\stackrel{\begin{array}{c}
+     m_{21}=0 \\
+     m_{31}=\frac{1}{3} \\
+     m_{41}=\frac{1}{3} \\
+     			\end{array}
+     			}{\sim}
+                \begin{bmatrix}
+                3 & 1 & 1 & 1 \\
+                0 & 1 & 1 & 2 \\
+                0 & \frac{-1}{3} & \frac{2}{3} & \frac{-1}{3}\\
+                0 & \frac{-1}{3} & \frac{-1}{3} & \frac{5}{3}
+                \end{bmatrix}
+     \stackrel{\begin{array}{c}
+     m_{32}=\frac{-1}{3} \\
+     m_{42}=\frac{-1}{3} \\
+     			\end{array}
+     			}{\sim}
+                \begin{bmatrix}
+                3 & 1 & 1 & 1 \\
+                0 & 1 & 1 & 2 \\
+                0 & 0 & 1 & \frac{1}{3}\\
+                0 & 0 & 0 & \frac{7}{3}
+                \end{bmatrix},
+$$
+entonces la factorizaci\'on LU de $B$ es
+$$
+B=
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0\\
+\frac{1}{3}	 & \frac{-1}{3} & 1 & 0 \\
+\frac{1}{3} & \frac{-1}{3} & 0 & 1
+\end{bmatrix}              
+              \begin{bmatrix}
+                3 & 1 & 1 & 1 \\
+                0 & 1 & 1 & 2 \\
+                0 & 0 & 1 & \frac{1}{3}\\
+                0 & 0 & 0 & \frac{7}{3}
+                \end{bmatrix}. \quad \fbox{5 pt}
+$$
+
+
+An\'alogamente, se tiene que 
+
+$$
+A+A=2A=2
+\begin{bmatrix}
+1 & 0 & 0 \\
+\frac{1}{2} & 1 & 0 \\
+\frac{1}{2} & -1 & 0 \\
+\end{bmatrix}
+              \begin{bmatrix}
+              2 & 1 			& 0		\\
+              0 & \frac{1}{2}  	& 1 	\\
+              0 & 0 			& 2
+              \end{bmatrix}
+=
+\begin{bmatrix}
+1 & 0 & 0 \\
+\frac{1}{2} & 1 & 0 \\
+\frac{1}{2} & -1 & 0 \\
+\end{bmatrix}
+              \begin{bmatrix}
+              4 & 2 			& 0		\\
+              0 & 1  			& 2 	\\
+              0 & 0 			& 4
+              \end{bmatrix}
+$$
+lo cu\'al es la factorizaci\'on LU de $2A$. \fbox{2 pt}
+\item El sistema se representa matricialmente como
+$$
+\begin{bmatrix}
+4 & 1 & 0\\
+2 & 2 & 2\\
+2 & 0 & 2 
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\x_2\\x_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\1\\0
+\end{bmatrix}. \quad \fbox{5 pt}
+$$
+\item La matriz de coeficientes del sistema es $2A$ y por ende el m\'etodo LU en el sistema, nos lleva a resolver
+$$
+\begin{array}{r|}
+\begin{bmatrix}
+1 & 0 & 0 \\
+\frac{1}{2} & 1 & 0 \\
+\frac{1}{2} & -1 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+y_1\\y_2\\y_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\1\\0
+\end{bmatrix} \\ \\
+              \begin{bmatrix}
+              4 & 2 			& 0		\\
+              0 & 1  			& 2 	\\
+              0 & 0 			& 4
+              \end{bmatrix}
+              \begin{bmatrix}
+              x_1\\x_2\\x_3
+              \end{bmatrix}
+              =
+              \begin{bmatrix}
+              y_1\\y_2\\y_3
+              \end{bmatrix}\\ 
+\hline
+\end{array},
+$$
+de donde, por inspecci\'on
+$$
+\begin{bmatrix}
+y_1\\y_2\\y_3
+\end{bmatrix}
+=
+              \begin{bmatrix}
+              0\\1\\1
+              \end{bmatrix}
+              \quad \text{y} \quad
+\begin{bmatrix}
+x_1\\x_2\\x_3
+\end{bmatrix}
+=
+              \begin{bmatrix}
+              -\frac{1}{4}\\ \frac{1}{2} \\ \frac{1}{4}
+              \end{bmatrix}              
+$$
+es la soluci\'on buscada. \fbox{10 pt}
+\end{enumerate}
+
+\newpage
+\item (20 pt) Realice tres pasos de los m\'etodos de Jacobi y Gauss-Seidel del sistema
+$$
+\begin{array}{ll|}
+2x_1+x_2 	& = 4\\
+x_1+3x_2+x_3& =10\\
+x_1+2x_3	& =7 \\
+\hline
+\end{array}
+$$
+considerando como soluci\'on inicial $[x_1,x_2,x_3] = [0,0,0]$.
+
+Al final de cada ejecuci\'on, calcule el error sabiendo que $[x_1,x_2,x_3] = [1,2,3]$ es la soluci\'on exacta del sistema anterior.
+
+ \textbf{Desarrollo:}
+ \begin{itemize}
+ \item Mediante el m\'etodo de Jacobi, tenemos que
+ $$
+ \begin{array}{cl}
+\begin{bmatrix}
+x_1^{k+1}\\x_2^{k+1}\\x_3^{k+1}
+\end{bmatrix}
+&=
+ \begin{bmatrix}
+ \frac{1}{2} & 0 & 0 \\
+ 0 & \frac{1}{3} & 0 \\
+ 0 & 0 & \frac{1}{2}
+ \end{bmatrix}
+\left( 
+ \begin{bmatrix}
+ 0 & -1 & 0 \\
+ -1 & 0 & -1 \\
+ -1 & 0 & 0
+ \end{bmatrix}
+ \begin{bmatrix}
+ x_{1}^k\\x_{2}^k\\x_{3}^k
+ \end{bmatrix}
+ +
+ \begin{bmatrix}
+ 4 \\ 10 \\ 7
+ \end{bmatrix}
+\right)\\
+&=
+\begin{bmatrix}
+\frac{1}{2}(-x_2^k +4)\\
+\frac{1}{3}(-x_1^k-x_3^k+10)\\
+\frac{1}{2}(-x_1^k+7)
+\end{bmatrix}
+\end{array} \quad\fbox{3pt}
+ $$
+ as\'i
+$$
+\begin{array}{l}
+\begin{bmatrix}
+x_1^{1}\\x_2^{1}\\x_3^{1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{1}{2}(-0 +4)\\
+\frac{1}{3}(-0-0+10)\\
+\frac{1}{2}(-0+7)
+\end{bmatrix}
+=
+\begin{bmatrix}
+2\\ \frac{10}{3} \\ \frac{7}{2}
+\end{bmatrix},\\ \\
+\begin{bmatrix}
+x_1^{2}\\x_2^{2}\\x_3^{2}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{1}{2}(-\frac{10}{3} +4)\\
+\frac{1}{3}(-2-\frac{7}{2}+10)\\
+\frac{1}{2}(-2+7)
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{1}{3} \\ \frac{3}{2} \\ \frac{5}{2}
+\end{bmatrix}, \\ \\
+\begin{bmatrix}
+x_1^{3}\\x_2^{3}\\x_3^{3}
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{1}{2}(-\frac{3}{2} +4)\\
+\frac{1}{3}(-\frac{1}{3}-\frac{5}{2}+10)\\
+\frac{1}{2}(-\frac{1}{3}+7)
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{5}{4} \\ \frac{43}{18} \\ \frac{20}{6}
+\end{bmatrix}.
+\end{array}\quad\fbox{5pt}
+$$
+Donde el error, en norma Euclideana, es 
+$$
+dist\left((1,2,3),\left(\frac{5}{4},\frac{43}{18},\frac{20}{6}\right)\right)=
+\sqrt{	 \left(1-\frac{5 }{4 }\right)^2
+		+\left(2-\frac{43}{18}\right)^2
+		+\left(3-\frac{20}{6 }\right)^2}
+        \approx
+        0.5699. \quad\fbox{2pt}
+$$
+\item Para usar el m\'etodo de Gauss-Seidel, hay que calcular la inversa del tri\'angulo inferior de la matriz de coeficientes del sistema seg\'un
+$$\left[\begin{array}{ccc|ccc}
+2 &		&	&	1& 	&	\\
+1 &	3	&	&	& 1	&	\\
+1 &	0	&	2&	& 	&1	\\
+\end{array}\right]
+\sim
+\left[\begin{array}{ccc|ccc}
+2 &		&		&	1& 		&	\\
+0 &	-6	&		&	1& -2	&	\\
+0 &	0	&	-4	&	1& 		&-2	\\
+\end{array}\right]
+\sim
+\left[\begin{array}{ccc|ccc}
+1 &		&		&	\frac{1}{2}& 				&	\\
+0 &	1	&		&	\frac{-1}{6}& \frac{-1}{3}	&	\\
+0 &	0	&	1	&	\frac{-1}{4}& 				&\frac{1}{2}	\\
+\end{array}\right].
+$$
+As\'i, mediante el m\'etodo de Gauss-Seidel
+ \end{itemize}
+ $$
+ \begin{array}{cl}
+\begin{bmatrix}
+x_1^{k+1}\\x_2^{k+1}\\x_3^{k+1}
+\end{bmatrix}
+&=
+ \begin{bmatrix}
+\frac{1}{2}& 				&			\\
+\frac{-1}{6}& \frac{-1}{3}	&			\\
+\frac{-1}{4}& 				&\frac{1}{2}\\
+ \end{bmatrix}
+\left( 
+ \begin{bmatrix}
+ 0 & -1 & 0 \\
+ 0& 0 & -1 \\
+ 0& 0 & 0
+ \end{bmatrix}
+ \begin{bmatrix}
+ x_{1}^k\\x_{2}^k\\x_{3}^k
+ \end{bmatrix}
+ +
+ \begin{bmatrix}
+ 4 \\ 10 \\ 7
+ \end{bmatrix}
+\right)\\
+&=
+\begin{bmatrix}
+\frac{1}{2}(-x_2^k+4) \\
+\frac{-1}{6}(-x_2^k+4)-\frac{1}{3}(-x_3^k+7) \\
+\frac{-1}{4}(-x_2^k+4)+\frac{1}{2}7
+\end{bmatrix}
+\end{array}\fbox{3pt}
+$$
+de donde 
+$$
+x_1=\begin{bmatrix}
+\frac{1}{2}(-0+4) \\
+\frac{-1}{6}(-0+4)-\frac{1}{3}(-0+7) \\
+\frac{-1}{4}(-0+4)+\frac{1}{2}7
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 \\\frac{8}{3}\\\frac{5}{2}
+\end{bmatrix},
+$$
+as\'i
+$$
+x_2=\begin{bmatrix}
+\frac{1}{2}(-\frac{8}{3}+4) \\
+\frac{-1}{6}(-\frac{8}{3}+4)-\frac{1}{3}(-\frac{5}{2}+7) \\
+\frac{-1}{4}(-\frac{8}{3}+4)+\frac{1}{2}7
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{2}{3} \\2.277 \\\frac{19}{6}
+\end{bmatrix},
+$$
+y finalmente
+$$
+x_3=\begin{bmatrix}
+\frac{1}{2}(-2.277+4) \\
+\frac{-1}{6}(-2.277+4)-\frac{1}{3}(-\frac{19}{6}+7) \\
+\frac{-1}{4}(-2.277+4)+\frac{1}{2}7
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{43}{50} \\1.991 \\ 3.07
+\end{bmatrix}, \quad  \fbox{5pt}
+$$
+donde el error en norma infinito es
+$$
+||[1,2,3]-[0.98,1.99,3.07]||_{\infty}=0.07. \fbox{2pt}
+$$
+
+\item (30pt) Considere la siguiente colecci\'on de puntos
+$$
+\{(-1,0),(0,2),(1,0),(2,0)\}
+$$
+con estos puntos 
+\begin{enumerate}
+	\item Calcule el polinomio interpolante de estos.
+    \item Calcule el polinomio de grado 1 que se ajusta a estos en el sentido de los m\'inimos cuadrados.
+    \item Calcule la funci\'on de la forma $y=ax^2$ que mejor se ajusta a dichos puntos.
+    \item Grafique los puntos y las funciones calculadas anteriormente.
+\end{enumerate}
+\textbf{Desarrollo:}
+\begin{enumerate}
+	\item En la base de polinomios de Lagrange el interpolante de los puntos es
+$$
+p(x)=2\mathcal{l}_1(x)= 2 	\frac{x+1}{0+1}\,\cdot\,
+							\frac{x-1}{0-1}\,\cdot\,
+                            \frac{x-2}{0-2}
+                      =(x+1)(x-1)(x-2). \quad \fbox{5pt}
+$$
+	\item La interpolaci\'on de $r(x)=mx+n$ a los puntos nos lleva al sistema
+$$
+\begin{array}{rc|}
+-m+n	&=0\\
+n	&=2\\
+m+n & =0 \\
+2m+n & =0 \\ \hline
+\end{array}
+\rightarrow 
+\begin{bmatrix}
+-1 & 1 \\
+0  & 1 \\
+1 & 1 \\
+2 & 1 
+\end{bmatrix}
+\begin{bmatrix} m \\ n \end{bmatrix}
+=
+\begin{bmatrix} 0\\2\\0\\0 \end{bmatrix}.
+$$
+Las ecuaciones normales de este sistema son
+$$
+A^tAx=A^tb \rightarrow
+\begin{bmatrix} 6 & 2 	\\ 2 & 4 	\end{bmatrix}
+\begin{bmatrix} m  		\\ n 		\end{bmatrix}
+=
+\begin{bmatrix} 0  		\\ 2 		\end{bmatrix}
+$$
+Cuya soluci\'on en el sentido de m\'inimos cuadrados es
+$$
+m=
+\frac	{det\left(\begin{bmatrix} 0 & 2 	\\ 2 & 4 	\end{bmatrix}\right)}
+		{det\left(\begin{bmatrix} 6 & 2 	\\ 2 & 4 	\end{bmatrix}\right)}=\frac{-1}{5}, 
+        \quad 
+n=
+\frac	{det\left(\begin{bmatrix} 6 & 0 	\\ 2 & 2 	\end{bmatrix}\right)}
+		{det\left(\begin{bmatrix} 6 & 2 	\\ 2 & 4 	\end{bmatrix}\right)}=\frac{3}{5}, 
+        \quad  
+$$
+as\'i $r(x)=\frac{-1}{3}x+\frac{2}{3}$ es la recta buscada.  \fbox{5pt}
+\item Análogamente al problema anterior, las ecuaciones normales del sistema sobredeterminado que resulta es
+$$
+\begin{bmatrix}
+1 & 0 & 1 & 4
+\end{bmatrix}
+\begin{bmatrix}
+1 \\ 0 \\ 1 \\ 4
+\end{bmatrix}
+[a]
+=\begin{bmatrix}
+1 & 0 & 1 & 4
+\end{bmatrix}
+\begin{bmatrix}
+0 \\2 \\ 0 \\0 
+\end{bmatrix}
+$$
+de donde
+$a=0$, y as\'i la recta $y=0$ es la buscada. \fbox{5pt}
+\item La gráfica solicitada tiene la forma
+    \begin{center}
+            \begin{tikzpicture}
+            \begin{axis}[xlabel=$x$,ylabel=$q(x)$]
+            \addplot[domain=-1.3:2.5,blue] {(x+1)*(x-1)*(x-2)};
+            \addplot[domain=-1.3:2.5,red] {-1/5*x+3/5};
+            \addplot[domain=-1.3:2.5,green] {0};
+            \addplot[holdot] coordinates{(-1,0)(0,2)(1,0)(2,0)};
+            \end{axis}
+        \end{tikzpicture}
+        \fbox{15pt.}
+        \end{center}
+\end{enumerate}
+
+ \end{enumerate}
+\end{document}   

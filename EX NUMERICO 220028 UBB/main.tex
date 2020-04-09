@@ -1,0 +1,243 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+\usepackage{pgfplots}
+\usepackage{polynom}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+
+\begin{document}
+
+\title{EX NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Examen, M\'etodos Num\'ericos I 220028 }}
+\centerline{\textrm{18 de enero de 2016.}}  \vspace{0.2cm}
+
+
+\textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+
+\vspace{0.1cm}
+\textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+
+\begin{center}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}|p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Pregunta 3  &Total\\
+ \hline
+
+  \vspace{1.5cm} & &    &   \\
+ \hline
+ \end{tabular}
+ \end{center}
+%Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (20 pt) Dados los cuatro puntos $\{(-2,5),(0,1),(2,5)\}$ determine el polinomio interpolante,
+\begin{itemize}
+ \item[a)] usando la base can\'onica,
+ \item[b)] usando la base de polinomios de Lagrange.
+\end{itemize}
+
+\textbf{Desarrollo:}
+% \begin{enumerate}
+% \item Como son cuatro puntos los de interpolación buscamos $p\in\mathcal{P}(\mathbb{R})$ polinomio interpolante de Newton, es decir
+% $$
+% \hspace{-1cm}
+% \begin{array}{c|}
+% p(-1)=-1\\
+% p(0)=0\\
+% p(1)=1\\
+% p(2)=8\\
+% \hline
+% \end{array}
+% \rightarrow 
+% \begin{array}{c|}
+% a_3(-1)^3+a_2(-1)^2+a_1(-1)+a_0=-1\\
+% a_3(0)^3+a_2(0)^2+a_1(0)+a_0=0\\
+% a_3(1)^3+a_2(1)^2+a_1(1)+a_0=1\\
+% a_3(2)^3+a_2(2)^2+a_1(2)+a_0=8\\
+% \hline
+% \end{array}
+% \rightarrow 
+% \begin{array}{c|}
+% -a_3+a_2-a_1+a_0=-1\\
+% a_0=0\\
+% a_3+a_2+a_1+a_0=1\\
+% 8a_3+4a_2+2a_1+a_0=8\\
+% \hline
+% \end{array}
+% \rightarrow 
+% \begin{array}{c|}
+% a_0=0\\
+% a_1=0\\
+% a_2=0\\
+% a_3=1\\
+% \hline
+% \end{array} \quad \fbox{5pt}
+% $$
+% entonces $p(x)=x^3$ es el polinomio interpolante.\fbox{5pt}
+
+% \item La base de polinomios de Lagrange de los puntos $\{-1,0,1,2\}$ es
+% $$
+% \displaystyle
+% \left\{
+% \frac{x(x-1)(x-2)}{-6},
+% \frac{(x+1)(x-1)(x-2)}{2},
+% \frac{(x+1)(x)(x-2)}{-2},
+% \frac{(x+1)(x)(x-1)}{6},
+% \right\}
+% $$
+% as\'i, buscamos el polinomio interpolante de grado tres encontrado anteriormente como combinaci\'on lineal de los elementos de esta base
+% $$
+% \hspace{-1cm}
+% \begin{array}{c|}
+% p(-1)=-1\\
+% p(0)=0\\
+% p(1)=1\\
+% p(2)=8\\
+% \hline
+% \end{array}
+% \rightarrow
+% \begin{array}{c}
+% a_1\frac{(-1)(-1-1)(-1-2)}{-6}=-1\\
+% a_2\frac{(0+1)(0-1)(0-2)}{2}=0\\
+% a_3\frac{(1+1)(1)(1-2)}{-2}=1\\
+% a_4\frac{(2+1)(2)(2-1)}{6}=8
+% \end{array}
+% \rightarrow
+% \begin{array}{c}
+% a_1=-1\\
+% a_2=0\\
+% a_3=1\\
+% a_4=8
+% \end{array} \quad \fbox{5pt}
+% $$
+% entonces
+% $$
+% p(x)=-1\frac{x(x-1)(x-2)}{-6}
+% +\frac{(x+1)(x)(x-2)}{-2}
+% +8\frac{(x+1)(x)(x-1)}{6}, 
+% $$
+% es el polinomio interpolante de Newton en la base de polinomios de Lagrange. \fbox{5pt}
+% \end{enumerate}
+
+\newpage
+\item
+(20 pt) Calcule por m\'inimos cuadrados, los polinomios de grado  2 y 3, que mejor se ajusten a los puntos $\{(0,1),(1,2),(2,4)\}$.
+
+\textquestiondown Cuales de los polinomios anteriores son interpolantes?.
+
+% \textbf{Desarrollo:} Al graficar los tres puntos podemos ver que son colineales, luego los polinomios interpolantes de grado mayor o igual que uno son todos el mismo, este es $p(x)=a_1x+a_0$ \fbox{10pt}, tal que 
+% $$
+% \begin{array}{c|}
+% p(0)=1\\
+% p(1)=2\\
+% \hline
+% \end{array}
+% \rightarrow\begin{array}{c|}
+% a_0=1\\
+% a_1+a_0=2\\
+% \hline
+% \end{array}
+% \rightarrow
+% \begin{array}{c|}
+% a_0=1\\
+% a_1=1\\
+% \hline
+% \end{array}
+% $$
+% entonces $p(x)=x+1$ es los tres polinomios buscados. \fbox{10pt}
+
+\newpage
+
+\item (20 pt) Determine la ra\'iz de la funci\'on $f(x)=sen(x)cos(x)$, 
+que est\'a entre $x_0=1$ y $x_1=3$
+
+\begin{enumerate}
+\item Anal\'iticamente,
+\item Usando dos pasos del m\'etodo de la bisecci\'on
+\item Usando dos pasos del m\'etodo de la secante 
+\item Calcule el error absoluto de cada m\'etodo
+\end{enumerate}
+
+% \textbf{Desarrollo:}
+
+% \begin{enumerate}
+% \item Anal\'iticamente tenemos que
+% $$
+% (x+1)cos(2x)=0 \leftrightarrow x+1=0 \vee cos(2x)=0 \leftrightarrow x=-1 \vee x=(2k+1)\frac{\pi}{4}, \quad k\in\mathbb{Z}
+% $$
+% entonces, entre $0$ y $1.5$, la ra\'iz exacta de $f$ es $x=\frac{\pi}{4}$. \fbox{3pt}
+
+% \item Mediante el m\'etodo de la bisecci\'on definimos $x_2=(x_0+x_1)/2=0.75$ y
+% $$
+% f(x_0)=(1+0)cos(2\cdot 0)=1, \quad f(x_1)=(1+1.5)cos(2\cdot 1.5\approx -2.4749,$$
+% $$
+% f(x_2)=(1+0.75)cos(2\cdot 0.75)\approx 0.1237
+% $$
+% luego, del cambio de signo se construye $x_3=(x_2+x_1)/2=1.125$. \fbox{5pt}
+
+% \item Mediante el m\'etodo de la secante
+% $$
+% x_2=x_0-\frac{x_1-x_0}{f(x_1)-f(x_0)}f(x_0) \approx 0-\frac{1.5-0}{-2.4749-1}\cdot 1 \approx 0.43167
+% $$
+% donde $f(x_2)\approx(1+0.43167)cos(2\cdot 0.43167)\approx 0.930466$, as\'i, siguiendo el cambio de signo
+% $$
+%   x_3=x_1-\frac{x_2-x_1		 }{f(x_2)-f(x_1) }f(x_1)
+% \approx 1.5-\frac{0.43167-1.5}{0.930466+2.4749	}\cdot (-2.4749) \approx 0.72357 \quad \fbox{7pt}
+% $$
+% \item Los errores absolutos cometidos en los m\'etodos anteriores son 
+% $$
+% |\frac{\pi}{4}-x_3|\approx|\frac{\pi}{4}-1.125|=0.3396
+% $$
+% y
+% $$
+% |\frac{\pi}{4}-x_3|\approx|\frac{\pi}{4}-0.72357|=0.06182
+% $$
+% respectivamente. \fbox{5pt}
+% \end{enumerate}
+
+ \end{enumerate}
+\end{document}  

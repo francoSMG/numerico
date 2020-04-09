@@ -1,0 +1,162 @@
+ \documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\usepackage{polynom}
+\usepackage{hyperref}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\usepackage[utf8]{inputenc}\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+\newcommand{\function}[5]{
+\begin{array}{cccl}
+#1 :& #2 	& \longrightarrow 	& #3\\
+	& #4	& \longmapsto		& #5
+\end{array}
+}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+
+\title{T1 V1 NUMERICO 521230 UDEC}
+
+\begin{minipage}{0.12\textwidth}
+\includegraphics[width=\textwidth]{logoudec.eps}
+\end{minipage}
+\hspace{5mm}
+\begin{minipage}{0.9\textwidth}
+UNIVERSIDAD DE CONCEPCION\\
+{\small\small\bf 
+FACULTAD DE CIENCIAS\\ 
+FISICAS Y MATEMATICAS}\\
+DEPARTAMENTO DE INGENIERIA MATEMATICA\\
+\rule{0.66\textwidth}{.5pt} Franco A. Milanese
+\end{minipage}
+
+\vspace{0.5cm}
+\centerline{\bf Test I (521230)}
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &       \\
+ \hline
+ \end{tabular}
+ \end{center}
+ Enviar documentos solicitados en el formato solicitado a 
+ %\textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (40 pt) Cree un rutero llamado \texttt{p1.m} en el cual se carge el archivo ubicado en
+\begin{center}
+\url{http://www.udec.cl/~fmilanese/data.mat}
+\end{center}
+usando el comando \texttt{load data.mat}. Este archivo contiene dos 
+vectores \texttt{x,y} que contienen el tiempo y el voltaje de una señal captada por un osciloscopio.
+
+En el rutero \texttt{p1.m} incluya las funciones para gerenerar un sólo gr\'afico que contenga
+\begin{enumerate}
+	\item los puntos capturados por el osciloscopio con asteriscos verdes,
+    \item el polinomio de grado 8 que mejor se ajuste a estos puntos con una línea azul,
+    \item el polinomio de grado 12 que mejor se ajuste a estos puntos con una línea roja,
+    \item el interpolante por splines c\'ubicos naturales que se ajusta a estos puntos con una línea negra.
+\end{enumerate}
+Adjunte el rutero \texttt{p1.m} y la gr\'afica generada como \texttt{p1.jpg}.
+
+% \textbf{Desarollo:} 
+% El cálculo de los polinomios se puede hacer de distintas formas, el resultado es \'unico
+
+% \begin{minipage}{0.8\textwidth}
+% \begin{lstlisting}
+% clear all;close all;clc;
+% load data.mat   %Cargamos los datos
+% plot(x,y,'*g');hold all;    	%Graficamos puntos
+% p=polyfit(x,y,8)
+% vec=-10:0.01:10;
+% plot(vec,polyval(p,vec),'-b');  %Grafica de interpolante 8
+% p=polyfit(x,y,12)
+% plot(vec,polyval(p,vec),'-r');  %Grafica de interpolante 12
+% plot(vec,spline(x,y,vec),'-k'); %Grafica del spline
+% \end{lstlisting}
+% \end{minipage}
+% %  \fbox{30pt}
+
+% y la gr\'afica generada debe ser
+% \begin{center}
+% \includegraphics[width=0.8\textwidth]{p1.jpg} 
+% \fbox{10pt}
+% \end{center}
+
+\item (20 pt) Considere la funci\'on
+$$
+f(x)=
+\begin{cases}
+\frac{cos(x)}{x} \quad  \text{, si } x\in\,[-5,0[\\
+\frac{sin(x)}{x} \quad  \text{, si } x\in\,]0,5[
+\end{cases}.
+$$
+En una misma figura grafique las funciones dadas por $f(x)$, $f(f(x))$, $f(x+1)$ y $f(x^2+1)$. Grabe esta im\'agen como \texttt{funciones2.jpg}. Adjunto al correo la imagen \texttt{funciones2.jpg} y todo rutero o funci\'on necesario para generarla.
+
+% \textbf{Desarrollo:} Utilizando una funci\'on de matlab dada por
+% \begin{lstlisting}
+% function y=p2(x)
+%     %Funcion del problema 2
+%     for i=1:length(x)
+%         if(x(i)<0)
+%             y(i)=cos(x(i))/x(i);
+%         else
+%             y(i)=sin(x(i))/x(i);
+%         end
+%     end
+% end
+% \end{lstlisting}
+% y con el rutero
+
+% \begin{minipage}{0.8\textwidth}
+% \begin{lstlisting}
+% x=-5:0.03:5;%vector para dibujar que no contiene a cero
+% figure(2);
+% subplot(2,2,1);
+% plot(x,p2(x));
+% subplot(2,2,2);
+% plot(x,p2(p2(x)));
+% subplot(2,2,3);
+% plot(x,p2(x+1));
+% subplot(2,2,4);
+% plot(x,p2(x.^2+1));
+% \end{lstlisting}
+% \end{minipage}
+%  \fbox{10pt}
+ 
+% se crea la gr\'afica solicitada
+% \begin{center}
+% \includegraphics[width=0.7\textwidth]{funciones2.jpg} 
+% \fbox{10 pt}
+% \end{center}
+
+\end{enumerate}
+\end{document}  

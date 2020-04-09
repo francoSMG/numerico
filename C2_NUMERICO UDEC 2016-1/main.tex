@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\newcommand{\buena}{[BUENA]}
+\newcommand{\justifique}{[JUSTIFIQUE]}
+\newcommand{\nojustifique}{[NOJUSTIFIQUE]}
+
+\begin{document}
+\title{C2_NUMERICO UDEC 2016-1}
+\begin{itemize}
+
+\item Determine cuales de las siguientes instrucciones de Matlab estima $\int_0^2 e^{ln(2x^2+1)} dx$ utilizando una regla del punto medio compuesta.
+\begin{enumerate} 
+\item
+\begin{lstlisting}
+x=0:0.1:2;
+int=0.1*sum(exp(log(2*x.^2+1)));
+\end{lstlisting}
+
+\item
+\begin{lstlisting}
+x=0:0.05:2;
+int=sum(0.1*exp(log(2*x.^2+1)));
+\end{lstlisting}
+
+\item \buena
+\begin{lstlisting}
+x=[0:0.1:1.9]+0.05;
+int=0.1*sum(exp(log(2*x.^2+1)));
+\end{lstlisting}
+
+\item
+\begin{lstlisting}
+x=0:0.1:2;
+int=0.1*sum(2*x.^2+1);
+\end{lstlisting}
+\end{enumerate}
+\nojustifique 
+
+\item Sobre el m\'etodo de la bisecci\'on se establecen las siguientes proposiciones
+\begin{enumerate}
+	\item Permite resolver algunas ecuaciones no lineales.
+    \item Permite resolver algunos sistemas de ecuaciones no lineales.
+    \item No permite resolver una ecuaci\'on lineal.
+\end{enumerate}
+Decida c\'ual de las siguientes opciones es correcta.
+\begin{enumerate}
+	\item Sólo i) y ii) son falsas.
+    \item Sólo i) y iii) son falsas.
+    \item \buena Sólo ii) y iii) son falsas.
+    \item Sólo iii) es falsa.
+\end{enumerate}
+\nojustifique 
+
+\item Sobre los m\'etodos num\'ericos que resuelven P.V.I. de orden 1, vistos en clases, se establecen las siguientes proposiciones
+\begin{enumerate}
+	\item No se pueden aplicar P.V.I. de orden 4.
+    \item No permiten resolver sistemas de E.D.O.
+    \item Algunos de ellos no requieren de condiciones iniciales.
+\end{enumerate}
+Decida cual de las siguientes opciones es correcta.
+\begin{enumerate}
+	\item Sólo iii) es falsa.
+    \item Sólo i) y ii) son falsas.
+    \item \buena  i), ii) y iii) son falsas.
+    \item Sólo iii) es falsa.
+\end{enumerate}
+\nojustifique 
+
+\item El siguiente P.V.I. modela el movimiento de un sistema masa-resorte amortiguado
+$$
+\begin{array}{rl|}
+mx''(t)+cx'(t)+kx(t) 	&=0 \\
+x(0) 					&=x_0\\
+x'(0) 					&=x_1\\
+\hline
+\end{array}\,,
+$$
+donde $x(t)$ es la oscilaci\'on del sistema masa resorte respecto a su posici\'on de equilibrio. Sobre este sistema se establecen las siguientes proposiciones.
+\begin{enumerate}
+	\item Se puede resolver usando el m\'etodo de Newton.
+    \item Se transforma en un sistema de E.D.O. con tres inc\'ognitas
+    \item Se puede resolver usando un m\'etodos de Runge-Kutta.
+\end{enumerate}
+Decida cual de las siguientes opciones es correcta.
+\begin{enumerate}
+	\item Sólo i) es falsa.
+    \item S\'olo ii) es falsa.
+    \item \buena S\'olo iii) es verdadera.
+    \item S\'olo ii) y iii) son verdaderas.
+\end{enumerate}
+\nojustifique 
+
+\item Decida cu\'al de las siguientes proposiciones es falsa y justifique su elecci\'on mostrando un contraejemplo.
+\begin{enumerate}
+	\item Existen m\'etodos num\'ericos para resolver P.V.I. de orden 5.
+    \item \buena Toda soluci\'on num\'erica de un P.V.I. generada por un m\'etodo Runge-Kutta tiene error global mayor que cero.
+    \item Existen integrales que se no se pueden calcular exactamente con la regla del punto medio.
+    \item El método de Newton permite encontrar ra\'ices de un sistema de ecuaciones no lineales.
+\end{enumerate}
+\justifique 
+\end{itemize}
+\end{document}

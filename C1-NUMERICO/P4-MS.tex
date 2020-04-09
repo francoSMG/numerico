@@ -1,0 +1,90 @@
+\begin{pregunta}
+\puntaje{}
+\begin{cuerpo}
+Considere los siguientes puntos $(x_0,y_0), (x_1,y_1), \ldots, (x_n,y_n)$, con $n\geq2$ e $0<y_i<1$, para todo $i=0,1,\ldots, n$. Estos puntos se ajustan en el sentido de los m\'inimos cuadrados al modelo $f(t)=\dfrac{1}{\beta e^{\alpha t}+1}$, $t\in [a,b]$, donde $\alpha$ y $\beta$ son par\'ametros a determinar.
+
+Considere las siguientes funciones de Matlab.\medskip
+
+\hspace{-1.25in}
+\begin{minipage}{1.15\textwidth}
+\begin{multicols}{2}
+\begin{itemize}
+\item[i)] \hspace{0.025\textwidth}
+\begin{minipage}{0.4\textwidth}
+\begin{lstlisting}
+function [alfa,beta] = mincuad(x,y,a,b)
+A = [ones(length(x),1) x];
+B = log(1./y-1);
+X = A \ B;
+beta = exp(X(1));
+alfa = X(2);
+t = linspace(a,b,100);
+z = 1./(beta.*exp(alfa.*t)+1);
+plot(x,y,'o',t,z);
+\end{lstlisting}
+\end{minipage}
+
+\item[ii)] \hspace{0.025\textwidth}
+\begin{minipage}{0.4\textwidth}
+\begin{lstlisting}
+function [alfa,beta] = mincuad(x,y,a,b)
+A = [ones(length(x),1) x];
+B = log(1./y-1);
+X = A \symbol{`\\} B;
+beta = X(1);
+alfa = X(2);
+t = linspace(a,b,100);
+z = 1./(beta.*exp(alfa.*t)+1);
+plot(x,y,'o',t,z);
+\end{lstlisting}
+\end{minipage}
+
+\item[iii)] \hspace{0.025\textwidth}
+\begin{minipage}{0.4\textwidth}
+\begin{lstlisting}
+function [alfa,beta] = mincuad(x,y,a,b)
+A = [ones(length(x),1) x];
+B = log(1./y-1);
+X = A \symbol{`\\} B;
+beta = exp(X(1));
+alfa = X(2);
+t = linspace(a,b,100);
+z = beta + alfa.*t;
+plot(x,y,'o',t,z);
+\end{lstlisting}
+\end{minipage}
+
+\item[iv)] \hspace{0.025\textwidth}
+\begin{minipage}{0.4\textwidth}
+\begin{lstlisting}
+function [alfa,beta] = mincuad(x,y,a,b)
+A = [ones(length(x),1) x];
+B = y;
+X = A \symbol{`\\} B;
+beta = X(1);
+alfa = X(2);
+t = linspace(a,b,100);"
+z = beta + alfa.*t;"
+plot(x,y,'o',t,z);
+\end{lstlisting}
+\end{minipage}
+
+\end{itemize}
+\end{multicols}
+
+\end{minipage}
+\end{cuerpo}
+\bigskip
+
+ ?`Cu\'al o c\'uales de estas funciones en Matlab grafica los puntos y la funci\'on $f(t)$?
+ 
+\begin{multicols}{2}
+\begin{alternativas}
+{S\'olo i)} %Siempre la primera es la correcta
+{S\'olo ii)}
+{S\'olo iii)}
+{S\'olo i) y iv)}
+\end{alternativas}
+\end{multicols}
+\justificacion{0cm}
+\end{pregunta}

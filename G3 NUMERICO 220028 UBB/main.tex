@@ -1,0 +1,119 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\begin{document}
+
+\title{G3 NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Gu\'ia 3, M\'etodos Num\'ericos I 220028 }}
+\centerline{\textrm{Semana 23 de noviembre 2015.}}  \vspace{0.2cm}
+
+
+% \textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+% \vspace{0.1cm}
+% \textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+%  \begin{center}
+%  \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+%  \hline
+%  Pregunta 1 &  Pregunta 2 &     Total\\
+%  \hline
+
+%   \vspace{1.5cm} & &       \\
+%  \hline
+%  \end{tabular}
+%  \end{center}
+% Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+
+
+\begin{enumerate}
+
+\item Dados los tres puntos $\{(-1,1),(0,0),(1,1)\}$ determine el polinomio interpolante de grado dos,
+\begin{itemize}
+ \item[a)] usando la base can\'onica,
+ \item[b)] usando la base de polinomios de Lagrange,
+ \item[c)] usando la base de Newton (diferencias divididas).
+\end{itemize}
+
+\item Cuantas multiplicaciones se requieren para evaluar un polinomio $p(t)$ 
+de grado $n-1$ en un punto cualquiera $t$ 
+\begin{itemize}
+ \item[a)] en su representaci\'on respecto a la base can\'onica,
+ \item[b)] en su representaci\'on respecto a la base de polinomios de Lagrange,
+ \item[c)] en su representaci\'on de diferencias definidas.
+\end{itemize}
+
+\item Ocupa la cota de error para los polinomios interpolantes, para estimar una 
+el error m\'aximo al interpolar la funci\'on $sin(x)$ por polinomios de grado $4$ usando 
+$5$ puntos equiespaciados en el intervalo $[0,\pi]$. \textquestiondown Cu\'antos puntos son 
+necesarios para tener una precisi\'on de $10^{-10}$?.
+
+\item Para un conjunto de puntos de interpolaci\'on $\{t_1,\cdots,t_n\}$, se define la funci\'on
+$$
+\pi(t)=(t-t_1)(t-t_2)\cdots (t-t_n),
+$$
+\begin{itemize}
+ \item[a)] Pruebe que $\pi'(t_j)=(t_j-t_1)\cdots (t_j-t_{j-1})(t_j-t_{j+1})\cdots (t_j-t_n)$,
+ \item[b)] Use lo probado en a) para mostrar que
+ $$
+ \ell_j(t)=\frac{\pi(t)}{(t-t_j)\pi'(t_j)},
+ $$
+ donde $\ell_j$ es el $j-$\'esimo polinomio de Lagrange de los puntos $\{t_i\}_{i=1}^n$.
+\end{itemize}
+
+\item
+Calcule por m\'inimos cuadrados un interpolante de grado $2$ de los puntos $\{(0,1),(1,1),(2,0)\}$.
+
+\item
+Calcule por m\'inimos cuadrados la recta que mejor se ajusta a los puntos
+$$
+\begin{array}{c||c|c|c|c|c|c|c|}
+ x	& 8 & 2 & 11 & 6 & 5 & 4
+ \\
+ \hline
+ y	& 3 & 10&  3 & 6 & 8 & 12
+ \end{array}$$
+
+\end{enumerate}
+
+
+\end{document}  

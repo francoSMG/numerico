@@ -1,0 +1,201 @@
+ \documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{array}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\usepackage[utf8]{inputenc}\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+\newcommand{\function}[5]{
+\begin{array}{cccl}
+#1 :& #2 	& \longrightarrow 	& #3\\
+	& #4	& \longmapsto		& #5
+\end{array}
+}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\usepackage{tikz}
+\newcommand\encircle[1]{%
+  \tikz[baseline=(X.base)] 
+    \node (X) [draw, shape=circle, inner sep=0,dotted] {\strut #1};}
+    \newcommand\cO[1]{\encircle{\tiny{#1}}}
+    \usepackage{arydshln}
+    \usepackage{array}
+	\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\begin{document}
+
+\title{HR NUMERICO 521230 UDEC}
+
+\vspace*{-3cm}
+\hspace{-3cm}
+\begin{minipage}{0.12\textwidth}
+\includegraphics[width=\textwidth]{logoudec.eps}
+\end{minipage}
+\hspace{5mm}
+\begin{minipage}{0.9\textwidth}
+UNIVERSIDAD DE CONCEPCION\\
+{\small\small\bf 
+FACULTAD DE CIENCIAS\\ 
+FISICAS Y MATEMATICAS}\\
+DEPARTAMENTO DE INGENIERIA MATEMATICA\\
+\end{minipage}
+
+\rule{16cm}{.5pt}
+
+\vspace{0.2cm}
+\centerline{\LARGE Hoja de Respuestas}
+
+\vspace{0.1cm}
+\centerline{\Large\bf  C\'alculo Num\'erico (521230)  Evaluaci\'on de recuperaci\'on }
+
+\vspace{3mm}
+\hspace{-25mm}
+{
+\def\arraystretch{1.5}
+\begin{tabular}{|l||p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}|p{3mm}||}
+\hline {\bf Nombre y apellido}
+&\ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \   \\
+\hline {\bf Profesor}
+&\ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \ & \   \\
+\hline
+\end{tabular}
+}
+
+\vspace{3mm}
+\hspace{-20mm}
+\begin{minipage}{80mm}
+{\bf Matr\'icula}
+
+\vspace{1mm}
+\def\arraystretch{1.5}
+\begin{tabular}{|P{3mm}|P{3mm}|P{3mm}|P{3mm}|P{3mm}|P{3mm}|P{3mm}|P{3mm}|P{3mm}|P{3mm}|}
+\hline
+\hspace{3mm}&\hspace{3mm}&\hspace{3mm}&\hspace{3mm}&\hspace{3mm}&\hspace{3mm}&\hspace{3mm}&\hspace{3mm}&\hspace{3mm}&\hspace{3mm}\\ \hline	
+\end{tabular}\\
+\begin{tabular}{P{3mm}P{3mm}P{3mm}P{3mm}P{3mm}P{3mm}P{3mm}P{3mm}P{3mm}P{3mm}}
+\hline
+ \cO{1}& \cO{1} &\cO{1} & \cO{1} & \cO{1}& \cO{1} & \cO{1} & \cO{1} & \cO{1} & \cO{1}  	\\ \cdashline{2-9}
+ \cO{2}& \cO{2} &\cO{2} & \cO{2} & \cO{2}& \cO{2} & \cO{2} &\cO{2} &\cO{2} &\cO{2} 		 \\ \cdashline{2-9}
+ \cO{3}& \cO{3} & \cO{3} & \cO{3} & \cO{3}& \cO{3} & \cO{3} &\cO{3} &\cO{3} &\cO{3} 	 \\ \cdashline{2-9}
+ \cO{4}& \cO{4} & \cO{4} & \cO{4} & \cO{4}& \cO{4} & \cO{4} & \cO{4} &\cO{4} &\cO{4} 	 \\ \cdashline{2-9}
+ \cO{5}& \cO{5} & \cO{5} & \cO{5} & \cO{5}& \cO{5} & \cO{5} & \cO{5} &\cO{5} &\cO{5} 	 \\ \cdashline{2-9}
+ \cO{6}& \cO{6} & \cO{6} & \cO{6} & \cO{6}& \cO{6} & \cO{6} & \cO{6} &\cO{6} &\cO{6} 	 \\ \cdashline{2-9}
+ \cO{7}& \cO{7} & \cO{7} & \cO{7} & \cO{7}& \cO{7} & \cO{7} & \cO{7} &\cO{7} &\cO{7} 	\\ \cdashline{2-9}
+ \cO{8}& \cO{8} & \cO{8} & \cO{8} & \cO{8}& \cO{8} & \cO{8} & \cO{8} &\cO{8} &\cO{8} 	\\ \cdashline{2-9}
+ \cO{9}& \cO{9} & \cO{9} & \cO{9} & \cO{9}& \cO{9} & \cO{9} & \cO{9} &\cO{9} &\cO{9} 	\\ \cdashline{2-9}
+ \cO{0}& \cO{0} & \cO{0} & \cO{0} & \cO{0}& \cO{0} & \cO{0} & \cO{0} &\cO{0} &\cO{0} 	\\ \cdashline{2-9}
+\end{tabular}
+\end{minipage}
+\begin{minipage}{40mm}
+{\bf Tema}
+
+\vspace{1mm}
+\def\arraystretch{1.5}
+\begin{tabular}{|P{3mm}|P{3mm}|P{3mm}|}
+\hline
+\hspace{3mm}&\hspace{3mm}&\hspace{3mm}\\ \hline	
+\end{tabular}\\
+\begin{tabular}{P{3mm}P{3mm}P{3mm}}
+\hline
+  \cO{1}& \cO{1} &\cO{1}  \\ \cdashline{2-3}
+  \cO{2}& \cO{2} &\cO{2} \\ \cdashline{2-3}
+  \cO{3}& \cO{3} & \cO{3} \\ \cdashline{2-3}
+  \cO{4}& \cO{4} & \cO{4}  \\ \cdashline{2-3}
+  \cO{5}& \cO{5} & \cO{5}  \\ \cdashline{2-3}
+  \cO{6}& \cO{6} & \cO{6} \\ \cdashline{2-3}
+  \cO{7}& \cO{7} & \cO{7}  \\ \cdashline{2-3}
+  \cO{8}& \cO{8} & \cO{8}\\ \cdashline{2-3}
+  \cO{9}& \cO{9} & \cO{9}\\ \cdashline{2-3}
+  \cO{0}& \cO{0} & \cO{0} \\ \cdashline{2-3}
+\end{tabular}
+\end{minipage}
+\begin{minipage}{10mm}
+\def\arraystretch{1.5}
+\begin{tabular}{||P{16mm}|P{30mm}||}
+\hline
+{\bf Pregunta} & {\bf Respuesta}\\
+\hline
+\end{tabular}
+\begin{tabular}{||P{16mm}:P{4mm}P{4mm}P{4mm}P{4mm}}
+ {\bf 1}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 2}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 3}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 4}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 5}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 6}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 7}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 8}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 9}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 10}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 11}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+{\bf 12}&\cO{a}&\cO{b}&\cO{c}&\cO{d}\\ \cdashline{1-5}
+\end{tabular}
+\end{minipage}
+
+
+\vspace{5mm}
+\hspace{-1.5cm}
+\begin{minipage}{135mm}
+\noindent
+{\small
+\begin{itemize}
+\item Marque los casilleros usando l\'apiz grafito o pasta de color negro o azul.
+\item Marque s{\'o}lo una alternativa, en caso contrario la pregunta
+{\bf no ser{\'a} evaluada}.
+\item Todas las respuestas, incluyendo aquellas obtenidas por descarte, deben
+ser justificadas en los cuadros provistos, a menos que se indique lo contrario
+expl\'icitamente en la pregunta.\\ \textbf{Respuestas correctas sin justificar y sin
+indicaci\'on de no justificar no se evaluar\'an. Respuestas con justificaci\'on incorrecta se contar\'an como omitidas.}
+\item {\bf No intente adivinar.} Por cada respuesta equivocada se
+descontar\'a un cuarto del valor de una respuesta correcta; es decir:
+
+\centerline{$\displaystyle\mbox{Calificaci\'on}=1+\max\left\{0,
+\frac{6}{12}\left({\mbox{Buenas}}-\frac{\mbox{Malas}}4\right)\right\}$.}
+\item Cualquier intento de copia ser\'a {\bf sancionado}.
+\item Duraci\'on de la prueba: {\bf 100 minutos}.
+\end{itemize}
+\noindent MSP/MVH/FMP. \hfill Enero--2017.
+}
+\end{minipage}
+\begin{minipage}{4cm}
+\begin{center}
+\begin{tabular}{|p{3cm}|}
+\hline
+Reservado para la
+correcci\'on\\
+{\bf No rellenar}\\ \hline \hline \\
+\large
+\begin{tabular}{c|p{1.15cm}}
+B & \\ \hline
+M & \\ \hline
+NR & \\ \hline\hline
+Cal. & \\
+\end{tabular}\\ \\
+\hline
+\end{tabular}
+\end{center}
+\end{minipage}
+\thispagestyle{empty}
+
+
+
+\end{document}

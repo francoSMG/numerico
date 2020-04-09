@@ -1,0 +1,252 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+
+\begin{document}
+
+\title{L7 NUMERICO UCSC}
+
+\begin{minipage}{0.15\textwidth}
+\includegraphics[width=\textwidth]{ucsc.png}
+\end{minipage}
+\begin{minipage}{0.9\textwidth}
+{UNIVERSIDAD CAT\'OLICA}\\ 
+{DE LA SANT\'ISIMA CONCEPCI\'ON}\\
+{DEPARTAMENTO DE MATEM\'ATICA}\\ 
+{ Y F\'ISICA APLICADAS}\\
+\rule{0.66\textwidth}{.5pt} %Franco A. Milanese
+\end{minipage}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Laboratorio 7, C\'alculo Num\'erico  IN1012C }}
+\centerline{\textrm{Semana 12 de mayo de 2015}}  \vspace{0.2cm}
+
+
+
+
+% \textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+% \vspace{0.1cm}
+% \textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+%  \begin{center}
+%  \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+%  \hline
+%  Pregunta 1 &  Pregunta 2 &     Total\\
+%  \hline
+
+%   \vspace{1.5cm} & &       \\
+%  \hline
+%  \end{tabular}
+%  \end{center}
+% Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\section{Ecuaciones no lineales}
+
+En este laboratorio estudiaremos la soluci\'on del problema: Hallar $x\in\mathbb{R}$ tal que $f(x)=0$, donde, en general $f$ es una funci\'on no lineal.
+
+\subsection{M\'etodo de la bisecci\'on}
+El m\'etodo de la bisecci\'on es la b\'usqueda iterativa de las ra\'ices de una funci\'on continua.
+\begin{lstlisting}
+f=inline('x^3+1');
+x0=-2;
+x1=2;
+val0=feval(f,x0);
+val1=feval(f,x1);
+ptoMedio=(x0+x1)/2;
+fptoMedio=feval(f,ptoMedio);
+while(fptoMedio>10e-6){
+	if(val0*fptoMedio<0){
+    val1=ptoMedio;
+    }
+    elseif(val1*fptoMedio<0){
+    val0=ptoMedio;
+    }
+    ptoMedio=(val0+val1)/2;
+    fptoMedio=feval(f,ptoMedio);    
+}
+\end{lstlisting}
+
+\section{Esquemas de punto fijo}
+
+Recordamos que toda ecuaci\'on $f(x)=0$ es equivalente a un problema de punto fijo $g(x)=x$ para $g(x)=x+d(x)f(x)$, donde $d(x)\neq 0$ para todo $x$. La funci\'on $d(x)$  queda a libre elecci\'on, y juega un rol importante en las aceleraciones del m\'etodo.
+
+Este algoritmo puede ser muy r\'apido, y de sencilla programaci\'on. Por ejemplo, para 
+$$g(x)=x-\frac{e^{-x}(12+e^x x\sin(x^2))}{2x^2\cos(x^2)+(1+x)\sin(x^2)}$$
+primero verificamos de manera gr\'afica que tiene un punto fijo, y simultaneamente escogemos la aproximaci\'on inicial 
+\begin{lstlisting}
+>> gi=inline('x-(exp(-x)*(12+exp(x)*x*sin(x^2))/
+           (2*x^2*cos(x^2)+(1+x)*sin(x^2)))'); % es g 
+>> fplot(gi,[1.8 2.5]);
+>> grid on;
+>> axis([1.8 2.2 1.8 2.2]) %intervalo en x para cada variable
+\end{lstlisting}
+Del gr\'afico notamos que la intersecci\'on (soluci\'on buscada) est\'a cerca de $x=2$. Ahora obtenemos una aproximaci\'on con una tolerancia $tol=0.5\times 10^{-10}$
+\begin{lstlisting}
+>> g=inline('[x-(exp(-x)*(12+exp(x)*x*sin(x^2))/
+           (2*x^2*cos(x^2)+(1+x)*sin(x^2))),x]'); %es para graficar g y la identidad
+   x0=2;      %esto se puede escribir como un programa rutero o como una funcion
+   tol=0.5*10^{-16};
+   for i=1:100
+    xi=g(x0);
+    iteraciones=[x0,xi]
+    if (abs(x0-xi) <= tol),
+       break;
+    end
+    x0=xi;
+   end
+   sol=x0  %muestra la solucion
+   iter=i  %muestra el numero de iteraciones
+\end{lstlisting}
+A continuaci\'on mostraremos como opera el m\'etodo, para ello contruiremos  gr\'aficas que nos permitan visualizar en forma geom\'etrica  diferentes situaciones. Por simplicidad el  ejemplo que utilizamos es $g(x)=0.8x+0.3$. Los siguientes comandos muestran de manera gr\'afica que hay un punto fijo
+\begin{lstlisting}
+>> clear all
+>> x=-4:8;
+>> plot(x,0.8*x+0.3,'r',x,x,'b'),
+>> grid on;
+>> title('la identidad esta en azul')
+\end{lstlisting}
+Para realizar la animaci\'on se descargue la funci\'on {\tt anima.m}. Como ejemplo tomamos $x_0=7$ y $x_0=-4$.
+\begin{lstlisting}
+>> g=inline('0.8*x+0.3');
+>> x0=7;
+>> anima(g,x0); %convergencia por descenso
+>> x0=-4;
+>> anima(g,x0); %convergencia por ascenso
+\end{lstlisting}
+Las animaciones anteriores nos mostraron la formaci\'on de la escalera, que es cl\'asica cuando una sucesi\'on converge mon\'otonamente. Utilizamos $g(x)=-0.8x+3$ para mostrar la convergencia tipo telara\~na.
+\begin{lstlisting}
+>> g=inline('-0.8*x+3');
+>> x0=-4;
+>> anima(g,x0);
+\end{lstlisting}
+Ahora vemos como opera el m\'etodo en forma geom\'etrica cuando \'el es divergente.
+\begin{lstlisting}
+>> g=inline('-1.2*x-0.2');
+>> x0=2;
+>> anima(g,x0); % huida hacia arriba
+>> x0=0.5;
+>> anima(g,x0); % huida hacia abajo
+\end{lstlisting}
+
+
+\section{\bf M\'etodo de Newton}
+El c\'odigo siguiente contiene el programa para el 
+c\'alculo de la ra\'{\i}z de una ecuaci\'on $f(x)=0$ mediante el 
+{\em m\'etodo de Newton-Raphson}:
+
+\begin{lstlisting}
+function [raiz,iter]=newton(f,Df,x0,tol,maxit)
+
+k=0;
+raiz=x0;
+corr=tol+1;
+while (k<maxit) & (abs(corr)>tol)
+    k=k+1;
+    xk=raiz;
+    fxk=feval(f,xk);
+    Dfxk=feval(Df,xk);
+    if (Dfxk==0)
+        error('La derivada de la funcion se anula.')
+    end
+    corr=fxk/Dfxk;
+    raiz=xk-corr;
+    iter=k;
+end
+
+if (abs(corr)>tol)
+    error('Se excedio el numero maximo de iteraciones.')
+end
+\end{lstlisting}
+
+
+\section{Ejercicios}
+
+\begin{enumerate}
+\item Haga un programa que calcule la ra\'{\i}z de una ecuaci\'on 
+$f(x)=0$ mediante el {\em m\'etodo de bisecci\'on}. Los datos del 
+programa deben ser la funci\'on $f$, los extremos del intervalo $[a,b]$ 
+donde se busca la ra\'{\i}z, y la tolerancia {\tt tol} con la que se 
+desea calcular \'esta. 
+El programa debe tener una salida de error en el caso en que la 
+funci\'on $f$ no cambie de signo en el intervalo inicial. 
+%
+\begin{enumerate}
+\item Aplique el m\'etodo para hallar soluciones, con una tolerancia menor que $10^{-4}$, para los siguientes problemas en los intervalos que se solicita
+\begin{itemize}
+\item $2+\cos(e^x-2)-e^x=0$ en $[0.5,1.5]$
+\item $2x\cos(2x)-(x+1)^2=0$ para $-3\le x\le -2$ y para $-1\le x\le 0$
+\end{itemize}
+%
+\item Calcule con el programa anterior todas las ra\'{\i}ces de las 
+siguientes ecuaciones con error menor que $10^{-4}$:
+$$
+x^2=2,\qquad x^3-3x+1=0\qquad{\rm y}\qquad\cos x=x.
+$$
+
+Indicaci\'on: Para determinar la localizaci\'on de las ra{\'\i}ces es buena idea utilizar gr\'aficos, por ejemplo, para la segunda funci\'on anterior tenemos.
+\begin{lstlisting}
+>> f2=inline('x.^3-3*x+1','x'); %introduccion de la funcion
+>> x=(-3:.1:3); %intervalo donde se desea graficar
+>> plot(x,feval(f2,x),x,zeros(length(x),1)) %hay dos graficos, feval indica que  se evalua f2 en x.
+\end{lstlisting}
+\end{enumerate}
+
+% \vspace{0.25cm}
+% Utilice su c\'odigo para responder los problemas 8, 9, 10, 17 y 18 (p\'ag. 54)  del texto gu{\'\i}a Burden y Faires, Analisis Num\'erico
+
+\item  Calcule con el programa para el m\'etodo de Newton todas las ra\'{\i}ces de las siguientes ecuaciones con error menor que $10^{-4}$:
+$$
+x^2=2,\qquad x^3-3x+1=0\qquad{\rm y}\qquad\cos x=x.
+$$ Estos ejemplos ya los resolvi\'o usando el m\'etodo de bisecci\'on, compare la cantidad de iteraciones que requieren en ambos m\'etodos. Encuentre las ra{\'\i}ces  con error menor que $10^{-12}$, ?`aumentan mucho las iteraciones del algoritmo de Newton?.
+
+% \item Con el programa anterior resuelva los ejercicios 1, 2, 5 y 6 (p\'agina 99 y 100)  de texto\
+
+\item 
+El comando {\sc Matlab} {\tt fzero} permite calcular la ra\'{\i}z
+de una ecuaci\'on $f(x)=0$ cercana a un punto dado $x_0$. Este comando 
+combina de manera autom\'atica un m\'etodo inicial de convergencia 
+garantizada con otro final de convergencia veloz.
+\begin{enumerate}
+\item Utilice el {\tt help} de {\sc Matlab} para conocer la sintaxis del
+comando {\tt fzero}.
+\item Calcule, mediante este comando, las ra\'{\i}ces de las ecuaciones 
+del Ej.\ 1(a), primero con la tolerancia prefijada por el comando y 
+luego con error menor que $10^{-12}$.
+\end{enumerate}
+
+\item Utilizar la funci\'on {\tt anima.m} para observar la convergencia o divergencia de $g(x)=0.1x^2+1$ con aproximaci\'on inicial $x0=-4$.
+
+\item  Adaptar la funcion anima.m para  ver la convergencia o divergencia de $g(x)=x^2-0.5$ con $x0=0.5$ y $g(x)=x^2-1$ con $x0=0.5$ (la idea es tener una buena visualizaci\'on). 
+
+\item Realice un c\'odigo en matlab que, dado $g$, $x_0$, el n\'umero de iteraciones m\'aximo, y una tolerancia prescrita, le permita realizar iteraciones de punto fijo. 
+
+%Con este c\'odigo realice los ejercicios 2, 3, 4, 5 y  6 (p\'ag. 64) del texto gu{\'\i}a Burden y Faires, An\'alisis Num\'erico.
+
+\end{enumerate}
+
+
+\end{document}  

@@ -1,0 +1,157 @@
+ \documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\usepackage{polynom}
+\usepackage{hyperref}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\usepackage[utf8]{inputenc}\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+\newcommand{\function}[5]{
+\begin{array}{cccl}
+#1 :& #2 	& \longrightarrow 	& #3\\
+	& #4	& \longmapsto		& #5
+\end{array}
+}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+
+\title{T2 V2 NUMERICO 521230 UDEC}
+
+\begin{minipage}{0.12\textwidth}
+\includegraphics[width=\textwidth]{logoudec.eps}
+\end{minipage}
+\hspace{5mm}
+\begin{minipage}{0.9\textwidth}
+UNIVERSIDAD DE CONCEPCION\\
+{\small\small\bf 
+FACULTAD DE CIENCIAS\\ 
+FISICAS Y MATEMATICAS}\\
+DEPARTAMENTO DE INGENIERIA MATEMATICA\\
+\rule{0.66\textwidth}{.5pt} Franco A. Milanese
+\end{minipage}
+
+\vspace{0.5cm}
+\centerline{\bf Test II (521230)}
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &       \\
+ \hline
+ \end{tabular}
+ \end{center}
+ Enviar documentos solicitados en el formato solicitado a 
+ %\textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+
+\item  Considere el P.V.I.
+$$
+\begin{array}{rl|}
+y''+\frac{1}{5}e^{0.0015\cdot t}y & =0\\
+y(0)	&=1\\
+y'(0)	&=2\\ 
+\hline
+\end{array}.
+$$
+este modela el movimiento de un sistema masa resorte no amortiguado donde la constante de elasticidad del resorte disminuye a medida que pasa el tiempo.
+\begin{enumerate}
+\item Transforme el P.V.I. en un sistema de orden 1.
+\item En una funci\'on de Matlab llamada \texttt{f.m}, programe la funci\'on obtenida en el sistema calculado anteriormente.
+\item Resuelva el P.V.I. usando la funci\'on \texttt{ode45()} en un rutero llamado \texttt{p1.m}. En este mismo rutero grafique la funci\'on soluci\'on y su derivada.
+\item Determine la compresi\'on o expansi\'on final del resorte pasado mucho tiempo desde el inicio de su movimiento.
+\end{enumerate}
+Adjunte el programa \texttt{f.m} y el rutero \texttt{p1.m} al correo.
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+	\item Con la sustituci\'on $u_1=y$, $u_2=y'$, se llega al sistema
+    $$
+    \begin{bmatrix}
+    u_1\\u_2
+    \end{bmatrix}'
+    =\begin{bmatrix}
+    u_2\\-\frac{1}{5} e^{0.0015*t}u_1
+    \end{bmatrix}. 
+    $$
+    \item Con el cual se da origen a la funci\'on de Matlab
+    \begin{lstlisting}
+    function du=f(x,u)
+    	du=[u(2);-1/5*exp(0.0015*x)*u(1)];
+    \end{lstlisting} 
+    \item Con la cual usando \texttt{ode45()} se construye el rutero \texttt{p1.m} que debe contener instrucciones similares a
+    \begin{lstlisting}
+    [t,u]=ode45(@f,[0,1000000],[1;2]);
+    plot(t,u);
+    largoFinal=u(end,1)
+    \end{lstlisting} 
+    \item Y de la gr\'afica se determina que el resorte tiene al largo $0$. Es decir, a no oscilar m\'as. 
+\end{enumerate}
+
+\item Cargue la funci\'on de Matlab disponible en
+\begin{center}
+\texttt{http://www2.udec.cl/\~{}fmilanese/bisect.m}
+\end{center}
+esta contiene una implementaci\'on del m\'etodo de la bisecci\'on.
+
+\begin{enumerate}
+	\item Usando la funci\'on \texttt{bisect()}, en un rutero llamado \texttt{raices.m}, aproxime la ra\'iz de la funci\'on 
+    $$
+		f(x)=\frac{cos(0.1\,\pi x^2)}{x^2+1}
+	$$
+    que est\'a entre $3$ y $4$ con un error menor a $10^{-4}$.
+    \item En este mismo rutero grafique la funci\'on $f$.
+    \item En este mismo rutero, usando la funci\'on \texttt{bisect()} calcule todas las raices de $f$ que est\'an entre $0$ y $10$.
+    \item En este mismo rutero, a\~{n}ada al gr\'afico de la funci\'on las ra\'ices calculadas con asteriscos rojos.
+\end{enumerate}
+
+\textbf{Desarollo:} El programa debe tener instrucciones similares a
+\begin{lstlisting}
+clear all; close all; clc;
+f=@(x) cos(0.1 * pi *x.^2)./(x.^2+1);
+raiz=bisect(f,3,4,10^(-4)) %La primera raiz pedida
+x=0:0.001:10;
+plot(x,f(x)); grid on; hold on;  %La grafica pedida
+r1=bisect(f,1,3,10^(-6));   %Las siguientes raices
+r2=bisect(f,3,4,10^(-6));
+r3=bisect(f,4,5.2,10^(-6));
+r4=bisect(f,5.2,6,10^(-6));
+r5=bisect(f,6,7,10^(-6));
+r6=bisect(f,7,7.6,10^(-6));
+r7=bisect(f,7.6,8.3,10^(-6));
+r8=bisect(f,8.3,9,10^(-6));
+r9=bisect(f,9,9.5,10^(-6));
+r10=bisect(f,9.5,10,10^(-6));
+r=[r1,r2,r3,r4,r5,r6,r7,r8,r9,r10] %Las raices pedidas
+plot(r,zeros(size(r)),'*r') %Grafica las raices calculadas
+\end{lstlisting}
+
+\end{enumerate}
+\end{document}  

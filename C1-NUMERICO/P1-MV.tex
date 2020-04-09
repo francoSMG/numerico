@@ -1,0 +1,37 @@
+\begin{pregunta}
+\begin{cuerpo}
+Considere
+$$
+\boldsymbol{A}=\left(
+\begin{array}{rrr}
+  2 & 2 & -1 \\
+  2 & 1 & 0 \\
+  -2 & -2 & 2
+\end{array}
+\right),\qquad \boldsymbol{A}^{-1}=\left(
+\begin{array}{rrr}
+  -1 & 1 & -1/2 \\
+  2 & -1 & 1 \\
+  1 & 0 & 1
+\end{array}
+\right), \qquad \textrm{y}\qquad \boldsymbol{b}=\left(
+\begin{array}{r}
+  0 \\
+  2 \\
+  0
+\end{array}
+\right).
+$$
+
+Suponga que desea resolver el sistema $\boldsymbol{Ax}=\boldsymbol{b}$, pero en realidad el vector $\boldsymbol{b}$ ha sido redondeado a valores enteros, y que sus valores redondeados a un decimal son \break  $\boldsymbol{b}+\delta\boldsymbol{b}=(0{.}2,1{.}9,0{.}1)^t$. Al resolver el nuevo sistema $\boldsymbol{A}(\boldsymbol{x}+\delta\boldsymbol{x})=\boldsymbol{b}+\delta\boldsymbol{b}$, el error relativo en la soluci\'on satisface:
+\end{cuerpo}
+\begin{multicols}{2}
+\begin{alternativas}
+{$\dfrac{||\delta\boldsymbol{x}||_\infty}{||\boldsymbol{x}||_\infty}\leq 2{.}4$}
+{$\dfrac{||\delta\boldsymbol{x}||_\infty}{||\boldsymbol{x}||_\infty}\leq 4{.}8$}
+{$\dfrac{||\delta\boldsymbol{x}||_\infty}{||\boldsymbol{x}||_\infty}\leq 0{.}6$}
+{$\dfrac{||\delta\boldsymbol{x}||_\infty}{||\boldsymbol{x}||_\infty}\leq 1{.}2$}
+\end{alternativas}
+\end{multicols}
+\justificacion{7cm}
+\end{pregunta}

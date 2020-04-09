@@ -1,0 +1,183 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{movie15}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+\begin{document}
+
+\title{TEST 2 NUMERICO UCSC}
+
+\begin{minipage}{0.15\textwidth}
+\includegraphics[width=\textwidth]{ucsc.png}
+\end{minipage}
+\begin{minipage}{0.9\textwidth}
+{UNIVERSIDAD CAT\'OLICA}\\ 
+{DE LA SANT\'ISIMA CONCEPCI\'ON}\\
+{DEPARTAMENTO DE MATEM\'ATICA}\\ 
+{ Y F\'ISICA APLICADAS}\\
+\rule{0.66\textwidth}{.5pt} Franco A. Milanese
+\end{minipage}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Test 2 C\'alculo Num\'erico IN1012C }}
+\centerline{\textrm{Martes 19 de mayo de 2015}}  
+
+\vspace{0.2cm}
+\textbf{Nombre:} PAUTA \hspace{0.65\textwidth}\textbf{Carrera:}
+
+\vspace{0.1cm}
+\textbf{Profesor de C\'atedra:}\hspace{0.5\textwidth} \textbf{ RUT:}
+ \begin{center}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &       \\
+ \hline
+ \end{tabular}
+ \end{center}
+
+Enviar documentos solicitados en el formato solicitado al correo 
+\textbf{veranonumerico@gmail.com} .
+%que el ayudante le indique.
+\begin{enumerate}
+\item (20 pt.) Implemente en un rutero llamado \texttt{bisect.m} el algoritmo de bisecci\'on con \texttt{289} iteraciones para encontrar las ra\'ices de 
+$$
+f(x)= \frac{(x^3+1)sin(x^2+1)}{x^4+1}
+$$
+que est\'an a la izquierda y derecha de $x=0$.
+
+\textquestiondown Cu\'al es el valor las ra\'ices encontradas?. (10 pt.)
+
+\fbox{ \begin{minipage}{\textwidth}   \hfill\vspace{1cm}   \end{minipage} } 
+
+Adjunte el rutero \texttt{bisect.m} al correo.
+
+\textbf{C\'odigo de ejemplo:} \texttt{bisect.m}  \fbox{20 pt.}
+
+\begin{lstlisting}
+f=inline('(x.^3+1).*sin(x.^2+1)./(x.^4+1)');
+ezplot(f,[-2,2]); grid on;
+%%
+%Raiz a la izquierda de x=0
+x0=-1.4;
+x1=0;
+val0=feval(f,x0);
+val1=feval(f,x1);
+ptoMedio=(x0+x1)/2;
+fptoMedio=feval(f,ptoMedio);
+for i=1:189
+    if(val0*fptoMedio<0)
+    x1=ptoMedio;
+    val1=feval(f,x1);
+    elseif(val1*fptoMedio<0)
+    x0=ptoMedio;
+    val0=feval(f,x0);
+    end
+    ptoMedio=(x0+x1)/2;
+    fptoMedio=feval(f,ptoMedio);    
+end
+R1=ptoMedio; %Raiz calculada
+%% 
+%Raiz a la derecha de x=0
+x0=0;
+x1=1.5;
+val0=feval(f,x0);
+val1=feval(f,x1);
+ptoMedio=(x0+x1)/2;
+fptoMedio=feval(f,ptoMedio);
+for i=1:189
+    if(val0*fptoMedio<0)
+    x1=ptoMedio;
+    val1=feval(f,x1);
+    elseif(val1*fptoMedio<0)
+    x0=ptoMedio;
+    val0=feval(f,x0);
+    end
+    ptoMedio=(x0+x1)/2;
+    fptoMedio=feval(f,ptoMedio);    
+end
+R2=ptoMedio;  %Raiz calculada
+\end{lstlisting}
+
+Las ra\'ices calculadas son
+
+\begin{minipage}{0.8\textwidth}
+\begin{verbatim}
+>> [R1,R2]
+
+ans =
+
+   -1.0000    1.4634
+\end{verbatim}
+\end{minipage}
+\begin{minipage}{0.2\textwidth}
+\fbox{10 pt.}
+\end{minipage}
+
+\newpage
+\item (20 pt.) En un rutero llamado \texttt{soluciones.m} cree una animaci\'on llamada \texttt{soluciones.gif} que muestre los puntos soluci\'on del sistema $(x,y,z)$ del sistema de ecuaciones
+$$
+\begin{array}{lr}
+ax+2y+3z	&	=1\\
+2x+2y+3z	&	=2\\
+4x-y+z		&	=0
+\end{array}
+$$
+cuando $a$ var\'ia entre $[-4,2]$. 
+
+\textquestiondown Qu\'e sucede con el n\'umero de condici\'on de la matriz de coeficientes del sistema a medida que $a$ se aproxima a 2?. (10 pt.)
+
+\fbox{ \begin{minipage}{\textwidth}   \hfill\vspace{1cm}   \end{minipage} } 
+
+Adjunte la animaci\'on \texttt{soluciones.gif} al correo.
+
+\textbf{C\'odigo de ejemplo:} \texttt{soluciones.m} (NO EVALUADO)
+\begin{lstlisting}
+clear all; close all; clc;
+i=1;
+for a=-4:0.1:2
+A=[a,2,3;2,2,3;4,-1,1];
+x=mldivide(A,[1;2;0]);
+plot3(x(1),x(2),x(3),'*r');
+title(['a = ',num2str(a)]);
+hold on;
+M(i)=getframe(1);
+i=i+1;
+end
+movie2gif(M,{M(1:2).cdata},'animacion.gif','delaytime',0.05,'loopcount',inf);
+\end{lstlisting}
+
+La animaci\'on generada \fbox{20 pt.}
+
+Respuesta:
+
+Tiende a infinito. \fbox{10 pt.}
+
+
+\end{enumerate}
+\end{document}   

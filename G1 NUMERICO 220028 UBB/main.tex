@@ -1,0 +1,190 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\begin{document}
+
+\title{G1 NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Gu\'ia 1, M\'etodos Num\'ericos I 220028 }}
+\centerline{\textrm{Semana 23 de noviembre 2015.}}  \vspace{0.2cm}
+
+
+% \textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+% \vspace{0.1cm}
+% \textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+%  \begin{center}
+%  \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+%  \hline
+%  Pregunta 1 &  Pregunta 2 &     Total\\
+%  \hline
+
+%   \vspace{1.5cm} & &       \\
+%  \hline
+%  \end{tabular}
+%  \end{center}
+% Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+
+\begin{enumerate}
+
+\item Un sistema de n\'umeros de punto flotante est\'a determinado por cuatro enteros: la base $\beta$, la precisi\'on 
+$p$ y los l\'imites superior $S$ e inferior $I$ de los posibles exponentes.
+\begin{itemize}
+ \item[a)] Si $\beta=10$, \textquestiondown Cuales son los menores valores de $p$, $S$ y el mayor de $I$ con los que los n\'umeros 
+ $2365.27$ y $0.0000512$ pueden ser representados exactamente?.
+ \item[b)] Si $\beta=10$, \textquestiondown Cuales son los menores valores de $p$, $S$ y el mayor de $I$ con los que los n\'umeros 
+ $55245.333$ y $0.000005120$ pueden ser representados exactamente?.
+\end{itemize}
+
+\item Determine el valor de verdad de las siguientes proposiciones, en caso de ser falsas, muestre un 
+contraejemplo.
+\begin{itemize}
+ \item[a)] Si dos n\'umeros reales son representables exactamente como n\'umeros de punto flotante, entonces el resultado 
+ de cualquier operaci\'on aritm\'etica entre ellos ser\'a representable exactamente como n\'umero de punto flotante.
+ \item[b)] La adici\'on de n\'umeros de puntos flotante es asociativa pero no conmutativa.
+ \item[c)] En el sistema de n\'umeros de punto flotante, el nivel al que ocurre underflow es que el menor n\'umero positivo que 
+ cambia al n\'umero 1 al ser sumados.
+ \item[d)] La mantisa de un n\'umero de punto flotante de precisi\'on \textit{double}, es dos veces el largo de la mantisa de un 
+ n\'umero de punto flotante de precisi\'on \textit{single}.
+\end{itemize}
+
+\item Explique la diferencia entre truncaci\'on y redondeo.
+
+\item Explique la diferencia entre error computacional y error propagado.
+
+\begin{multicols}{2}
+\item En la aritm\'etica de n\'umeros de \newline punto flotante, \textquestiondown Cual de las siguientes operaciones puede producir un overflow?.
+\begin{itemize}
+ \item[a)] Adici\'on
+ \item[b)] Substracci\'on
+ \item[c)] Multiplicaci\'on
+ \item[d)] Divisi\'on
+\end{itemize}
+
+\item En la aritm\'etica de n\'umeros de punto flotante, \textquestiondown Cual de las siguientes operaciones puede producir un underflow?.
+\begin{itemize}
+ \item[a)] Adici\'on
+ \item[b)] Substracci\'on
+ \item[c)] Multiplicaci\'on
+ \item[d)] Divisi\'on
+\end{itemize}
+\end{multicols}
+
+\item Responde las siguientes preguntas siguiendo un l\'inea de razonamiento.
+\begin{itemize}
+ \item[a)]
+\textquestiondown En que circunstancias ocurre cancelaci\'on entre n\'umeros de punto flotante?.
+  \item[b)]
+\textquestiondown La ocurrencia de una cancelaci\'on implica que el verdadero resultado de la operaci\'on 
+no es representable como n\'umero de punto flotante?.
+\item[c)]
+\textquestiondown Porqu\'e la cancelaci\'on puede causar problemas en un algoritmo?.
+\end{itemize}
+
+\item Suponga que est\'a trabajando con un sistema decimal de n\'umeros de punto flotante, con una m\'aquina 
+de precisi\'on \texttt{eps}$=10^{-5}$ y que los exponentes pueden ser a lo m\'as $\pm20$. \textquestiondown Cual 
+es el resultado de las siguientes operaciones de punto flotante?.
+\begin{multicols}{2}
+\begin{itemize}
+ \item[a)] $1+10^{-7}$
+ \item[b)] $1+10^3$
+ \item[c)] $1+10^7$
+ \item[d)] $10^10+10^3$
+ \item[e)] $10^{10}/10^{-15}$
+ \item[f)] $10^{-10}\times 10^{-15}$
+\end{itemize}
+\end{multicols}
+
+\item Explique porqu\'e una serie infinta divergente como
+$$
+\displaystyle 
+\sum_{n=1}^\infty \frac{1}{n}
+$$
+puede tener una suma finita en un sistema aritm\'etico de n\'umeros de punto flotante.
+
+\item Explique por una serie alteranda de infinitos t\'erminos como
+$$
+\displaystyle
+e^x=1+x+\frac{x^2}{2} + \frac{x^3}{3} + \cdots
+$$
+para $x<0$ es dif\'icil de evaluar con exactitud usando aritm\'etica de punto flotante.
+
+\item \textquestiondown Cu\'al es el error absoluto y relativo de de aproximar $\pi$ por 
+las siguientes cantidades?
+\begin{multicols}{2}
+\begin{itemize}
+ \item[a)] $3$
+ \item[b)] $3.14$
+ \item[c)] $22/7$
+ \item[d)] $\sqrt{10}$
+ \end{itemize}
+\end{multicols}
+
+\item Considere la expresi\'on
+$$
+\displaystyle
+\frac{1}{1-x}-\frac{1}{1+x},
+$$
+asumiendo que $x\neq \pm 1$.
+\begin{itemize}
+ \item[a)] \textquestiondown Para que rangos de valores de $x$ es dif\'icil calcular con exactitud usando aritm\'etica de punto flotante?.
+ \item[b)] Reordene los t\'erminos de la operaci\'on de forma tal que en los rangos detectados en a) se pueda 
+ aproximar el resultado m\'as precisamente.
+\end{itemize}
+
+\item \textquestiondown Cu\'al de las siguientes instrucciones es preferible para calcular el punto medio $m$ 
+de un intervalo $[a,b]$?.
+\begin{multicols}{3}
+ \begin{itemize}
+  \item[a)] $m=\frac{a+b}{2.0}$
+  \item[b)] $m=a+\frac{b-a}{2.0}$
+  \item[c)] $m=b-\frac{b-a}{2.0}$
+ \end{itemize}
+
+\end{multicols}
+
+
+
+\end{enumerate}
+
+
+\end{document}  

@@ -1,0 +1,96 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+\begin{document}
+
+\title{Test2  NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Test 2, M\'etodos Num\'ericos I 220028 }}
+\centerline{\textrm{Viernes 15 de enero 2015.}}  \vspace{0.2cm}
+
+
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2  &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &     \\
+ \hline
+ \end{tabular}
+ \end{center}
+ Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (30 pt) Cree un rutero llamado \texttt{elecciones.m} el cual extraiga los datos del archivo \url{http://www.udec.cl/~fmilanese/elecciones_providencia.csv} y en una ventana de figuras grafique los votos obtenidos por \texttt{LABBE GALVEZ CRISTIAN} en el periodo 2004-2012.
+
+Para extraer los datos use la funci\'on \texttt{xlsread()} y para generar los gráficos use la funci\'on \texttt{bar()}.
+
+Adjunte al correo el c\'odigo \texttt{elecciones.m} y su gr\'afica generada con el nombre \texttt{elecciones.jpg}.
+
+%\textbf{Desarollo:} 
+
+
+\item (30 pt) Cree un rutero llamado \texttt{lecturas.m} en este rutero cargue el archivo \url{http://www.udec.cl/~fmilanese/puntos.mat} usando la instrucci\'on \texttt{load puntos.mat}. Este archivo contiene una matriz llamada puntos cuyas columnas son las cordenadas x e y de los puntos obtenidos de la lectura de una se\~{n}al. En este rutero grafique los puntos anteriores y su polinomio interpolante.
+
+Grabe la gr\'afica generada por el rutero anterior como \texttt{senal.jpg}
+
+Adjunte al correo el c\'odigo \texttt{lecturas.m} y su gr\'afica generada con el nombre \texttt{senal.jpg}.
+
+\end{enumerate}
+\end{document}   

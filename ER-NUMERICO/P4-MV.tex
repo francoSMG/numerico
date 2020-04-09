@@ -1,0 +1,54 @@
+\begin{pregunta}
+\begin{cuerpo}
+Para resolver el sistema triangular superior
+$$
+\left(
+\begin{array}{cccc}
+1&2&3&4\\
+0&1&2&3\\
+0&0&1&2\\
+0&0&0&1
+\end{array}
+\right)
+\left(
+\begin{array}{c}
+x_1\\
+x_2\\
+x_3\\
+x_4
+\end{array}
+\right)
+=
+\left(
+\begin{array}{cccc}
+1\\
+1\\
+1\\
+1
+\end{array}
+\right)
+$$
+se utiliza el siguiente rutero \textsc{Matlab} \bigskip
+\begin{center}
+\begin{tabular}{|l|}
+\hline
+\verb"n=4"\\
+\verb"A=matriz(n);"\\
+\verb"b=ones(n,1);"\\
+\verb"x=A\b"\\
+\hline
+\end{tabular}
+\end{center}
+\bigskip
+>Cu\'al de las siguientes funciones \verb"matriz.m" construye la matriz del sistema anterior?
+\end{cuerpo}
+\begin{multicols}{2}
+\begin{alternativas}
+{\begin{tabular}{|l|}\hline\verb"function A=matriz(n)"\\\verb"A=zeros(n);"\\ \verb"for i=1:n"\\ \verb"    A=A+diag(i*ones(1,n-i+1),i-1);"\\ \verb"end" \\\hline \end{tabular}}
+{\begin{tabular}{|l|}\hline\verb"function A=matriz(n)"\\\verb"A=zeros(n);"\\ \verb"for i=1:n"\\ \verb"    A=A+diag(ones(1,n-i+1),i-1);"\\ \verb"end" \\\hline \end{tabular}}
+{\begin{tabular}{|l|} \hline  \verb"function A=matriz(n)"\\ \verb"A=zeros(n);"\\ \verb"for i=1:n"\\ \verb"    A=A+diag([1:n-i+1],i-1);"\\ \verb"end"\\ \hline \end{tabular}} 
+{\begin{tabular}{|l|} \hline \verb"function A=matriz(n)"\\ \verb"A=zeros(n);"\\ \verb"for i=1:n"\\ \verb"    A=A+diag(i*eye(n-i+1),i-1);"\\ \verb"end" \\ \hline \end{tabular}}
+\end{alternativas}
+\end{multicols}
+\justificacion{0cm}
+\end{pregunta}

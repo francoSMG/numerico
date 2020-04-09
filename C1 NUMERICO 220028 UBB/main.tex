@@ -1,0 +1,414 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\begin{document}
+
+\title{C1 NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Certamen 1, M\'etodos Num\'ericos I 220028 }}
+\centerline{\textrm{Martes 1 de noviembre 2015.}}  \vspace{0.2cm}
+
+
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &Pregunta 3 &Pregunta 4 &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &  & &    \\
+ \hline
+ \end{tabular}
+ \end{center}
+% Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+
+
+\begin{enumerate}
+ \item (20 pt) Escriba los siguientes sistemas de ecuaciones en su forma matricial, calcule la transpuesta de la matriz de coeficientes y realize la descompisici\'on LU de estas.
+\begin{multicols}{2}
+\begin{enumerate}
+\item
+$
+\begin{array}{lr}
+2x_2+6x_3	& = 30 \\
+3x_2+8x_1	& = 20 \\
+x_1+x_3		& = 10
+\end{array}
+$
+
+\item 
+$
+\begin{array}{lr}
+4x_1+2x_2	& = 1 \\
+2x_1+x_1	& = 2 \\
+4x_1+2x_3	& = 1
+\end{array}
+$
+
+\end{enumerate}
+\end{multicols}
+
+\textbf{Desarrollo:}
+
+\begin{enumerate}
+	\item El sistema se representa como
+    $$
+	\begin{bmatrix}
+    1  & 0 & 1\\
+    0 & 2 & 6\\
+    0 & 3& 8
+    \end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}
+    =
+    \begin{bmatrix}10\\20\\30\end{bmatrix}
+    $$
+    la transpuesta de su matriz de coeficientes es
+    $$
+	\begin{bmatrix}
+    1 & 0 & 0	\\
+    0 & 2& 3  	\\
+    1  & 6 & 8
+    \end{bmatrix} \quad \fbox{5 pt.}
+	$$
+    y su eliminaci\'on Gaussiana es
+    $$
+    \begin{bmatrix}
+    1 & 0 & 0	\\
+    0 & 2& 3  	\\
+    1  & 6 & 8
+    \end{bmatrix}
+    \stackrel{f_3-\frac{1}{1}f_1}{\sim}
+    \begin{bmatrix}
+    1 & 0 & 0	\\
+    0 & 2& 3  	\\
+    0  & 6 & 8
+    \end{bmatrix}
+   	\stackrel{f_3-\frac{6}{2}f_2}{\sim}
+   \begin{bmatrix}
+    1 & 0 & 0	\\
+    0 & 2& 3  	\\
+    0  & 0 & -1
+    \end{bmatrix}
+    $$
+    entonces, la descomposici\'on LU solicitada es
+    $$
+    \begin{bmatrix}
+    1 & 0 & 0	\\
+    0 & 2& 3  	\\
+    1  & 6 & 8
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    1 & 3 & 1
+    \end{bmatrix}
+       \begin{bmatrix}
+    1 & 0 & 0	\\
+    0 & 2& 3  	\\
+    0  & 0 & -1
+    \end{bmatrix}. \quad \fbox{5 pt.}
+    $$
+    
+    \item El sistema se representa como
+    $$
+	\begin{bmatrix}
+    4  & 2 & 0\\
+    2 & 1 & 0\\
+    4 & 0& 2
+    \end{bmatrix}
+    \begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}
+    =
+    \begin{bmatrix}1\\2\\1\end{bmatrix}
+    $$
+    la transpuesta de su matriz de coeficientes es
+    $$
+	\begin{bmatrix}
+    4 & 2 & 4	\\
+    2 & 1 & 0  	\\
+    0 & 0 & 2
+    \end{bmatrix} \quad \fbox{5 pt.}
+	$$
+    y su eliminaci\'on Gaussiana es
+    $$
+	\begin{bmatrix}
+    4 & 2 & 4	\\
+    2 & 1 & 0  	\\
+    0 & 0 & 2
+    \end{bmatrix}
+    \stackrel{f_2-\frac{2}{4}f_1}{\sim}
+    \begin{bmatrix}
+    4 & 2  & 4	\\
+    0 & 0 & -4	\\
+    0  & 0 & 2
+    \end{bmatrix}
+    $$
+    entonces, la descomposici\'on LU solicitada es
+    $$
+	\begin{bmatrix}
+    4 & 2 & 4	\\
+    2 & 1 & 0  	\\
+    0 & 0 & 2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    1 & 0 & 0 \\
+    \frac{1}{2} & 1 & 0 \\
+    0 & 0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+    4 & 2  & 4	\\
+    0 & 0 & -4	\\
+    0  & 0 & 2
+    \end{bmatrix}. \quad \fbox{5 pt.}
+    $$
+\end{enumerate}
+%\newpage
+\item (20 pt) Determine la ra\'iz de la funci\'on $f(x)=(x+1)\,cos(2x)$, 
+que est\'a entre $x_0=0$ y $x_1=1.5$
+
+\begin{enumerate}
+\item Anal\'iticamente,
+\item Usando dos pasos del m\'etodo de la bisecci\'on
+\item Usando dos pasos del m\'etodo de la secante 
+\item Calcule el error absoluto de cada m\'etodo
+\end{enumerate}
+
+\textbf{Desarrollo:}
+
+\begin{enumerate}
+\item Anal\'iticamente tenemos que
+$$
+(x+1)cos(2x)=0 \leftrightarrow x+1=0 \vee cos(2x)=0 \leftrightarrow x=-1 \vee x=(2k+1)\frac{\pi}{4}, \quad k\in\mathbb{Z}
+$$
+entonces, entre $0$ y $1.5$, la ra\'iz exacta de $f$ es $x=\frac{\pi}{4}$. \fbox{3pt}
+
+\item Mediante el m\'etodo de la bisecci\'on definimos $x_2=(x_0+x_1)/2=0.75$ y
+$$
+f(x_0)=(1+0)cos(2\cdot 0)=1, \quad f(x_1)=(1+1.5)cos(2\cdot 1.5\approx -2.4749,$$
+$$
+f(x_2)=(1+0.75)cos(2\cdot 0.75)\approx 0.1237
+$$
+luego, del cambio de signo se construye $x_3=(x_2+x_1)/2=1.125$. \fbox{5pt}
+
+\item Mediante el m\'etodo de la secante
+$$
+x_2=x_0-\frac{x_1-x_0}{f(x_1)-f(x_0)}f(x_0) \approx 0-\frac{1.5-0}{-2.4749-1}\cdot 1 \approx 0.43167
+$$
+donde $f(x_2)\approx(1+0.43167)cos(2\cdot 0.43167)\approx 0.930466$, as\'i, siguiendo el cambio de signo
+$$
+  x_3=x_1-\frac{x_2-x_1		 }{f(x_2)-f(x_1) }f(x_1)
+\approx 1.5-\frac{0.43167-1.5}{0.930466+2.4749	}\cdot (-2.4749) \approx 0.72357 \quad \fbox{7pt}
+$$
+\item Los errores absolutos cometidos en los m\'etodos anteriores son 
+$$
+|\frac{\pi}{4}-x_3|\approx|\frac{\pi}{4}-1.125|=0.3396
+$$
+y
+$$
+|\frac{\pi}{4}-x_3|\approx|\frac{\pi}{4}-0.72357|=0.06182
+$$
+respectivamente. \fbox{5pt}
+\end{enumerate}
+%\newpage
+\item (10 pt) Determine el valor de verdad de las siguientes proposiciones, en caso de ser falso muestre un contraejemplo
+
+\begin{enumerate}
+\item
+ 	\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}  V \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Si se puede ejecutar el m\'etodo de la bisecci\'on este siempre converge a la ra\'iz de una funci\'on.
+	\end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+%    \fbox{2pt. valor de verdad 1 pt. contraejemplo}
+	 \fbox{2.5pt. valor de verdad}
+    \end{minipage} 
+%
+\item
+ 	\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}  F  \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El m\'etodo de la bisecci\'on siempre calcula la r\'aiz exacta de una funci\'on.
+	\end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    Contra ejemplo en el ejercicio 2 parte b).
+
+\fbox{1pt. valor de verdad 2pt. contraejemplo}
+	\end{minipage} 
+%    
+    \item
+ 	\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}  F \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El m\'etodo de la bisecci\'on no puede calcular exactamente la ra\'iz de una funci\'on.
+	\end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    Al buscar la r\'aiz de $y(x)=x$ entre $x_0=-1$ y $x_1=1$ el m\'etodo la encuentra en un paso.
+    
+    \fbox{1pt. valor de verdad 2pt. contraejemplo}
+    \end{minipage}
+%
+\item
+ 	\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}  V \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Toda matriz cuadrada tiene una descomposici\'on LU.
+	\end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+%    \fbox{2pt. valor de verdad 1 pt. contraejemplo}
+	 \fbox{2.5pt. valor de verdad}
+    \end{minipage}
+\end{enumerate}
+
+%\newpage
+\item
+(10 pt) Usando dos pasos del m\'etodo de Jacobi, mejore la estima inicial de la ra\'iz $x=\frac{3}{2}$, $y=0$, $z=1$, del sistema
+$$
+\begin{array}{rl|}
+x+2y+z	&=0\\
+x+y+z	&=1\\
+y+2z		&=0\\
+\hline
+\end{array}\,.
+$$
+Recuerde que debe hacer diagonal dominante a la matriz de coeficientes de la representaci\'on matricial del sistema.
+
+\textbf{Desarrollo:} El sistema se representa matricialmente como
+$$
+\begin{bmatrix}
+1 & 2&1 \\
+1 & 1& 1\\
+0 &1 &2
+\end{bmatrix}
+\begin{bmatrix}
+x_1\\x_2\\x_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+0\\1\\0
+\end{bmatrix}
+$$
+cuya matriz extendida es
+$$
+\left[
+\begin{array}{ccc|c}
+1 & 2 & 1 & 0 \\
+1 & 1 & 1 & 1 \\
+0 & 1 & 2 & 0
+\end{array}\right]
+\stackrel{f_2\rightarrow f_1}{\sim}
+\left[
+\begin{array}{ccc|c}
+1 & 1 & 1 & 1 \\
+1 & 2 & 1 & 0 \\
+0 & 1 & 2 & 0
+\end{array}\right]
+\stackrel{f_2- f_1}{\sim}
+\left[
+\begin{array}{ccc|c}
+1 & 1 & 1 & 1 \\
+0 & 1 & 0 & -1 \\
+0 & 1 & 2 & 0
+\end{array}\right]
+\stackrel{f_1- f_3}{\sim}
+\left[
+\begin{array}{ccc|c}
+1 & 0 & -1 & 1 \\
+0 & 1 & 0 & -1 \\
+0 & 1 & 2 & 0
+\end{array}\right] \quad \fbox{5pt}
+$$
+esta \'ultima es diagonal dominante. Donde, en el m\'etodo de Jacobi
+$$
+x_1=
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 2
+\end{bmatrix}^{-1} 
+\left(
+\begin{bmatrix} 1 \\-1\\0 \end{bmatrix}
+-
+\begin{bmatrix}
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+1.5\\0\\1
+\end{bmatrix}
+\right)
+=\begin{bmatrix}
+1\\-1\\0
+\end{bmatrix}
+$$
+y, an\'alogamente
+$$
+x_2=
+\begin{bmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 2
+\end{bmatrix}^{-1} 
+\left(
+\begin{bmatrix} 1 \\-1\\0 \end{bmatrix}
+-
+\begin{bmatrix}
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 1 & 0
+\end{bmatrix}
+\begin{bmatrix}
+1\\-1\\0
+\end{bmatrix}
+\right)
+=
+\begin{bmatrix}
+1 \\ -1 \\ -0.5
+\end{bmatrix}. \quad \fbox{5pt}
+$$
+\end{enumerate}
+
+\end{document}  

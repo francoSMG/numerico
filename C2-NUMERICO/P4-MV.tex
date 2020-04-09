@@ -1,0 +1,81 @@
+\begin{pregunta}
+\begin{cuerpo}
+Se resuelve el sistema de ecuaciones no lineales
+
+$$
+\left\lbrace\begin{array}{l}
+\cos(x)+\sin(y)=1\\
+x^2=y^2
+\end{array}\right.
+$$
+
+utilizando el siguiente algoritmo
+
+\begin{center}
+\begin{tabular}{|l|}
+\hline
+$(x^{(0)},y^{(0)})^t$: aproximaci\'on inicial\\
+Para $k=0,1,2,\ldots$\\
+\quad\begin{tabular}{|l}
+Resolver: $\boldsymbol{D}^{(k)}
+\begin{pmatrix}
+\delta x^{(k)}\\
+\delta y^{(k)}
+\end{pmatrix}=
+\begin{pmatrix}
+1-\cos(x^{(k)})-\sin(y^{(k)})\\
+(y^{(k)})^2-(x^{(k)})^2
+\end{pmatrix}
+$\\
+$
+\begin{pmatrix}
+ x^{(k+1)}\\
+ y^{(k+1)}
+\end{pmatrix}=
+\begin{pmatrix}
+ x^{(k)}\\
+ y^{(k)}
+\end{pmatrix}+
+\begin{pmatrix}
+\delta x^{(k)}\\
+\delta y^{(k)}
+\end{pmatrix}
+$\\
+\end{tabular}\\
+Hasta que $||(\delta x^{(k)},\delta y^{(k)})^t||<$\verb+tol+\\
+\hline
+\end{tabular}
+\end{center}
+
+donde la matriz $\boldsymbol{D}^{(k)}$ es:
+\end{cuerpo}
+\begin{multicols}{2}
+\begin{alternativas}
+{$
+\boldsymbol{D}^{(k)}=\begin{pmatrix}
+-\sin(x^{(k)})& \cos(y^{(k)})\\
+2x^{(k)}& -2y^{(k)}
+\end{pmatrix}
+$}
+{$
+\boldsymbol{D}^{(k)}=\begin{pmatrix}
+\cos(x^{(k)})& \sin(y^{(k)})\\
+(x^{(k)})^2& (y^{(k)})^2
+\end{pmatrix}
+$}
+{$
+\boldsymbol{D}^{(k)}=\begin{pmatrix}
+-\sin(x^{(k)})& 2x^{(k)}\\
+\cos(y^{(k)})& -2y^{(k)}
+\end{pmatrix}
+$}
+{$
+\boldsymbol{D}^{(k)}=\begin{pmatrix}
+2x^{(k)}& -2y^{(k)}\\
+-\sin(x^{(k)})& \cos(y^{(k)})
+\end{pmatrix}
+$}
+\end{alternativas}
+\end{multicols}
+\justificacion{7cm}
+\end{pregunta}

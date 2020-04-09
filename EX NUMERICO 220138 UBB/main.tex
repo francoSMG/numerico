@@ -1,0 +1,229 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+\usepackage{pgfplots}
+\usepackage{polynom}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\newcommand{\vof}[3]{
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}  #1    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+    #2
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    #3
+    \end{minipage}}
+
+\begin{document}
+
+\title{EX NUMERICO 220138 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Primer Semestre de 2016}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2016}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Examen de recuperaci\'on, M\'etodos Num\'ericos 220138 }}
+\centerline{\textrm{23 de agosto de 2016.}}  \vspace{0.2cm}
+
+
+\textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+
+\vspace{0.1cm}
+\textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+
+\begin{center}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Pregunta 3  & Pregunta 4 &Total\\
+ \hline
+
+  \vspace{1.5cm} & & & & \\
+ \hline
+ \end{tabular}
+ \end{center}
+%Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (30 pt) Determine el valor de verdad de las siguientes proposiciones, en caso de ser falsas justifique o muestre un contraejemplo.
+\begin{enumerate}
+\vof{}{El polinomio interpolante de los puntos $\{(-1,1),(0,1),(3,1)\}$ es un polinomio de grado 1.}{}
+\vof{}{La instrucci\'on \texttt{[zeros(2,3);ones(2,2)]} genera una matriz de orden $4\times 3$.}{}
+\vof{}{Toda colecci\'on de puntos tiene un \'unico polinomio interpolante.}{}
+\vof{}{Existen integrales que se pueden calcular de forma exacta con la regla del punto medio compuesta.}{}
+\vof{}{La soluci\'on del P.V.I. 
+$$\begin{array}{c|}y'=cos(x)\\ y(0)=1 \\ \hline\end{array}$$
+puede ser estimada usando el m\'etodo de Euler.}{}
+\vof{}{El m\'etodo de la bisecci\'on permite calcular cualquier ra\'iz de una funci\'on}{}
+\end{enumerate}
+
+\newpage 
+\item  (20 pt)
+Calcule y grafique la funci\'on de la forma
+$$
+y(x)=ln(bx)
+$$
+donde $a,b,c\in\mathbb{R}$ son par\'ametros, que mejor se ajusta a los puntos
+$$
+\{(0,1),(1,2),(2,1)\}.
+$$
+\textbf{Desarrollo:}
+% Debemos linealizar el problema considerando la transformaci\'on
+% $$
+% ln(y(x))=ax^2+bx+c, \fbox{5pt.}
+% $$
+% donde, observamos que el modelo linealizado es un polinomio de grado dos que se ajusta a los puntos corresponde a
+% $$
+% \begin{bmatrix}
+% 0^2 & 0 & 1 \\
+% 1^2 & 1 & 1 \\
+% 2^2 & 2 & 1 \\
+% \end{bmatrix}
+% \begin{bmatrix}
+% a \\ b \\ c
+% \end{bmatrix}
+% =
+% \begin{bmatrix}
+% ln(1)\\ ln(e^{2})\\ ln(e^{3})
+% \end{bmatrix}
+% \rightarrow 
+% \begin{bmatrix}
+% 0 & 0 & 1 \\
+% 1 & 1 & 1 \\
+% 4 & 2 & 1 \\
+% \end{bmatrix}
+% \begin{bmatrix}
+% a \\ b \\ c
+% \end{bmatrix}
+% =
+% \begin{bmatrix}
+% 0 \\ 2 \\ 3
+% \end{bmatrix}
+% \rightarrow 
+% a=-1/2,\,b=5/2,\,c=0,  \quad \fbox{10pt}
+% $$
+% de donde la gr\'afica corresponde a funciones de la forma
+%     \begin{center}
+%             \begin{tikzpicture}
+%             \begin{axis}[xlabel=$x$,ylabel=$y(x)$]
+%             \addplot[domain=-1:3,blue] {exp(-0.5*x^2+5/2*x+0)};
+%             \addplot[holdot] coordinates{(0,1)(1,7.38)(2,20.08)};
+%             \end{axis}
+%         \end{tikzpicture}
+%         \fbox{5pt.}
+%         \end{center}
+
+
+\newpage
+\item  (20 pt) Resuelva el P.V.I.
+$$ 
+y'(x)=cos(x+\pi), \quad y(0)=1, \quad x\in[0,2\pi]
+$$
+utilizando el método de Euler explícito en una malla con 4 nodos. Grafique la soluci\'on exacta y la estimaci\'on num\'erica encontrada.
+
+\textbf{Desarrollo:} 
+%Tenemos que 
+% $$
+% y(x)=x^2+1
+% $$
+% es la soluci\'on exacta del problema \fbox{0 pt} . La malla del problema es de la forma
+% $$
+% 0\, \quad 2.5, \quad 5, \quad 7.5, \quad 10. \fbox{5pt}
+% $$
+% La estimaci\'on usando el m\'etodo solicitado corresponde a 
+% $$
+% \begin{array}{cl}
+% y(0)	&=1 \\
+% y(2.5)	&= 1 + 2.5 \cdot 2 \cdot 1 		=1 		\\
+% y(5)	&= 1 + 2.5 \cdot 2 \cdot 2.5 	=13.5 	\\
+% y(7.5)	&= 13.5 + 2.5 \cdot 2 \cdot 5 	=38.5 	\\
+% y(10)	&= 38.5 + 2.5 \cdot 2 \cdot 7.5 =76 	\\
+% \end{array}\quad \fbox{5pt}
+% $$
+% y la gr\'afica de estos corresponde a
+%     \begin{center}
+%             \begin{tikzpicture}
+%             \begin{axis}[xlabel=$x$,ylabel=$y(x)$]
+%             \addplot[domain=0:10,blue] {x^2+1};
+%             \addplot[holdot] coordinates{(0,1)(2.5,1)(5,13.5)(7.5,38.5)(10,76)};
+%             \end{axis}
+%         \end{tikzpicture}
+%         \fbox{10pt.}
+%     \end{center}
+
+
+\newpage
+\item  \begin{enumerate}
+\item (15 pt) En la columna \textsc{Algoritmos} se encuentran un listado de algoritmos estudiados durante el curso, los que deben unirse con alguna de sus propiedad y requisitos que se encuentran listados en la columna \textsc{Propiedades}.
+\begin{center}
+	\begin{tabular}{||p{4cm}|p{7cm}|p{4cm}||}
+    \hline \hline
+	\textsc{Algoritmos}	& & \textsc{Propiedades}    \\ \hline & &\\ \hline  
+    Algoritmo de Newton-Raphson & & Es exacto para polinomios de grado 2. \\ \hline
+    Algoritmo de bisecci\'on	& & Generaliza el método de Euler\\ \hline
+    Regla del punto medio		& & Tiene un error de orden 1.\\ \hline
+    M\'etodos Runge-Kutta		& & No se estudi\'o en el curso.\\ \hline
+	Regla de Simpson			& & Tiene convergencia garantizada\\ \hline
+    							& & Encuentra ra\'ices de ecuaciones no lineales.\\ \hline
+   \end{tabular}
+\end{center}
+
+\vspace{1cm}
+\item (15 pt) Complete las siguientes proposiciones de forma que sean ciertas.
+
+\vspace{1cm}
+\begin{enumerate}
+	\item El m\'etodo de la \rule{5cm}{0.4pt} estima ra\'ices de funciones donde se detecta un \rule{5cm}{0.4pt} de signo.
+    \item \vspace{5mm} El m\'etodo \rule{5cm}{0.4pt} requiere de conocer la factorizaci\'on \rule{5cm}{0.4pt} para resolver un sistema de ecuaciones lineales.
+    \item \vspace{5mm} Una soluci\'on en el sentido de \rule{5cm}{0.4pt} es una generalizaci\'on de una soluci\'on cl\'asica de un \rule{5cm}{0.4pt}.
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\end{document}  

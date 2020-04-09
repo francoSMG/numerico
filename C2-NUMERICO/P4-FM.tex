@@ -1,0 +1,35 @@
+\begin{pregunta}
+\begin{cuerpo}
+El P.V.I.
+$$
+Li''(t)+Ri'(t)+\frac{1}{C}i(t)=0
+$$
+modela la corriente $i(t)[A]$ en un circuito de resistencias, bobinas y condensadores (RLC) de resistencia $R[\Omega]$, capacitancia $C[F]$ e inductancia $L[H]$. Cu\'al de las siguientes funciones de Matlab grafica la soluci\'on de este problema para distintos datos de $RLC$ y condiciones iniciales.
+\end{cuerpo}
+
+\begin{multicols}{2}
+\begin{alternativas}
+{
+\texttt{function rlc(R,L,C,i0,di0)}\\
+\texttt{f=@(t,u) [u(2);-R/L*u(2)-1/(L*C)*u(1)];}\\
+\texttt{[t,u]=ode45(f,[0,100],[i0;di0]);}\\
+\texttt{plot(t,u(:,1))}		}
+{
+\texttt{function rlc(R,L,C,i0,di0)}\\
+\texttt{f=@(t,u) [u(2);-R/L*u(2)-1/(L*C)*u(1)];}\\
+\texttt{[t,u]=ode45(f,[i0;di0],[0,100]);}\\
+\texttt{plot(t,u(:,1))}		}
+{
+\texttt{function rlc(R,L,C,i0,di0)}\\
+\texttt{f=@(t,u) [u(2);-R/L*u(2)-1/(L*C)*u(1)];}\\
+\texttt{[t,u]=ode45(f,[0,100],[i0;di0]);}\\
+\texttt{plot(t,u(:,2))}		}
+{
+\texttt{function rlc(R,L,C,i0,di0)}\\
+\texttt{f=@(t,u) [u(2);-R*u(2)-1/C*u(1)];}\\
+\texttt{[t,u]=ode45(f,[0,100],[i0;di0]);}\\
+\texttt{plot(t,u(:,1))}		}
+\end{alternativas}
+\end{multicols}
+\justificacion{0cm}
+\end{pregunta}

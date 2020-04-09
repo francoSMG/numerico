@@ -1,0 +1,141 @@
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{changepage}
+\usepackage{fancyhdr}
+\usepackage{ifthen}
+\pagestyle{fancy}
+\usepackage{hyperref}
+\usepackage{atbegshi}
+
+\usepackage{geometry}
+\geometry{legalpaper}
+\geometry{vmargin    = 1.00in,
+    hmargin    = 1.00in,
+    headheight = 1.00in,
+    headsep    = 0.15in,
+footskip   = 0.60in}
+%\usepackage{showframe}
+
+\setlength{\headwidth}{\textwidth}
+
+\usepackage{pgfplots}
+\usepackage{polynom}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+\newcommand{\function}[5]{
+\begin{array}{cccl}
+#1 :& #2 	& \longrightarrow 	& #3\\
+	& #4	& \longmapsto		& #5
+\end{array}
+}
+
+\pagestyle{fancy}
+
+\newcommand*\cleartorecto{%
+  \null 
+  \ifodd \value{page}
+  \else \hbox{}\thispagestyle{empty}\clearpage 
+  \fi
+}
+
+\newcommand{\print}[1]{
+\ifnum #1<100
+	\ifnum #1<10
+	00#1
+    \else
+    0#1
+    \fi
+\else
+#1
+\fi
+}
+
+ \newcounter{pageCounter}
+ \newcounter{temaCounter} 
+ \newcounter{pregCounter} 
+
+\newcommand{\encabezado}[2]{
+\newpage
+\cleartorecto
+\setcounter{pageCounter}{1}
+\setcounter{temaCounter}{#2}
+\setcounter{pregCounter}{1}
+\input{#1}
+\phantomsection
+\addcontentsline{toc}{chapter}{Tema #2}
+}
+
+\AtBeginShipout{
+\chead{\titulo - Tema \print{\thetemaCounter}
+\stepcounter{pageCounter}
+\cfoot{\thepageCounter}
+}
+
+}
+ 
+\newenvironment{pregunta}{
+
+\vspace{5mm}
+\begin{minipage}{\textwidth}
+\textbf{Pregunta \thepregCounter}.  }
+{\end{minipage}\stepcounter{pregCounter}}
+
+\newcommand{\puntaje}[1]{(#1 puntos)}
+
+
+\newenvironment{cuerpo}{
+\newline 
+\begin{adjustwidth}{0.025\textwidth}{0cm}
+}
+{
+\end{adjustwidth}}
+
+\newenvironment{alternativas}[4]{
+\begin{adjustwidth}{0.025\textwidth}{0cm}
+\begin{enumerate}
+\item[\textbf{a.}] #1
+\item[\textbf{b.}] #2
+\item[\textbf{c.}] #3
+\item[\textbf{d.}] #4
+\end{enumerate}
+\end{adjustwidth}
+}{}
+
+
+\newcommand\justificacion[1]{
+\ifthenelse{\equal{#1}{0cm}}{
+\begin{center}
+\hfil\rule{0.15\textwidth}{1pt}
+\textbf{La pregunta \thepregCounter\, no requiere justificaci\'on.}
+\hfil\rule{0.15\textwidth}{1pt}
+\end{center}
+}{
+\hspace{2cm} Justifique la respuesta de la pregunta \thepregCounter\, a continuaci\'on.
+
+\vspace{5mm}
+\fbox{
+\begin{minipage}{\textwidth}
+\vspace{#1}\hspace{\textwidth}
+\end{minipage}
+}
+}
+}

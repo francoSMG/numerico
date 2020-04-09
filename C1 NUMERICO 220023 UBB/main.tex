@@ -1,0 +1,501 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\begin{document}
+
+\title{C1 NUMERICO 220023 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Primer Semestre de 2016}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2016}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Certamen 1, M\'etodos Num\'ericos I 220023 }}
+\centerline{\textrm{Martes 17 de mayo 2015.}}  \vspace{0.2cm}
+
+
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2  &	Pregunta 3  & 	Pregunta 4  &      Total\\
+ \hline
+ \vspace{1.5cm} & & & &    \\
+ \hline
+ \end{tabular}
+ \end{center}
+
+\begin{enumerate}
+\item  (25 pt) Determine el valor de verdad de las siguientes proposiciones, en caso de ser falsas justifique o muestre un contraejemplo.
+\begin{enumerate}
+	\item \fbox{ \begin{minipage}{1cm}  F \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Para todo conjunto finito de puntos existe un polinomio interpolante.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    $\{(0,0),(0,1)\}$
+    \fbox{2 pt. 3pt. contraejemplo}
+    \end{minipage}
+    
+    \vspace{7mm}
+    \item \fbox{ \begin{minipage}{1cm}  F \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Si $A$ se factoriza LU sin pivoteo parcial, entonces $A$ es no singular.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    $\begin{bmatrix}
+    1 & 1\\
+    0 & 0
+    \end{bmatrix}$
+    \fbox{2 pt. 3pt. contraejemplo}
+    \end{minipage}
+     
+     \vspace{7mm}
+    \item \fbox{ \begin{minipage}{1cm} F  \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Si $||A||_{\infty}=2$, entonces alg\'un elemento de $A$ es $2$.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    $\begin{bmatrix}
+    1 & 1\\
+    0 & 0
+    \end{bmatrix}$
+    \fbox{2 pt. 3pt. contraejemplo}
+    \end{minipage}
+     
+     \vspace{7mm}
+    \item \fbox{ \begin{minipage}{1cm}   V\hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Si $A$ es tridiagonal, entonces $A-I$ es diagonal.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \fbox{2pt}
+    \end{minipage}
+     
+     \vspace{7mm}
+    \item \fbox{ \begin{minipage}{1cm} F  \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Si $||A||_2\leq 1$, entonces $||A^{-1}||_2>1$.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    $\begin{bmatrix}
+    1 & 0\\
+    0 & 1
+    \end{bmatrix}$
+    \fbox{2 pt. 3pt. contraejemplo}
+    \end{minipage}
+        
+        \vspace{7mm}
+    \item \fbox{ \begin{minipage}{1cm}  F \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El m\'etodo de Cholesky permite factorizar matrices tridiagonales.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    Permite factorizar matrices sim\'etricas definidas positivas.
+    \fbox{1 pt. 2pt contraejemplo}
+    \end{minipage}
+\end{enumerate}
+
+%\newpage
+\item (25 pt) Considere la siguiente colecci\'on de puntos
+$$
+\{(-1,1),(0,0),(1,0),(2,0),(3,0)\}
+$$
+con estos puntos 
+\begin{enumerate}
+	\item Calcule el polinomio interpolante de estos,
+    \item Calcule el polinomio de grado 5 que se ajusta a estos en el sentido de los m\'inimos cuadrados,
+    \item Calcule la funci\'on de la forma $y=ax^2$ que mejor se ajusta a dichos puntos,
+    \item Grafique los puntos y su polinomio interpolante.
+\end{enumerate}
+\textbf{Desarrollo:}
+\begin{enumerate}
+	\item Se tiene que
+    $$
+    p(x) = \sum_{i=0}^n y_i l_i(x) = l_0(x) 
+    	 = \frac{x-0}{-1-0}\frac{x-1}{-1-1}\frac{x-2}{-1-2}\frac{x-3}{-1-3} =\frac{1}{24}x(x-1)(x-2)(x-3)\fbox{5 pt}
+    $$
+	\item El polinomio de grado cinco que mejor se ajusta a estos cinco puntos es el interpolante de grado 4, calculado anteriomente.    \fbox{5 pt}
+    \item Se debe plantear y resolver en el sentido de m\'inimos cuadrados el sistema sobredeterminado
+    $$
+    \begin{array}{cc|}
+    a(-1)^2 & =1\\
+    a(0)^2 & =0\\
+    a(-1)^2 & =0\\
+    a(2)^2 & =0\\
+    a(3)^2 & =0\\
+    \hline
+    \end{array}
+    \rightarrow
+    \begin{bmatrix}
+    1\\0 \\ 1 \\4\\9
+    \end{bmatrix}
+    \begin{bmatrix}a\end{bmatrix}=
+    \begin{bmatrix}
+    1 \\ 0 \\ 0 \\ 0
+    \end{bmatrix}
+    \rightarrow 
+    \begin{bmatrix}
+    1 & 0 & 1 & 4 & 9
+    \end{bmatrix}
+        \begin{bmatrix}
+    1\\0 \\ 1 \\4\\9
+    \end{bmatrix}
+    \begin{bmatrix}a\end{bmatrix}=
+    \begin{bmatrix}
+    1 & 0 & 1 & 4 & 9
+    \end{bmatrix}
+    \begin{bmatrix}
+    1 \\ 0 \\ 0 \\ 0
+    \end{bmatrix}
+    \rightarrow 
+    a=\frac{1}{99} 
+    $$
+    as\'i
+    $$y(x)=\frac{1}{99}x^2$$
+    es la funci\'on buscada \fbox{5pt}
+    \item Como sabemos que interpola los puntos y que su interpolante de grado cuatro tiene las cuatro ra\'ices reales $\{0,1,2,3\}$, se construye el gr\'afico
+\begin{center}
+\begin{tikzpicture}
+    \begin{axis}[xlabel=$x$,ylabel=$p(x)$]
+    \addplot[domain=-1.5:3.5,blue,samples=500] {1/24*x*(x-1)*(x-2)*(x-3)};
+    \addplot[soldot] coordinates{(-1,1)(1,0)(2,0)(3,0)};
+    \end{axis}
+\end{tikzpicture}
+\end{center}
+\end{enumerate}
+
+%\newpage
+\item (25 pt) Realice la factorizaci\'on LU de las siguientes matrices
+\begin{multicols}{2}
+\begin{enumerate}
+	\item $A=\begin{bmatrix}
+    		2 & 1 & 0 \\ 
+            -1 & 2 & 0\\
+            0 & 1 & 1
+            \end{bmatrix}$
+    \item $B=\begin{bmatrix}
+    		4 & 3 & 0 \\
+            -3 & 4 & 0\\
+            0 & 1 & 2
+            \end{bmatrix}$.
+\end{enumerate}
+\end{multicols}
+Calcule, usando el m\'etodo LU la soluci\'on del sistema
+$$
+\begin{array}{ll|}
+4x_1+2x_2		& = 1 \\
+-2x_1+4x_2		& = 0 \\
+2x_2+2x_3		& = 0 \\ \hline
+\end{array}.
+$$
+Calcule el n\'umero de condici\'on en norma infinito de la matriz de coeficientes del sistema anterior.
+
+\textbf{Desarrollo:} Ejecutamos el algoritmo de eleminaci\'on Gaussiana en $A$ y $B$ seg\'un
+$$
+A=
+	\begin{bmatrix}
+    2 & 1 & 0 \\ 
+    -1 & 2 & 0\\
+    0 & 1 & 1
+   	\end{bmatrix}
+    \stackrel{f_2-\frac{-1}{2}f_1}{\longrightarrow}
+    \begin{bmatrix}
+    2 & 1 & 0 \\ 
+    0 & \frac{5}{2} & 0\\
+    0 & 1 & 1
+   	\end{bmatrix}
+        \stackrel{f_3-\frac{2}{5}f_2}{\longrightarrow}
+    \begin{bmatrix}
+    2 & 1 & 0 \\ 
+    0 & \frac{5}{2} & 0\\
+    0 & 0 & 1
+   	\end{bmatrix}
+    \text{ as\'i }
+    A=
+    \begin{bmatrix}
+    1 & 0 & 0\\
+    \frac{-1}{2} & 1 & 0\\
+    0 & \frac{2}{5} & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+    2 & 1 & 0 \\ 
+    0 & \frac{5}{2} & 0\\
+    0 & 0 & 1
+   	\end{bmatrix} \fbox{ 5pt}
+$$
+an\'alogamente
+$$
+B=
+	\begin{bmatrix}
+    4 & 3 & 0 \\
+    -3 & 4 & 0\\
+    0 & 1 & 2
+    \end{bmatrix}
+    \stackrel{f_2-\frac{-3}{4}f_1}{\longrightarrow}
+    \begin{bmatrix}
+    4 & 3 & 0 \\
+    0 & \frac{25}{4} & 0\\
+    0 & 1 & 2
+   	\end{bmatrix}
+    \stackrel{f_3-\frac{4}{25}f_2}{\longrightarrow}
+    \begin{bmatrix}
+    4 & 3 & 0 \\
+    0 & \frac{25}{4} & 0\\
+    0 & 0 & 2
+   	\end{bmatrix}
+    \text{ as\'i }
+    B=
+    \begin{bmatrix}
+    1 & 0 & 0\\
+    \frac{-3}{4} & 1 & 0\\
+    0 & \frac{4}{25} & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+    4 & 3 & 0 \\
+    0 & \frac{25}{4} & 0\\
+    0 & 0 & 2
+    \end{bmatrix} \fbox{ 5pt}.
+$$
+El sistema que se debe resolver mediante el m\'etodo LU es matricialmente
+$$
+\begin{bmatrix}
+4 & 2 & 0 	\\
+-2 & 4 & 0 	\\
+0 & 2 & 2 
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\x_2 \\ x_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \\ 0 \\ 0
+\end{bmatrix}
+\rightarrow 
+2
+\begin{bmatrix}
+2 & 1 & 0 	\\
+-1 & 2 & 0 	\\
+0 & 1 & 1 
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\x_2 \\ x_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \\ 0 \\ 0
+\end{bmatrix}
+$$
+de donde, usando una de las factorizaciones LU anteriores, se llega a los sistemas
+$$
+\begin{array}{r|}
+2Ly=b\\
+Ux=y\\ 
+\hline
+\end{array}
+\rightarrow 
+\begin{array}{c|}
+    2
+    \begin{bmatrix}
+    1 & 0 & 0\\
+    \frac{-1}{2} & 1 & 0\\
+    0 & \frac{2}{5} & 1
+    \end{bmatrix}
+    \begin{bmatrix} y_1\\y_2\\y_3 	\end{bmatrix}
+    =
+    \begin{bmatrix} 1 \\ 0 \\ 0 	\end{bmatrix}
+    \\ \\
+    \begin{bmatrix}
+    2 & 1 & 0 \\ 
+    0 & \frac{5}{2} & 0\\
+    0 & 0 & 1
+   	\end{bmatrix}
+        \begin{bmatrix} x_1\\x_2\\x_3 	\end{bmatrix}
+        =
+        \begin{bmatrix} y_1\\y_2\\y_3 	\end{bmatrix}
+        \\
+        \hline
+\end{array}
+\rightarrow 
+\begin{array}{c}
+\begin{bmatrix} y_1\\y_2\\y_3 	\end{bmatrix}
+=
+\begin{bmatrix} \frac{1}{2} \\ \frac{1}{2} \\ \frac{-1}{5} 	\end{bmatrix} 	\\
+																			\\
+\begin{bmatrix} x_1\\x_2\\x_3 	\end{bmatrix}
+=
+\begin{bmatrix} 1 \\ \frac{1}{2} \\ \frac{-1}{5} 	\end{bmatrix} \\
+
+\end{array}
+$$
+donde se genera la soluci\'on del sistema. \fbox{5 pt}
+
+Se tiene que, mediante la matriz extendida, 
+$$
+\left[
+\begin{array}{ccc | ccc}
+4 & 2 & 0 	& 1 & 0 & 0	\\
+-2 & 4 & 0	& 0 & 1 & 0	\\
+0 & 2 & 2 	& 0 & 0 & 1
+\end{array}
+\right]
+\sim
+\left[
+\begin{array}{ccc | ccc}
+4 & 2 & 0 	& 1 & 0 & 0	\\
+0 & 10 & 0	& 0 & 2 & 0	\\
+0 & 0 & -10 & 0 & 0 & -5
+\end{array}
+\right]
+\sim
+\left[
+\begin{array}{ccc | ccc}
+-20 & 0& 0 	& -5 & 2 & 0	\\
+0 & 10 & 0	& 0 & 2 & 0	\\
+0 & 0 & -10 & 0 & 0 & -5
+\end{array}
+\right] \fbox{5pt}
+$$
+entonces
+$$
+cond_\infty \left(
+\begin{bmatrix}
+4 & 2 & 0 	\\
+-2 & 4 & 0 	\\
+0 & 2 & 2 
+\end{bmatrix}
+\right)
+= \left|\left|
+\begin{bmatrix}
+4 & 2 & 0 	\\
+-2 & 4 & 0 	\\
+0 & 2 & 2 
+\end{bmatrix}
+\right|\right|_\infty
+\,\cdot\,
+\left|\left|
+\begin{bmatrix}
+\frac{1}{4} & \frac{-1}{10} & 0 	\\
+0 & \frac{1}{5} & 0 	\\
+0 & 0 & \frac{1}{2} 
+\end{bmatrix}
+\right|\right|_\infty
+=6 \cdot\frac{1}{2}=3. \fbox{5pt}
+$$
+
+%\newpage
+\item
+ (25pt) 
+	(a) Identifique cual de las siguientes funciones de Matlab retorna la matriz de orden 10
+    $$
+    \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0  \\1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10  \\1 & 4 & 6 & 8 & 10 & 12 & 14 & 16 & 18 & 20  \\1 & 6 & 9 & 12 & 15 & 18 & 21 & 24 & 27 & 30  \\1 & 8 & 12 & 16 & 20 & 24 & 28 & 32 & 36 & 40  \\1 & 10 & 15 & 20 & 25 & 30 & 35 & 40 & 45 & 50  \\1 & 12 & 18 & 24 & 30 & 36 & 42 & 48 & 54 & 60  \\1 & 14 & 21 & 28 & 35 & 42 & 49 & 56 & 63 & 70  \\1 & 16 & 24 & 32 & 40 & 48 & 56 & 64 & 72 & 80  \\1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10  
+    \end{bmatrix}
+    $$
+    al ejecutarse como \texttt{func1(10)}.
+    \begin{multicols}{2}
+    \begin{enumerate}
+    \item[i)]
+    
+    \vspace{3mm}
+    \begin{lstlisting}
+function y=func1(n)
+    y(2:n,2:n)=[1:(n-1)]'*[2:n];
+    y(1:n,1)=ones(n,1);
+    y(n,1:n)=1:n;
+    \end{lstlisting}
+  
+    \vspace{1.5cm}
+    
+    \item[ii) ]
+    
+    \vspace{3mm}
+        \begin{lstlisting}
+function y=func1(n)
+    for i=1:5
+        for j=1:10
+            y(i,j)=i*j;
+        end
+    end
+    y(1:n,1)=ones(n,1);
+    y(n,:)=1:n;
+    \end{lstlisting}
+    \end{enumerate}
+    \end{multicols}
+    
+    (b) Con la funci\'on escogida en el \'item anterior, ¿Cu\'al es la salida de la ejecuci\'on \texttt{func1(5)}?
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+	\item S\'olo la funci\'on  de la izquierda, del item i), construye la matriz dada. \fbox{10 pt}
+    \item La salida de la ejecuci\'on de \texttt{func1(5)} es la matriz de orden 5 de la forma
+    $$
+    \begin{bmatrix}
+    1 & 0 & 0 & 0 & 0  \\1 & 2 & 3 & 4 & 5  \\1 & 4 & 6 & 8 & 10  \\1 & 6 & 9 & 12 & 15  \\1 & 2 & 3 & 4 & 5  
+    \end{bmatrix}. \fbox{15 pt}
+    $$
+    
+    \end{enumerate}
+
+
+\end{enumerate}
+\end{document}   

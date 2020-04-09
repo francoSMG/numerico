@@ -1,0 +1,45 @@
+\begin{pregunta}
+\puntaje{5}
+\begin{cuerpo}
+El programa de Matlab 
+\begin{lstlisting}
+f=@(x,u) [u(2);-9.8/0.5*sin(u(1))];
+[t,theta]=ode45(f,[0,2*pi],[pi/4;0])
+plot(t,theta(:,1));
+\end{lstlisting}
+calcula y grafica la soluci\'on num\'erica del P.V.I.\\
+\end{cuerpo}
+
+\begin{multicols}{2}
+\begin{alternativas}
+{
+$\begin{array}{rl|}
+\theta''+\frac{9.8}{0.5} \,sin(\theta)	&=0\\
+\theta(0)	&=\frac{\pi}{4}\\
+\theta'(0)	&=0\\ \hline
+\end{array}$
+}
+{
+$\begin{array}{rl|}
+\theta''-\frac{9.8}{0.5} \,sin(\theta)	&=0\\
+\theta(0)	&=\frac{\pi}{4}\\
+\theta'(0)	&=0\\ \hline
+\end{array}$						
+}
+{
+$\begin{array}{rl|}
+\theta'+\frac{9.8}{0.5} \,sin(\theta)	&=0\\
+\theta(0)	&=\frac{\pi}{4}\\ \hline
+\end{array}$						
+}
+{
+$\begin{array}{rl|}
+\theta''+\frac{9.8}{0.5} \,sin(\theta)	&=0\\
+\theta(0)	&=0\\
+\theta'(0)	&=2\pi\\ \hline
+\end{array}$								
+}
+\end{alternativas}
+\end{multicols}
+\justificacion{0cm}
+\end{pregunta}

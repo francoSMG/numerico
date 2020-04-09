@@ -1,0 +1,474 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+
+\begin{document}
+
+\title{L8 NUMERICO UCSC}
+
+\begin{minipage}{0.15\textwidth}
+\includegraphics[width=\textwidth]{ucsc.png}
+\end{minipage}
+\begin{minipage}{0.9\textwidth}
+{UNIVERSIDAD CAT\'OLICA}\\ 
+{DE LA SANT\'ISIMA CONCEPCI\'ON}\\
+{DEPARTAMENTO DE MATEM\'ATICA}\\ 
+{ Y F\'ISICA APLICADAS}\\
+\rule{0.66\textwidth}{.5pt} %Franco A. Milanese
+\end{minipage}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Laboratorio 8, C\'alculo Num\'erico  IN1012C }}
+\centerline{\textrm{Semana 26 de mayo de 2015}}  \vspace{0.2cm}
+
+
+
+
+% \textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+% \vspace{0.1cm}
+% \textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+%  \begin{center}
+%  \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+%  \hline
+%  Pregunta 1 &  Pregunta 2 &     Total\\
+%  \hline
+
+%   \vspace{1.5cm} & &       \\
+%  \hline
+%  \end{tabular}
+%  \end{center}
+% Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+
+\section{Funciones interpolantes}
+
+
+Matlab tiene integradas ciertas funciones que facilitan el c\'alculo de polinomios interpolantes y sus manejos en general, entre ellas
+
+\begin{longtable}{||c|p{0.7\textwidth}||}
+\hline
+\texttt{vander(x)} 			& Genera la matriz de Vandermonde de una muestra de datos en el vector \texttt{x}. \\
+\hline
+\texttt{vq=interp1(x,y,xq)}	& Retorna los valores interpolados de una funci\'on que pasa por los puntos de coordenadas \texttt{x,y} en ciertos puntos \texttt{xq} \\
+\hline
+\texttt{c=polyfit(x,y,n)}	& Retorna los coeficientes del polinomio de grado \texttt{n} que mejor se ajusta a los datos \texttt{x} e  \texttt{y}. Para evaluar el polinomio debes usar \texttt{polyval()}. \\
+\hline
+\texttt{vq=spline(x,y,xq)}	& Retorna los valores interpolados de un spline c\'ubico que pasa por los puntos de coordenadas \texttt{x,y} en ciertos puntos \texttt{xq} \\
+\hline 
+\texttt{yi=pchip(x,y,xi)}	& Retorna los valores \texttt{yi} correspondiente a valores \texttt{xi}, determinados por interpolaci\'on c\'ubica por tramos Hermitiana. Los vectores \texttt{x,y} especifican los puntos de interpolaci\'on. \\
+\hline
+\texttt{v=ppval(pp,xx)}		& Retorna los valores de un polinomio definido por tramos, contenido en \texttt{pp} en los puntos \texttt{xx}. Puedes construir estos polinomios usando las funciones \texttt{spline(), pchip(), mkpp} 
+\\
+\hline
+\end{longtable}
+
+
+\subsection{Interpolaci\'on polinomial}
+De la teor\'ia sabemos que dado un conjunto de $n+1$ puntos $\{(x_i,y_i)\}_{i=0}^{n}$ existe un \'unico polinomio interpolante de grado $n$. Para el c\'alculo de este polinomio se debe resolver un sistema de ecuaciones el cual se puede estructurar dependiendo de la base del espacio de polinomios que se elija (base can\'onica o base de polinomios de Lagrange). 
+
+El siguiente c\'odigo muestra la aproximaci\'on y gr\'afica de un polinomio interpolante para un conjunto de puntos muestreados de la funci\'on \texttt{sin()}. Comente cada instrucci\'on que se presenta 
+
+\begin{verbatim}
+>> 	x=[-4:1:4];
+	n=9;
+    y=sin(x); 
+    plot(x,y,'*r') 
+    hold on 
+    for i=1:n 
+      for j=1:n 
+      A(i,j)=x(i)^(n-j);  
+      end 
+    end 
+    c = A\y' 
+    t=[-6:0.01:6]; 
+    px=c(1); 
+    for k=2:n; 
+    	px = px .* t + c(k); 
+    end 
+    plot(t,px)
+    plot(t,sin(t),'r')
+    legend('Puntos','Polinomio inter.','Funcion interp.');
+\end{verbatim}
+
+
+\subsection{Polinomios de Lagrange y m\'etodo de diferencias divididas}
+
+Utilizar la matriz de Vandermonde para muchos puntos no es muy buena idea ya que el tiempo de c\'alculo para matrices grandes 
+es excesivo. La notaci\'on mas compacta del polinomio interpolante se usa utilizando los polinomios se Lagrange, en general, 
+un polinomio interpolante tiene la forma
+$$\displaystyle
+p(x)=\sum_{k=0}^{n} \prod_{\stackrel{i=1}{i\neq k}}^n \frac{x-x_j}{x_k-x_j} \, y_k,
+$$
+tal interpolaci\'on se puede evaluar con la siguiente funci\'on
+\begin{verbatim}
+function v = polyinterp(x,y,u)
+    n = length(x);
+    v = zeros(size(u));
+    for k = 1:n
+      w = ones(size(u));
+      for j = [1:k-1 k+1:n]
+      	w = (u-x(j))./(x(k)-x(j)).*w;
+      end
+      v = v + w*y(k);
+    end
+\end{verbatim}
+donde el conjunto de puntos de interpolaci\'on tienen coordenadas representadas en los vectores \texttt{x,y}, los punto de evaluaci\'on son los elementos de \texttt{u} y los valores de la interpolaci\'on son la salida \texttt{v}.
+
+Tambi\'en hemos estudiado el m\'etodo de las diferencias divididas de Newton. Recordemos su definici\'on, para dos nodos, se llama diferencia dividida de orden uno a
+$$
+f[x_0,x_1]=\frac{f(x_1)-f(x_0)}{x_1-x_0},
+$$
+mientras que la diferencia dividida de orden $n$ se obtiene recursivamente como
+$$
+f[x_0,x_1,x_1,\cdots,x_n]=\frac{f[1,\cdots,x_n]-f[x_0,\cdots,x_n)]}{x_n-x_0}
+$$
+con las cuales el polinomio de interpolaci\'on lo podemos escribir simplemente como
+$$
+p(x)=f[x_0]+f[x_0,x_1](x-x_0)+f[x_0,x_1,x_2](x-x_0)(x-x_1)+ \cdots + f[x_0,\cdots,x_n](x-x_0)\cdots (x-x_n).
+$$
+La siguiente funci\'on nos permite calcular las diferencias divididas de un conjunto de puntos de interpolaci\'on
+\begin{verbatim}
+function F = divided_diff(x,y)
+%numero de puntos en el vector x
+n = size(x,1);
+if n == 1
+   n = size(x,2);
+end
+%la primera columna de diferencias divididas
+for i = 1:n
+   F(i,1) = y(i);
+end
+%el resto de diferencias divididad
+for i = 2:n
+   for j = 2:i
+      F(i,j)=(F(i,j-1)-F(i-1,j-1))/(x(i)-x(i-j+1));
+   end
+end
+\end{verbatim}
+Para evaluar el polinomios interpolante con diferencias divididas, consideramos la funci\'on
+\begin{verbatim}
+function vq=evaldivdif(x,y,t)
+    F=divided_diff(x,y);
+
+	n = size(x,1);
+    if n == 1
+       n = size(x,2);
+    end
+    %evaluando el polinomio en los puntos t
+    for i=1:length(t)
+    vq(i) = F(n,n);
+        for j = n-1:-1:1
+           vq(i) = vq(i)*(t(i)-x(j)) + F(j,j);
+        end
+    end
+\end{verbatim}
+de forma tal que las siguientes instrucciones nos permiten recuperar el polinomio interpolante de de una funci\'on.
+\begin{verbatim}
+x=-2:1:2;
+y=sin(x.^3);
+figure(3);
+plot(x,y,'o'); hold on
+t=-2:0.01:2;
+plot(t,evaldivdif(x,y,t),'r');
+plot(t,sin(t.^3),'g');
+legend('Puntos','Interpolacion','Curva original');
+\end{verbatim}
+
+\subsection{Interpolaci\'on lineal por tramos}
+Para crear un gr\'afico de un conjunto de puntos de interpolaci\'on y su interpolaci\'on lineal por tramos, puedes utilizar directamente el comando \texttt{plot()} dos veces, como se ilustra a continuaci\'on
+\begin{verbatim}
+x = 1:6;
+y = [16 18 21 17 15 12];
+plot(x,y,’o’,x,y,’-’);
+\end{verbatim}
+Para generar los puntos de las l\'ineas Matlab ocupa interpolaci\'on lineal por tramos. En general, hay tres variables involucradas en esta interpolaci\'on
+\begin{enumerate}
+\item $k$ el \'indice del intervalo donde se interpola  $x_k<x<x_{k+1}$,
+\item la variable local $s_k=x-x_k$, la cual se ocupa en los c\'alculos, 
+\item y la primera diferencia dividida del intervalo $\frac{y_{k+1}-y_k}{x_{k+1}-x_k}$.
+\end{enumerate}
+Con estas tres cantidades en mente, el interpolante lineal en el $k$-\'esimo intervalo es
+$$
+L_k(x)=y_k+(x-x_k)\frac{y_{k+1}-y_k}{x_{k+1}-x_k},
+$$
+la cual es cl\'aramente una funci\'on lineal que pasa por los puntos $(x_k,y_k),(x_{k+1},y_{k+1})$.  La siguiente funci\'on busca implementar esto analogamente a las funciones vistas anteriormente.
+\begin{verbatim}
+function v = piecelin(x,y,u)
+%PIECELIN  Piecewise linear interpolation.
+%  v = piecelin(x,y,u) finds the piecewise linear L(x)
+%  with L(x(j)) = y(j) and returns v(k) = L(u(k)).
+
+%   Copyright 2012 Cleve Moler and The MathWorks, Inc.
+
+%  First divided difference
+   delta = diff(y)./diff(x);
+%  Find subinterval indices k so that x(k) <= u < x(k+1)
+   n = length(x);
+   k = ones(size(u));
+   for j = 2:n-1
+      k(x(j) <= u) = j;
+   end
+%  Evaluate interpolant
+   s = u - x(k);
+   v = y(k) + s.*delta(k);
+\end{verbatim}
+
+\newpage
+\subsection{Ejemplos}
+
+Los siguientes ejemplos muestran ejecuciones de las funciones de interpolaci\'on
+
+\begin{multicols}{2}
+\begin{enumerate}
+\item C\'alculo de un spline con \texttt{interp1()}.
+\begin{verbatim}
+x = 0:pi/4:2*pi;
+v = sin(x);
+figure 2
+xq=-pi:0.01:3*pi;
+vq2 = interp1(x,v,xq,'spline');
+plot(x,v,'o',xq,vq2);
+xlim([0 2*pi]);
+title('Spline Interpolation');
+\end{verbatim}
+
+\item Uso de \texttt{interp1()} para interpolaci\'on lineal.
+\begin{verbatim}
+x = 0:pi/4:2*pi;
+v = sin(x);
+xq = 0:pi/16:2*pi;
+figure 1 
+vq1 = interp1(x,v,xq);
+plot(x,v,'o',xq,vq1);
+xlim([0 2*pi]);
+title('Interpolación lineal por defecto);
+\end{verbatim}
+
+\item C\'alculo y gr\'afica de un polinomio interpolante con \texttt{polyinterp()}
+\begin{verbatim}
+x=0:1:10;
+y=exp(x.^2);
+t=-10:0.01:10;
+v=polyinterp(x,y,t);
+figure(4)
+plot(x,y,'o',t,exp(t.^2),'-',t,v,'--');
+\end{verbatim}
+
+\item C\'alculo de los coeficientes de un polinomio con \texttt{vander()}
+\begin{verbatim}
+x=1:10;
+y=sin(x.^2);
+coef=vander(x)\y
+\end{verbatim}
+
+\item Gr\'afica de un spline con \texttt{spline()}.
+\begin{verbatim}
+x = 0:10;
+y = sin(x);
+xx = 0:.25:10;
+yy = spline(x,y,xx);
+plot(x,y,'o',xx,yy)
+\end{verbatim}
+\end{enumerate}
+\end{multicols}
+
+
+
+\section{Ajuste de curvas por m\'inimos cuadrados lineales}
+
+Un problema de ajuste de datos es buscar una funci\'on $f:\mathbb{R}\times\mathbb{R}^n \rightarrow \mathbb{R}$ donde 
+$$
+f(t, {\bf x})=x_1\phi_1(t)+x_2\phi_2(t)+\cdots+x_n\phi_n(t),
+$$
+por ejemplo, un problema de ajuste polinomial consiste en buscar una funci\'on
+$$
+f(t,{\bf x}) =x_1+x_2t+ \cdots + x_n t^{n-1} 
+$$
+que se ajuste a los datos $\{(t_i,y_i)\}_{i=1}^n$, esto induce el sistema  $Ax=b$, donde $A=(a_{ij})$, $a_{ij}=\phi_j(t_i)$  y $b_i=y_i$. Probamos que tal sistema de ecuaciones tiene como soluci\'on en el sentido de los m\'inimos cuadrados a
+$$
+x=(A^TA)^{-1}Ab,
+$$
+llamadas ecuaciones normales.
+
+Matlab posee una serie de funciones para calcular y representar ajustes de curvas a datos
+\begin{longtable}{||c|p{0.7\textwidth}||}
+\hline
+\texttt{p=polyfit(x,y,n)} 
+	& Encuentra los coeficientes de un polinomio \texttt{p} de grado \texttt{n} que se ajusta a los puntos de coordenadas \texttt{x, y} en el sentido de los m\'inimos cuadrados.
+\\
+\hline
+\texttt{y=polyval(p,x)} 
+	& Retorna los valores de un polinomio \texttt{p} evualuado en las componentes del vector \texttt{x}.\\
+\hline
+\end{longtable}
+
+Si bien no todos los modelos de ajuste son polinomiales ni menos a\'un lineales, estos se pueden convertir a lineales usando funciones integradas en Matlab. Por ejemplo, si nos interesa ajustar los puntos 
+\begin{verbatim}
+t=[10 20 30 40 50 60 70 80];
+y=[1.06 1.33 1.52 1.68 1.81 1.91 2.01 2.11];
+\end{verbatim}
+a un modelo de la forma 
+$$
+f(t,x)=x_1e^{x_2 t},
+$$
+se considera un cambio en el modelo
+$$
+ln(f(t,x)= ln(x_1)+ x_2t
+$$
+de donde, podemos buscar la interpolaci\'on haciendo
+\begin{verbatim}
+p=polyfit(t,ln(y),1);
+fprintf('exponente x_2= %2.3f\n',p(1));
+fprintf('coeficiente x_1 = %3.3f\n',exp(p(2)));
+hold on
+plot(t,y,'ro')
+x=linspace(min(t),max(t),50);
+z=exp(p(2))*exp(p(1)*t);
+plot(x,z,'b')
+xlabel('x')
+ylabel('y')
+title('Regresión exponencial')
+hold off
+\end{verbatim}
+
+Otros modelos que se pueden encontrar al ajustar los puntos \texttt{t} e \texttt{y}
+\begin{center}
+	\begin{tabular}{||c|l||}
+    \hline
+    Función				& Llamada a \texttt{polyfit()} \\
+\hline
+    $f(t,(x_1,x_2))=x_1\cdot t^{x_2}$		& \texttt{p=polyfit(log(t), log(y),1)}\\
+ \hline
+	$f(t,(x_1,x_2))=x_1\cdot e^{x_2t}$		& \texttt{p=polyfit(t, log(y),1)}\\
+\hline    
+    $f(t,(x_1,x_2))=x_1 \cdot ln(t)+x_2$	& \texttt{p=polyfit(log(t),y,1)} \\
+\hline
+    $f(t,(x_1,x_2))=\frac{1}{x_1t+x_2}$		& \texttt{p=polyfit(t,1./y,1)}\\ 
+    \hline
+    \end{tabular}
+\end{center}
+
+\subsection{Ejemplos}
+                                                                                                                                                                  
+Los siguientes ejemplos muestran ejecuciones de las funciones de ajuste de curvas por m\'inimos cuadrados
+
+\begin{enumerate}
+	
+    \item El siguiente ejemplo muestra el uso de la funci\'on \texttt{polyfit()}.
+    \begin{verbatim}
+          x=[0 1 2 3 4 5 6 7 7.44];
+          y=[0 4.03 8.12 14.23 20.33 27.1 34.53 42.63 46.43];
+          p=polyfit(x,y,2)
+          hold on
+          plot(x,y,'ro','markersize',8,'markerfacecolor','r')
+          x=linspace(min(x),max(x),50);
+          y=polyval(p,x);
+          plot(x,y,'b')
+          xlabel('x')
+          ylabel('y')
+          title('Polinomio aproximador')
+          hold off
+    \end{verbatim}
+    
+    \item La funci\'on \texttt{mldivide()} utiliza por defecto aproximaciones en el sentido de m\'inimos cuadrados. Este ejemplo es el de un sistema sobredeterminado resuelto en el sentido de los m\'inimos cuadrados usando \texttt{mldivide()}.
+    \begin{verbatim}
+A = [1 2 0; 0 4 3];
+b = [8; 18];
+x = A\b
+    \end{verbatim}
+    
+\end{enumerate}
+
+\section{Ejercicios}
+\begin{enumerate}
+
+
+\item Construya una rutina que dibuje un polinomio interpolante de un conjunto de datos y sus primeras dos derivadas en distintos gr\'aficos de una misma figura. Para esto ocupe la funci\'on \texttt{vander()} y calcule expl\'icitamente los coeficientes del polinomio, luego derive estos polinomios. Finalmente, para anexar varios gr\'aficos dentro de una figura use la rutina \texttt{subplot()}.
+
+\item Construya una rutina que dibuje un polinomio interpolante de un conjunto de \texttt{n} datos y que grafique junto con esta, en un mismo gr\'afico, todos los polinomios de grado menor o igual que \texttt{n} que se ajustan a los puntos en el sentido de m\'inimos cuadrados. \textquestiondown Qu\'e sucede cuando a medida que aumentan los grados de los polinomios de ajuste?.
+
+
+\item En el archivo \texttt{peso\_estatura.xls} se encuentran los datos hist\'oricos de peso y estatura de dos hermanos gemelos nacidos el 25 de abril de 1987. Use la funci\'on \texttt{xlsread()} para leer el archivo \texttt{peso\_estatura.xls}, luego utilize la funci\'on \texttt{datenum}, para convertir las fechas de las primeras tres columnas en un n\'umero que representa el tiempo en d\'ias.
+
+Luego haga dos gr\'aficos de sus pesos y estaturas versus el tiempo, dibuje en c\'irculos rojos los datos de \texttt{peso\_estatura.xls}. Adem\'as incluya a estos datos sus interpolaciones lineales, polinomio de interpolaci\'on y spline c\'ubica. Incluya t\'itulo y leyenda de cada una de las funciones dibujadas.
+
+\item En una hoja de papel delgada sobrepone una de tus manos, con un lapiz marca una cantidad de puntos finita,  que te parezca adecuada, para representar el contorno de tu mano. En la ventana de comandos escribe las siguientes instrucciones
+\begin{verbatim}
+figure(’position’,get(0,’screensize’))
+axes(’position’,[0 0 1 1])
+[x,y] = ginput;
+\end{verbatim}
+Posiciona la hoja de papel con los puntos sobre la pantalla de tu computador y usa el mouse para seleccionar alguno de estos puntos (deberías poder ver a trav\'es de la hoja de papel la posici\'on del mouse), finalmente apreta la tecla enter. Luego graba estos datos usando el comando 
+\begin{verbatim}
+save x,y;
+\end{verbatim}
+Ahora imagina que estos vectores \texttt{x,y} son muestras de funciones $x,y:\mathbb{R}\rightarrow \mathbb{R}$, ejecuta una interpolaci\'on por diferencias divididas, splines c\'ubicos y lineal por tramos de estas funciones. Finalmente grafica en el plano la funci\'on que obtienes al interpolar la funci\'on $(x(t),y(t))$ y los puntos de los vectores \texttt{x,y}.
+
+\item La funci\'on Gamma est\'a definida como
+$$
+\Gamma(x)=\int_0^\infty t^{x-1}e^{-t}dt, \quad x>0
+$$
+Cuando se eval\'ua en un entero $n$, se tiene que 
+$$
+\Gamma(n)=(n-1)!
+$$
+en consecuencia, un conjunto de puntos interpolantes de esta funci\'on es 
+\begin{center}
+\begin{tabular}{c|ccccc}
+x 	& 1 & 2	& 3 & 4 & 5 \\
+\hline
+y	& 1	& 1 & 2 & 6 & 24
+\end{tabular}
+\end{center}
+\begin{enumerate}
+\item Calcule el polinomio de grado cuatro que interpola estos puntos. Dibuje este polinomio y tambi\' en la funci\'on usando la funci\'on \texttt{gamma()}
+\item Realize una interpolaci\'on por splines c\'ubicos de estos puntos, nuevamente dib\'ujenla junto con la funci\'on \texttt{gamma()}.
+\item \textquestiondown Cual de los dos interpolantes es mejor?,
+\item \textquestiondown Cual de los dos interpolantes es mejor en el intervalo [1,2]?,
+\end{enumerate}
+
+
+
+\end{enumerate}
+
+\begin{thebibliography}{9}
+
+%\bibitem{Mo1} Moler, Cleve, Floating Points, MATLAB News and Notes, Invierno, 1996. 
+
+\bibitem{Mo2} Moler, Cleve, Numerical Computing with MATLAB, S.I.A.M. Disponible en http://www.mathworks.com/moler/.
+
+\bibitem{MH} Heath, Michael, Scientific Computing: an introductory survey. McGraw Hill 2005.
+
+\bibitem{DB} de Boor, Charles, A Practical Guide to Splines, Springer-Verlag, New York, 1978.
+
+% http://www.uam.es/personal_pdi/ciencias/barcelo/cnumerico/recursos/interpolacion.html
+
+%\bibitem{H1} N. J. Higham, Accuracy and Stability of Numerical Algorithms, SIAM, Philadelphia, 2002
+\end{thebibliography}
+
+\end{document}

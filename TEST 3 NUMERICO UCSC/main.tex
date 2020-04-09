@@ -1,0 +1,205 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{movie15}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+\begin{document}
+
+\title{TEST 3 NUMERICO UCSC}
+
+\begin{minipage}{0.15\textwidth}
+\includegraphics[width=\textwidth]{ucsc.png}
+\end{minipage}
+\begin{minipage}{0.9\textwidth}
+{UNIVERSIDAD CAT\'OLICA}\\ 
+{DE LA SANT\'ISIMA CONCEPCI\'ON}\\
+{DEPARTAMENTO DE MATEM\'ATICA}\\ 
+{ Y F\'ISICA APLICADAS}\\
+\rule{0.66\textwidth}{.5pt} Franco A. Milanese
+\end{minipage}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Test 3 C\'alculo Num\'erico IN1012C }}
+\centerline{\textrm{Lunes 2 de junio de 2015}}  
+
+\vspace{0.2cm}
+\textbf{Nombre:} PAUTA \hspace{0.65\textwidth}\textbf{Carrera:}
+
+\vspace{0.1cm}
+\textbf{Profesor de C\'atedra:}\hspace{0.5\textwidth} \textbf{ RUT:}
+ \begin{center}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &       \\
+ \hline
+ \end{tabular}
+ \end{center}
+
+Enviar documentos solicitados en el formato solicitado al correo 
+\textbf{veranonumerico@gmail.com} .
+%que el ayudante le indique.
+\begin{enumerate}
+\item (20 pt.) Implemente en un rutero llamado \texttt{newton.m} el algoritmo de descenso de Newton con \texttt{7} iteraciones para encontrar las ra\'ices de 
+$$
+f(x)= \frac{(x^3+1)sin(x^2+1)}{x^4+1}
+$$
+que est\'an a la izquierda y derecha de $x=-1$.
+
+\textquestiondown Cu\'al es el valor las ra\'ices encontradas?. (10 pt.)
+
+\fbox{ \begin{minipage}{\textwidth}   \hfill\vspace{1cm}   \end{minipage} } 
+
+Adjunte el rutero \texttt{newton.m} al correo.
+
+\textbf{Desarrollo:} C\'odigo \texttt{newton.m} \fbox{10 pt.}
+
+\begin{lstlisting}
+clear all; close all; clc
+% Variable simbolica
+syms x;
+f=(x^3+1)*sin(x^2+1)./(x^4+1);
+Df=diff(f,x);
+% La funcion de la que buscamos su raiz y su derivada
+f=inline(f);
+Df=inline(Df);
+%Graficamos la funcion
+ezplot(f,[-3,3]); hold all;
+plot(-1,f(-1),'*r')
+axis on;
+
+%% Metodo de Newton
+% Para la raiz a la izquierda del -1
+k=0;
+raiz=-1.3;
+while k<=7
+    k=k+1;
+    xk=raiz;
+    fxk=feval(f,xk);
+    Dfxk=feval(Df,xk);
+    if (Dfxk==0)
+        error('La derivada de la funcion se anula.')
+    end
+    corr=fxk/Dfxk;
+    raiz=xk-corr;
+    iter=k;
+    plot(xk,f(xk),'*g');
+end
+disp(['El valor encontrado es ', num2str(xk)]);
+
+% Para la raiz a la derecha del -1
+k=0;
+raiz=1;
+while k<=7
+    k=k+1;
+    xk=raiz;
+    fxk=feval(f,xk);
+    Dfxk=feval(Df,xk);
+    if (Dfxk==0)
+        error('La derivada de la funcion se anula.')
+    end
+    corr=fxk/Dfxk;
+    raiz=xk-corr;
+    iter=k;
+    plot(xk,f(xk),'*g');
+end
+disp(['El valor encontrado es ', num2str(xk)]);
+\end{lstlisting}
+
+\textquestiondown Cu\'al es el valor las ra\'ices encontradas?. (10 pt.)
+
+\fbox{ \begin{minipage}{\textwidth}   
+-1.46 y 1.46 \fbox{10pt.}
+\hfill\vspace{1cm}   \end{minipage} } 
+
+
+\item (20 pt.)
+En un rutero llamado \texttt{sistema.m} determine si el sistema de ecuaciones
+$$
+\begin{array}{lrc}
+x_1+3x_2+x_7	& =0	& \\
+x_6+x_7			& =1	& \\
+x_{i}+2x_{i-1}+3x_{i+1} &= i & \forall i\in\{2,3,4,5,6\}
+\end{array}
+$$
+tiene \'unica soluci\'on y en tal caso, en el mismo rutero, encuentre su soluci\'on y escr\'ibala a continuaci\'on
+
+\fbox{ \begin{minipage}{\textwidth}   \hfill
+
+El sistema \fbox{ \begin{minipage}{0.5cm}   \hfill
+\vspace{0.75cm} 
+\end{minipage} } 
+tiene \'unica soluci\'on
+
+\vspace{0.25cm}
+$x_1=$ \hspace{1cm},
+$x_2=$ \hspace{1cm},
+$x_3=$ \hspace{1cm},
+$x_4=$ \hspace{1cm},
+$x_5=$ \hspace{1cm},
+$x_6=$ \hspace{1cm},
+$x_7=$ \hspace{1cm}.
+
+\vspace{0.25cm} 
+\end{minipage} } 
+
+Adjunte el rutero \texttt{sistema.m} al correo.
+
+\textbf{Desarrollo:} C\'odigo de \texttt{sistema.m} \fbox{10pt.}
+\begin{lstlisting}
+%% Ensamblado de la matriz de coeficientes
+B=   [diag(2*ones(5,1)),zeros(5,2)]...
+    +[zeros(5,1),diag(1*ones(5,1)),zeros(5,1)]...
+    +[zeros(5,2),diag(3*ones(5,1))];
+A=[ 1,3,zeros(1,4),1    ;...
+    zeros(1,5),1,1      ;...
+    B];
+b=[0,1,2:6]';
+
+%% Resolucion del sistema
+%El sistema es cuadrado entonces como
+det(A)
+%es distinto de cero, tiene unica solucion.
+x=A\b
+\end{lstlisting}
+
+El sistema \fbox{ \begin{minipage}{0.5cm} SI  
+\end{minipage} } 
+tiene \'unica soluci\'on: \fbox{10pt.}
+
+\begin{lstlisting}
+>> x'
+
+ans =
+
+    3.2222   -1.5040   -0.9802    2.3294    1.2103   -0.2897    1.2897
+\end{lstlisting}
+
+
+\end{enumerate}
+\end{document}   

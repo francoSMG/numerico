@@ -1,0 +1,237 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+\usepackage{pgfplots}
+\usepackage{polynom}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+
+\begin{document}
+
+\title{C2 F NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Certamen II Formativo, M\'etodos Num\'ericos I 220028-220138 }}
+\centerline{\textrm{12 de enero de 2016.}}  \vspace{0.2cm}
+
+
+\textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+
+\vspace{0.1cm}
+\textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+
+% \begin{center}
+%  \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}|p{2cm}||}
+%  \hline
+%  Pregunta 1 &  Pregunta 2 &     Pregunta 3  &Total\\
+%  \hline
+
+%   \vspace{1.5cm} & &    &   \\
+%  \hline
+%  \end{tabular}
+%  \end{center}
+%Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item Dados los puntos 
+$$
+\{(-1,1),(2,1),(0,1)\}
+$$
+calcule las funciones de los siguientes tipos que mejor se ajusten a los puntos.
+$$
+m_1(x)=\frac{1}{ax+b}, \quad 
+m_2(x)=e^{\frac{1}{ax}}, \quad 
+m_3(x)=e^{ax^2+bx+c},
+$$
+donde $a,b,c\in\mathbb{R}$ son par\'ametros.
+
+\item Calcule la tercera aproximaci\'on del m\'etodo de la bisecci\'on empezando con $x_0=-10$ $x_1=10$ como nodos para las funciones
+\begin{multicols}{3}
+\begin{enumerate}
+  \item $f(x)=sin\left(\frac{\pi}{2} (x+1)\right)$, 
+  \item $h(x)=x^2-2x+1$,
+  \item $i(x)=x^3+2x$.
+\end{enumerate}
+\end{multicols}
+\item Calcule la tercera aproximaci\'on del m\'etodo de Newton-Raphson empezando en $x=3$ para la funci\'on
+\begin{multicols}{3}
+\begin{enumerate}
+  \item $j(x)=x^2+2x$, 
+  \item $k(x)=cos(\pi x)$, 
+  \item $l(x)=e^{2x}-2$.
+\end{enumerate}
+\end{multicols}
+\item Calcule la tercera aproximaci\'on del m\'etodo de secante empezando en $x_0=1$ y $x_1=2$ para la funci\'on
+\begin{multicols}{3}
+\begin{enumerate}
+  \item $j(x)=x^2+2x$, 
+  \item $k(x)=cos(\pi x)$, 
+  \item $l(x)=e^{2x}-2$.
+\end{enumerate}
+\end{multicols}
+\item Transforme la E.D.O. de orden superior en un sistema de E.D.O. de orden 1.
+\begin{multicols}{2}
+\begin{enumerate}
+	\item $y''(x)+2y'(x)=cos(x)$, 
+    \item $y^{(iv)}(x)+tan(x)y(x)=cos(x)$,
+    \item $y'''+y''=y$,
+    \item $cos(x)y''+sen(x)y'=0$.
+\end{enumerate}
+\end{multicols}
+\item Estime el valor de las siguientes integrales, usando la regla del punto medio y trapecio compuesta, con tres intervalos equiespaciados.
+\begin{multicols}{3}
+\begin{enumerate}
+	\item $\displaystyle\int_0^1 sen(2x+1) dx$, 
+    \item $\displaystyle\int_0^3 cos(2x+1) dx$,
+    \item $\displaystyle\int_0^1 e^{x^2+1}cos(2x+1) dx$.
+\end{enumerate}
+\end{multicols}
+\item Decida cual o cuales se los siguientes ruteros estiman el valor de una integral usando la regla compuesta del punto medio.
+\begin{multicols}{2}
+\begin{enumerate}
+	\item
+    	\begin{lstlisting}
+        x=[0:1:9]+0.5;
+        int=sum(exp(2*x+1))*0.5;
+        \end{lstlisting}
+        
+   	\item
+    	\begin{lstlisting}
+        x=[0:1:10]+0.5;
+        int=sum(exp(2*x+1));
+        \end{lstlisting}
+        
+   \item
+    	\begin{lstlisting}
+        x=[0:1:9]+0.25;
+        int=sum(sin(2*x+1))*0.2;
+        \end{lstlisting}
+        
+   \item
+    	\begin{lstlisting}
+        x=[0:0.1:pi]+0.05;
+        int=sum(sin(2*x+1))*0.1;
+        \end{lstlisting} 
+\end{enumerate}
+\end{multicols}
+\item Determine el valor de verdad de las siguientes proposiciones, en caso de ser falsas justifique o muestre un contraejemplo.
+\begin{enumerate}
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Toda ra\'iz de una funci\'on se puede estimar usando el m\'etodo de la bisecci\'on.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El m\'etodo de Runge-Kutta 45 tiene error global de orden 5.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El método de Euler permite aproximar la soluci\'on del P.V.I. 
+    $$
+    \begin{array}{c|}
+    y'(x)=2x+1\\
+    y(0)=1\\ \hline
+    \end{array}.
+    $$
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El método de Euler impl\'icito permite resolver el P.V.C.
+    $$
+    \begin{array}{c|}
+    y''(x)=x^2+2x\\
+    y(0)=1,\quad y(1)=2\\ \hline
+    \end{array}.
+    $$
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \end{minipage}
+    %
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+    El m\'etodo de Newton-Raphson siempre converge a una ra\'iz.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+    Todo sistema de dos E.D.O.'s de orden 2 se transforma en un sistema de cinco E.D.O.'s de orden 1.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \end{minipage}
+\end{enumerate}
+\end{enumerate}
+\end{document}  

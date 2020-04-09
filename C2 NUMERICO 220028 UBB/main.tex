@@ -1,0 +1,270 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+\usepackage{pgfplots}
+\usepackage{polynom}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+
+\begin{document}
+
+\title{C2 NUMERICO 220028 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Certamen II, M\'etodos Num\'ericos I 220028-220138 }}
+\centerline{\textrm{12 de junio de 2016.}}  \vspace{0.2cm}
+
+
+\textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+
+\vspace{0.1cm}
+\textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+
+\begin{center}
+ \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Pregunta 3  & Pregunta 4 &Total\\
+ \hline
+
+  \vspace{1.5cm} & & & & \\
+ \hline
+ \end{tabular}
+ \end{center}
+%Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (30 pt) Determine el valor de verdad de las siguientes proposiciones, en caso de ser falsas justifique o muestre un contraejemplo.
+\begin{enumerate}
+\item
+\fbox{ \begin{minipage}{1cm}  V \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Toda ra\'iz de una funci\'on se puede estimar usando el m\'etodo de la secante.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    \fbox{5pt valor de verdad}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}  F \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	Toda ra\'iz de una funci\'on se puede estimar usando el m\'etodo de Newton-Raphson.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    La funci\'on debe ser derivable.
+    
+    \fbox{2pt valor de verdad, 3pt la justificaci\'on}
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   V \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El método de Euler permite aproximar la soluci\'on del P.V.I. 
+    $$
+    \begin{array}{c|}
+    y''(x)=2x+1\\
+    y(0)=1\\
+    y'(0)=1\\ \hline
+    \end{array}.
+    $$
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    
+        \fbox{5pt valor de verdad}
+
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}  F \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+	El método de Euler impl\'icito permite resolver el P.V.C.
+    $$
+    \begin{array}{c|}
+    y''(x)=x^2+2x\\
+    y(0)=1,\quad y(1)=2\\ \hline
+    \end{array}.
+    $$
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    S\'olo resuelve P.V.I.
+    
+        \fbox{2pt valor de verdad, 3pt la justificaci\'on}
+    \end{minipage}
+    %
+\item
+\fbox{ \begin{minipage}{1cm}  V \hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+    El m\'etodo de Newton-Raphson siempre converge a una ra\'iz.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    
+        \fbox{5pt valor de verdad}
+
+    \end{minipage}
+%
+\item
+\fbox{ \begin{minipage}{1cm}   F\hfill\vspace{1cm}   		
+    \end{minipage} } 
+    \begin{minipage}{0.4\textwidth}
+    Todo sistema de dos E.D.O.'s de orden 7 se transforma en un sistema de seis E.D.O.'s de orden 1.
+    \end{minipage} 
+    \begin{minipage}{0.4\textwidth}
+    Se transforma en un sistema de 12 ecuaciones de orden 1.
+    
+        \fbox{2pt valor de verdad, 3pt la justificaci\'on}
+    \end{minipage}
+\end{enumerate}
+
+\newpage 
+\item  (20 pt)
+Calcule usando la regla del punto medio compuesta en una partici\'on de tama\~{n}o $0.5$ la integral
+$$
+\int_0^2 cos(\pi x) dx,
+$$
+calcule el error cometido, sabiendo que 
+$$
+\int cos(\pi x)dx = \frac{1}{\pi}sen(\pi x) +C.
+$$
+\textbf{Desarrollo:} La partici\'on est\'a formada por los nodos 
+$$
+0, \quad 0.5, \quad 1, \quad 1.5, \quad 2
+$$
+y la aproximaci\'on es
+$$
+\begin{array}{cl}
+I 	&= 0.5 \left\{ f(0.25)+f(0.75)+f(1.25)+f(1.75)\right\} \\
+	&= 0.5 \left\{ 	cos\left(\frac{\pi}{4}\right)
+    				+cos\left(\frac{3\pi}{4}\right)
+                    +cos\left(\frac{5\pi}{4}\right)
+                    +cos\left(\frac{7\pi}{4}\right)\right\} \\
+  	&= 0.5 \left\{ 	\frac{\sqrt{2}}{2}
+    				-\frac{\sqrt{2}}{2}
+                    -\frac{\sqrt{2}}{2}
+                    +\frac{\sqrt{2}}{2}\right\}=0. 
+\end{array}\quad \fbox{10 pt}
+$$
+El valor exacto es 
+$$
+\displaystyle
+\int_0^2 cos(\pi x) dx = \left.\frac{1}{\pi} sen(\pi x)\right|_0^2=\frac{1}{\pi} (sen(2\pi)-sen(0))=0 \fbox{5pt}
+$$
+por ende el error cometido es $0$. \fbox{5pt}
+
+%\newpage
+\item  (25 pt) Ejecute el m\'etodo de Euler expl\'icito en una partici\'on de tamaño 1, para graficar una estimaci\'on de la soluci\'on del P.V.I.
+$$
+\begin{array}{cl|}
+y'(x)	& =\frac{1}{1+x}+y(x)\\
+y(0)	& =1 \\ \hline
+\end{array}
+$$
+en el intervalo $[0,5]$.
+
+\textbf{Desarrollo:} La partici\'on es 
+$$
+0, \quad 1, \quad 2, \quad 3, \quad 4, \quad 5.
+$$
+Se tiene que la ejecuci\'on del m\'etodo define
+$$
+\begin{array}{cl}
+y_{i+1}	&=y_i+h\, f(x_i,y_i)\\
+		&=y_i+1\left( \frac{1}{1+x_i}+y_i\right)\\
+        &=\frac{2y_i+2y_ix_i+1}{1+x_i}
+\end{array}\quad \fbox{5pt}
+$$
+de donde
+$$
+\begin{array}{cl}
+y_1	&=\frac{2y_0+2y_0x_0+1}{1+x_0}=\frac{2 \cdot 1+2\cdot 1 \cdot 0+1}{1+0}=3 				\\
+y_2	&=\frac{2y_1+2y_1x_1+1}{1+x_1}=\frac{2 \cdot 3+2\cdot 3 \cdot 1+1}{1+1}=\frac{13}{2}=6.5 	\\
+y_3	&=\frac{2y_2+2y_2x_2+1}{1+x_2}=\frac{2 \cdot \frac{1\frac{13}{2}}{2}+2\cdot \frac{13}{2} \cdot 2+1}{1+2}=\frac{40}{3} \approx 13.33 	\\
+y_4	&=\frac{2y_3+2y_3x_3+1}{1+x_3}=\frac{2 \cdot \frac{40}{3}+2\cdot \frac{40}{3} \cdot 3+1}{1+3}=\frac{321}{12} \approx 26.75	\\
+y_5	&=\frac{2y_4+2y_4x_4+1}{1+x_4}=\frac{2 \cdot\frac{321}{12}+2\cdot \frac{321}{12}  \cdot 4+1}{1+4}=\frac{1561}{30}\approx 52.033
+\end{array} \quad \fbox{10pt}
+$$
+la gr\'afica de esta soluci\'on num\'erica tiene la forma
+ \begin{center}
+            \begin{tikzpicture}
+            \begin{axis}[xlabel=$x_i$,ylabel=$y_i$]
+            \addplot[holdot] coordinates{(0,1)(1,3)(2,6.5)(3,13.33)(4,26.75)(5,52.03)};
+            \end{axis}
+        \end{tikzpicture}
+        \fbox{10pt.}
+        \end{center}
+
+%\newpage
+\item  (20 pt) Calcule la tercera aproximaci\'on del m\'etodo de la bisecci\'on empezando con $x_0=0.2$ $x_1=10$ como nodos para las funci\'on
+$$f(x)=sin\left(\frac{\pi}{2} (x+1)\right).$$
+\textbf{Desarrollo:} Se tiene que
+$$
+f(x_0)=sen\left(\frac{\pi}{2}\, 1.02\right)\approx 0.995, \quad 
+f(x_1)=sen\left(\frac{\pi}{2}\, 11  \right)=-1  \quad \fbox{5pt}
+$$
+como hay cambio de signo podemos ejecutar el m\'etodo y
+$$
+x_2=\frac{x_0+x_1}{2}=5.1,\quad f(x_2)=sen\left(\frac{\pi}{2}\, 5.1\right) \approx 0.9876 \rightarrow x_0=x_2 \quad \fbox{5 pt}
+$$
+an\'alogamente 
+$$
+x_2=\frac{x_0+x_1}{2}=7.55,\quad f(x_2)=sen\left(\frac{\pi}{2}\, 7.55\right) \approx -0.6494 \rightarrow x_1=x_2 \quad \fbox{5 pt}
+$$
+$$
+x_2=\frac{x_0+x_1}{2}=6.325 \quad \fbox{5 pt}
+$$
+\end{enumerate}
+\end{document}  

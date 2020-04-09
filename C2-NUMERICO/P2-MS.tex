@@ -1,0 +1,31 @@
+\begin{pregunta}
+\begin{cuerpo}
+Se escribe un programa en Matlab para aproximar la siguiente integral utilizando regla de cuadratura de Gauss-Legendre con $n=3$:
+$$
+I=\int_0^\pi \cos(x^2) dx.
+$$
+Las dos primeras l\'ineas del rutero son
+
+\hspace{1cm}
+\texttt{A = [0.555555555555555; 0.888888888888889 ;0.555555555555555];}
+
+\hspace{1cm}
+\texttt{x = [-0.774596669241483;0;0.774596669241483];}
+
+Las lineas restantes son:
+\end{cuerpo}
+
+\begin{multicols}{2}
+\begin{alternativas}
+{\texttt{f = @(t) cos(t.\^{}2);}\\
+\texttt{I = pi/2*A'*f(pi/2*(x+1));}} %Siempre la primera es la correcta
+{\texttt{f = @(t) cos(t.\^{}2);}\\
+\texttt{I = A'*f(x);}} 
+{\texttt{f = @(t) cos(t.\^{}2);}\\
+\texttt{I = A'*f(pi/2*(x+1));}} 
+{\texttt{f = @(t) cos(t.\^{}2);}\\
+\texttt{I = pi/2*A'*f(x);}}
+\end{alternativas}
+\end{multicols}
+\justificacion{7cm}
+\end{pregunta}
