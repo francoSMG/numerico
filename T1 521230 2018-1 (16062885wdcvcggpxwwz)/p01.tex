@@ -1,0 +1,44 @@
+Considere el conjunto de matrices de orden 4
+$$
+V=
+\left\{
+\begin{bmatrix}
+1/i & 2i^{-2} \\
+2i+1 & 3i
+\end{bmatrix}
+\right\}
+_{i=1}^{100}
+$$
+La funci\'on \texttt{rank} de \matlab retorna el rango de una matriz, esto es el mayor n\'umero de columnas linealmente independientes de una matriz.
+
+Mediante un programa de \matlab y usando la funci\'on \texttt{rank} decida si las matrices del conjunto $V$ son o no todas invertibles.
+
+Luego determine la dimensi\'on del espacio generado por $V$.
+
+Adjunte el programa al correo. 
+
+\textbf{Desarrollo:} 
+El programa debe construir y calcular el rango de todas las matrices del conjunto. Si alguno de estos es distinto de $2$, entonces existe una matriz no invertible.
+\begin{lstlisting}
+clear all; close all; clc;
+for i=1:100
+	A{i}=[1/i,2*i^(-2);2*i+1,3*i];
+    if(rank(A{i})~=2)
+    	disp('Las matrices no son todas invertibles');
+    end
+end
+\end{lstlisting}
+\hfill\fbox{15 pt}
+
+y luego ensamblamos una matriz que contengana todas estas matrices y vemos el rango de ella.
+\begin{lstlisting}
+B=[];
+for i=1:100
+    B(1,i)=[A{i}(1,1)];
+    B(2,i)=[A{i}(1,2)];
+    B(3,i)=[A{i}(1,3)];
+    B(4,i)=[A{i}(1,4)];
+end
+rank(B)
+\end{lstlisting}
+\hfill\fbox{5 pt}

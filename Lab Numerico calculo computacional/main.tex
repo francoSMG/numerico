@@ -1,0 +1,403 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{amsmath, amssymb}
+\usepackage[dvips]{graphicx}
+\usepackage{graphicx}
+\usepackage{epsfig, float}
+\usepackage[rflt]{floatflt}
+\usepackage{multicol}
+\usepackage{ textcomp,wasysym }
+\usepackage{pstricks-add}
+\usepackage{rotating}
+\usepackage[T1]{fontenc}
+\usepackage{calligra}
+\usepackage{pbsi}
+\usepackage{longtable}
+\topmargin -0.5 in \textwidth 6.8in \textheight 9in \oddsidemargin
+-0.5cm
+
+\begin{document}
+\title{Lab Numerico: calculo computacional}
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm
+{\hspace*{3.1cm} {\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+ \hspace*{3.7cm} {\scriptsize FACULTAD DE CIENCIAS}  \\
+  \hspace*{2.9cm} {\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+\hspace*{3.75cm} {\scriptsize Autor: Franco Milanese}\\
+\hspace*{3.75cm} {\scriptsize Segundo Semestre de 2014}}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2014}}
+\end{picture}}
+
+\vspace*{0.1cm} \centerline {\bf\underline{Laboratorio N 3 C\'alculo Num\'erico (220098 \& 220023): C\'alculo Computacional}} \vskip0.5cm
+
+
+\section{Sobre los errores}
+
+Resolver un problema num\'erico es casi sin\'onimo de obtener una cierta aproximaci\'on a
+un cierto valor num\'erico $x_e$. Si $x_a$ es una de esas aproximaciones al valor $x_e$ , se define el
+error absoluto como
+$$
+abs(x_e,x_a)=|x_e - x_a|.
+$$
+Para muchos prop\'ositos, sin embargo, es preferible considerar el porcentaje de error o
+error relativo
+$$
+rel(x_e,x_a)=\frac{|x_e-x_a|}{|x_e|} \quad \text{ si } |x_e|\neq 0
+$$
+En t\'erminos generales, la utilidad de manejar el error relativo radica en que nos protege
+contra afirmaciones precipitadas sobre la bondad de una aproximaci\'on, sobre todo cuando
+nos movemos en escalas extremas (n\'umeros muy grandes o muy peque\~{n}os).
+
+El concepto de error relativo est\'a relacionado con la representaci\'on decimal a trav\'es de
+la noci\'on de d\'igitos significativos correctos. En concreto, puede afirmarse que si
+$$
+rel(x_e,x_a) \leq  0.5 \times 10^{-m}, \quad m \in \mathbb{N}
+$$
+entonces, $x_a$ comparte $m$ d\'igitos significativos correctos con $x_e$ despu\'es de redondear ambos
+valores a $m$ cifras significativas
+
+\section{ \textbf{Sobre la precisi\'on y los formatos de n\'umeros}}
+
+Casi todas las operaciones en \texttt{MATLAB} son realizadas con precisi\'on \texttt{double} de acuerdo al est\'andar 754 de la IEEE. Debido a que los computadores representan n\'umero con una precisi\'on finita, los c\'alculos pueden llevar a resultados que matem\'aticamente no son intuitivos. Es importante resaltar que estos resultados no son errores de MATLAB sino mal uso de los usuarios.
+
+\texttt{MATLAB} incluye varios formatos de precisi\'on, entre ellos 
+
+\begin{longtable}{|c||p{0.7\textwidth}|}
+\hline
+double	& double(x) es una funci\'on sobrecargada que convierte a precisi\'on doble todo objeto que tenga sentido convertir. \\
+single 	& single(A) convierte la matriz A a precisi\'on single. A puede ser cualquier objeto num\'erico como un double. Los n\'umero con precisi\'on single requieren menos espacio que los de precisi\'on doble. Pero tienen menos precisi\'on y un rango menor.\\
+int8 	& int8(array) convierte los elementos de un arreglo en n\'umero de 8-bit (1-byte)  con signo $\pm 2^7-1$. \\	
+& an\'alogamente 
+int16	
+int32
+int64\\
+uint8 & uint8(array) convierte los elementos de un arreglo en n\'umero de 8-bit (1-byte)  sin signo $\pm 2^8-1$. \\	
+& an\'alogamente 
+uint16
+uint32
+uint64\\
+\hline
+\end{longtable}
+
+El siguiente c\'odigo ejemplifica distintos tipos de formatos en una implementaci\'on en MATLAB
+
+\begin{verbatim}
+a = magic(4);
+b = single(a);
+
+whos
+  Name      Size         Bytes  Class
+
+  a         4x4            128  double array
+  b         4x4             64  single array
+\end{verbatim}
+
+MATLAB tambi\'en permite verificar el formato de sus variables con las siguientes funciones 
+
+\begin{longtable}{|c||p{0.7\textwidth}|}
+\hline
+isinteger 	&	isinteger(A) retorna TRUE si el arreglo A es de alg\'un tipo entero, retorna FALSO  si no. \\
+isfloat 	& 	isfloat(A) retorna TRUE si el arreglo A es de formato punto flotante. Los tipos de formatos punto flotante son single() y double(). \\
+isnumeric	& 	isnumeric(A) retorna verdad si A es del tipo single, double, int8, uint8, int16, uint16, int32, uint32, int64, uint64 \\
+isreal 		& 	isreal(A) retorna TRUE si A no tiene partes imaginarias. \\
+isfinite	& 	isfinite(A)  retorna un arreglo del mismo tama\~{n}o que A que contiene unos l\'ogicos donde A es finito y ceros l\'ogicos donde son infinitos o NaN. \\
+isinf 		& 	isinf(A)  retorna un arreglo del mismo tama\~{n}o que A que contiene unos l\'ogicos donde A es +Inf o -Inf y ceros l\'ogicos donde no. \\
+isnan		& 	isnan(A)  retorna un arreglo del mismo tama\~{n}o que A que contiene unos l\'ogicos donde A es Nan y ceros l\'ogicos donde no.\\
+class()		& 	class(A) entrega el tipo de variable que es A en una cadena. \\
+isa()		&   is(A,'tipo') entrega el valor de verdad de la proposici\'on class(a)=='tipo'
+		\\
+\hline
+\end{longtable}
+
+Para cualquier real A, s\'olo una de las cantidades isfinite(A), isinf(A) y isnan(A) es igual a 1.
+
+\begin{verbatim}
+isinteger(uint8(1:255))
+ans =
+     1
+
+isinteger(pi)
+ans =
+     0
+
+isinteger(3)
+ans =
+     0
+
+isinteger(isinteger(uint8(3)))
+ans =
+     0
+
+A = [-2  -1  0  1  2];
+
+isnan(1./A)
+ans =
+     0     0     0     0     0
+
+isnan(0./A)
+ans =
+     0     0     1     0     0
+\end{verbatim}
+
+En cada formato MATLAB es capaz de determinar su precisi\'on relativa usando la funci\'on eps().
+
+\begin{longtable}{|c||p{0.7\textwidth}|}
+\hline
+eps		& 
+Usos
+
+
+eps
+
+d = eps(X)
+
+eps('double')
+
+eps('single')
+
+Descripci\'on
+
+eps retorna la distancia desde 1.0 hasta el pr\'oximo n\'umero de precisi\'on double. (eps=$2^{52}$)
+
+d = eps(X) es la distancia desde abs(X) hasta el pr\'oximo entero como punto flotante que tenga la misma precisi\'on que X. X puede ser de precisi\'on double o single.
+\\
+\hline
+\end{longtable}
+
+Funciones valores cr\'iticos en el an\'alisis de error de un programa seg\'un precisi\'on.
+
+\begin{longtable}{|c||p{0.7\textwidth}|}
+\hline
+flintmax		& 	flintmax() retorna el mayor entero consecutivo que puede almacenar con precisi\'on double ($2^{53}$). Sobre este valor, la precisi\'on double() no tiene precisi\'on entera y no todos los enteros se pueden representar exactamente. \\
+intmax			& 	intmax() es el mayor valor positivo que se puede representar en MATLAB con un entero de 32 bits. Cualquier valor mayor que intmax() se trunca a intmax() cuando es convertivo a int32. \\
+intmin			& 	intmin() es el menor valor se puede representar en MATLAB con un entero de 32 bits. Cualquier valor menor que intmin() se trunca a intmin() cuando es convertivo a int32. \\
+realmax			& 	realmax() retorna el mayor n\'umero en formato double. \\
+realmin			& 	realmin() retorna el menor n\'umero en formato double. \\
+\hline
+\end{longtable}
+
+\begin{verbatim}
+str = 'El rango de los double es :\n\t%g hasta  %g y \ n\t %g hasta  %g';
+sprintf(str, -realmax, -realmin, realmin, realmax)
+
+ans =
+El rango de los double es
+   -1.79769e+308 hasta  -2.22507e-308 y
+    2.22507e-308 hasta  1.79769e+308
+\end{verbatim}
+
+
+%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%
+\section{\textbf{Ejemplos de errores de precisi\'on y formato}}
+
+\begin{enumerate}
+
+\item 
+\begin{verbatim}
+format long
+
+eps(5)
+ans =
+     8.881784197001252e-16
+\end{verbatim}
+
+Estas instrucciones muestran que no hay n\'umeros de precisi\'on double() entre 5  y 5+eps(5). Si se ejecuta un c\'alculo con precisi\'on double 
+que retorna 5, este resultado tiene una precisi\'on de eps(5).
+
+El valor de eps(x) depende de x. A medida que x aumenta, tambi\'en lo hace su precisi\'on:
+
+\begin{verbatim}
+eps(50)
+ans =
+     7.105427357601002e-15
+\end{verbatim}
+
+\item  Para un n\'umero x del tipo double(), eps(single(x)) entrega una cota superior para el valor al que x es redondeado cuando es convertido de double a single. Por ejemplo
+
+\begin{verbatim}
+double(single(3.14) - 3.14)
+ans =
+   1.0490e-07
+\end{verbatim}
+El valor al que $3.14$ es redondeado es menos que 
+\begin{verbatim}
+eps(single(3.14))
+ans =
+  2.3842e-07
+\end{verbatim}
+
+
+\item El n\'umero irracional $4/3$ no es representable exactamente como una divis\'on en n\'umeros binarios. Por esta raz\'on el siguiente c\'alculo no es cero, pero muestra la cantidad eps()
+
+\begin{verbatim}
+>>e = 1 - 3*(4/3 - 1)
+
+e =
+   2.2204e-16
+\end{verbatim}
+
+Similarmente, \texttt{0.1} no es representable exactamente como binario, en consecuencia, sucede que 
+
+\begin{verbatim}
+>>a = 0.0;
+for i = 1:10
+  a = a + 0.1;
+end
+
+>>a == 1
+
+ans =
+     0
+     
+\end{verbatim}
+
+\item Hay saltos entre n\'umeros en punto flotante, a medida que los n\'umeros crecen estos saltos tambi\'en, esto queda evidencia en el siguiente c\'odigo
+
+\begin{verbatim}
+(2^53 + 1) - 2^53
+
+ans =
+     0
+\end{verbatim}
+
+Como \texttt{pi} no es realmente $\pi$, no es sorprendente que 
+
+\begin{verbatim}
+sin(pi)
+
+ans =
+     1.224646799147353e-16
+\end{verbatim}
+
+\item Cuando se realizan restas con t\'erminos muy parecidos, pueden suceder cancelaciones inesperadas. El siguiente ejemplo 
+muestra una cancelaci\'on por p\'erdida de la precisi\'on, lo que hace la suma insignificante. 
+
+\begin{verbatim}
+sqrt(1e-16 + 1) - 1
+
+ans =
+     0
+\end{verbatim}
+
+\item El siguiente ejemplo muestra como dibujar un polinomio de grado 7.
+
+\begin{verbatim}
+x = 0.988:.0001:1.012;
+y = x.^7-7*x.^6+21*x.^5-35*x.^4+35*x.^3-21*x.^2+7*x-1;
+plot(x,y)
+\end{verbatim}
+
+El resultado se se obtiene no aparenta ser un polinomio. La gr\'afica no es para nada suave. Lo 
+que se muestran son errores de redondeos en acci\'on. La escala del eje $y$ es pequeña, estos pequeños valores de $y$ 
+son calculados usando n\'umeros tan grandes como $35 \cdot 1,012^4$  y adem\'as hay varias cancelaciones en sustracciones.
+
+\end{enumerate}
+
+\section{\textbf{Ejercicios}}
+
+\begin{enumerate}
+\item Ingrese las instrucciones 
+\begin{verbatim}
+A = [1 1; 1 0]
+X = [1 0; 0 1]
+\end{verbatim}
+luego 
+\begin{verbatim}
+X = A*X
+\end{verbatim}
+Ahora, presione repetidas veces la flecha hacia arriba seguida de la tecla Enter. \textquestiondown Qu\'e sucede ?, \textquestiondown Reconoce 
+las matrices que est\'an siendo generadas?, \textquestiondown Cuantas veces podra hacer esto antes de que suceda un overflow?.
+
+\item \textquestiondown Qu\'e hacen los siguientes c\'odigos?, \textquestiondown Cuantas l\'ineas de salidas producen?, \textquestiondown Cuales son los dos \'ultimos valores de $x$ que se imprimen?.
+
+\begin{verbatim}
+x = 1; while 1+x > 1, x = x/2, pause(.02), end
+
+x = 1; while x+x > x, x = 2*x, pause(.02), end
+
+x = 1; while x+x > x, x = x/2, pause(.02), end
+\end{verbatim}
+
+\item El desarrollo en serie de Taylor del seno es 
+$$sen(x) = x-\frac{x^3}{3!}+\frac{x^5 }{5!}- \cdots$$
+La siguiente funci\'on de Matlab aproxima la funci\'on seno 
+usando su desarrollo en serie de Taylor.
+\begin{verbatim}
+function s=powersin(x)
+% POWERSIN. Power series for sin(x).
+% POWERSIN(x) tries to compute sin(x)
+% from a power series
+s = 0;
+t = x;
+n = 1;
+while s+t ~= s;
+s = s + t;
+t = -x.^2/((n+1)*(n+2)).*t;
+n = n + 2;
+end
+\end{verbatim}
+\begin{enumerate}
+\item \textquestiondown Porqu\'e se detiene el ciclo while?.
+\item Cuando $x\in\{\frac{\pi}{2}, 11\frac{\pi}{2}, 21\frac{\pi}{2}, 31\frac{\pi}{2}\}$, 
+\textquestiondown Cuan preciso es el resultado calculado por \texttt{powersin(x)}?, \textquestiondown Cu\'antos t\'erminos del desarrollo en potencia son utilizados?, \textquestiondown Cu\'al es el t\'ermino mas grande de la serie?.
+\item \textquestiondown Que concluye de la aritm\'etica de punto flotante y las series de potencias para evaluar funciones?.
+\end{enumerate}
+
+\item Explique la salida producida por
+\begin{verbatim}
+>>t = 0.1
+n = 1:10
+e = n/10 - n*t
+\end{verbatim}
+
+
+\item 
+
+\begin{verbatim}
+>> v = sin(2*pi)==sin(4*pi)
+
+v =
+
+     0
+\end{verbatim}
+
+\begin{enumerate}
+\item Determine cual es el origen de este error.
+
+\item Proponga otra forma de verificación que permita asegurar el comportamiento que anal\'iticamente se espera de la instrucci\'on anterior.
+
+\end{enumerate}
+
+\item Un famoso resultado de L. Euler (1707-1783) afirma que
+$ \displaystyle \sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}$.
+Use el n\'umero de precisi\'on double 
+\begin{verbatim}
+>> pi^2/6
+\end{verbatim}
+como una representaci\'on exacta, para obtener 
+el menor número de sumandos de la serie anterior, de modo que la correspondiente
+suma finita aproxime a $\frac{\pi^2}{6}$ con un error menor o igual que \texttt{10-6}.
+
+\end{enumerate}
+
+
+\begin{thebibliography}{9}
+
+\bibitem{Mo1} Moler, Cleve, Floating Points, MATLAB News and Notes, Invierno, 1996. 
+
+\bibitem{Mo2} Moler, Cleve, Numerical Computing with MATLAB, S.I.A.M. Disponible en http://www.mathworks.com/moler/.
+
+\bibitem{H1} N. J. Higham, Accuracy and Stability of Numerical Algorithms, SIAM, Philadelphia, 2002
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,64 @@
+Sean $\{a_n\}_{n \in \mathbb{N}}$ y $\{c_n\}_{n \in \mathbb{N}}$ las sucesiones definidas por
+%
+\begin{equation*}
+(\forall\,n\in\mathbb{N}) \quad a_n := \frac{n}{2n-1} \quad\text{y}\quad c_n := \frac{n-1}{2n-1}.
+\end{equation*}
+%
+\begin{enumerate}
+\item\label{it:JacMat1} Escriba una funci\'on \matlab que reciba un $N \in \mathbb{N}$ y devuelva la matriz $\boldsymbol{A}_N \in \mathbb{R}^{N \times N}$ definida por
+%
+\begin{equation*}
+\boldsymbol{A}_N := \begin{pmatrix}
+0 &a_1&&&\\
+c_2&\ddots&\ddots&&\\
+&\ddots&\ddots&\ddots&\\
+&&\ddots &\ddots& a_{N-1}\\\
+&&&c_N& 0
+\end{pmatrix},
+\end{equation*}
+%
+donde las posiciones sin llenar (arriba de la diagonal $1$ y debajo de la diagonal $-1$) contienen ceros.
+\item\label{it:JacMat2} El comando \texttt{eig} de \matlab aplicado a una matriz calcula y devuelve sus autovalores (recolectados en un vector).
+Escriba un rutero que grafique en forma de c\'irculos todos los pares ordenados del conjunto
+%
+\begin{equation*}
+\{(\lambda, N)\in\mathbb{R}^2: N\in\{2,3,\cdots,25\} \text{ y } \lambda \text{ es autovalor de } \boldsymbol{A}_N \}.
+\end{equation*}
+%
+\end{enumerate}
+
+\textbf{Soluci\'on:} Para la parte \ref{it:JacMat1},
+\begin{lstlisting}
+function A = matriz(N)
+va = (1:N-1)./(2*(1:N-1)-1);
+vc = ((2:N)-1)./(2*(2:N)-1);
+A = diag(va, 1) + diag(vc, -1);
+\end{lstlisting}
+o alternativamente,
+\begin{lstlisting}
+function A = matriz(N)
+A = zeros(N);
+for n = 1:N-1
+    A(n,n+1) = n/(2*n-1);
+end
+for n = 2:N
+    A(n,n-1) = (n-1)/(2*n-1);
+end
+\end{lstlisting}
+\hfill\fbox{40 puntos}
+
+
+
+Para la parte \ref{it:JacMat2},
+\begin{lstlisting}
+figure
+hold on
+for N = 2:25
+    lambdas = eig(matriz(N));
+    for i = 1:N
+        plot(lambdas(i), N, 'o')
+    end
+end
+\end{lstlisting}
+\hfill\fbox{20 puntos}
+

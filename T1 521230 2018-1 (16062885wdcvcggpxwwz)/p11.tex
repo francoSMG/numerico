@@ -1,0 +1,21 @@
+Considere la funci\'on $f(x,y)=\cos(x)+\sen(y)$. Escriba un rutero en \matlab que encuentre un punto cr\'itico de $f$, cercano al punto $(x_0,y_0)=(4,4)$, mediante el m\'etodo de Newton, hasta que las soluciones sucesivas difieran en $10^{-9}$ o menos. Su programa debe mostrar la soluci\'on obtenida y el n\'umero de iteraciones que calcul\'o.
+
+\textbf{Desarrollo:} Considerando que debemos resolver la ecuaci\'on vectorial $\nabla f = \boldsymbol{\theta}$,  el programa est\'a dado por:
+
+\begin{lstlisting}
+tol = 10^(-9);
+g = inline('[-sin(x);cos(y)]','x','y');
+Dg = inline('[-cos(x) 0 ; 0 -sin(y)]','x','y');
+x0 = [4;4];
+difer = 10*tol;
+iter = 0;
+while difer >tol
+    x1 = x0 - inv(Dg(x0(1),x0(2)))*g(x0(1),x0(2));
+    difer = norm(x0 - x1);
+    x0 = x1;
+    iter = iter + 1;
+end
+x1
+iter
+\end{lstlisting}
+

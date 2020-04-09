@@ -1,0 +1,119 @@
+\documentclass[letter,12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{verbatim} % Para el ambiente comment
+\usepackage{dashundergaps} % Para \dashuline
+\usepackage{srcltx}
+
+\theoremstyle{definition}
+\newtheorem{question}{Pregunta}
+\renewcommand{\thequestion}{\Alph{question}}
+\numberwithin{equation}{question}
+
+\newenvironment{solution}{\begin{proof}[Solución]}{\end{proof}}
+
+\renewcommand{\theenumi}{\roman{enumi}}
+
+\pagestyle{empty}
+\usepackage[left=1.5cm, right=1.5cm, top=1.5cm, bottom=2cm]{geometry}
+
+\begin{document}
+\font\bff=cmbx10 at 10truept
+\font\lg=cmdunh10 at 10truept
+\font\bl=cmss10 at 10truept
+
+\noindent{\lg UNIVERSIDAD DE CONCEPCIÓN}\hfill
+\vskip-2truept
+\noindent{\bff FACULTAD DE CIENCIAS FÍSICAS Y MATEMÁTICAS}\hfill
+\vskip-2truept
+\noindent{\bl DEPARTAMENTO DE INGENIERÍA MATEMÁTICA}\hfill
+\vskip4truept\hrule\hrule\vskip4truept
+\par
+\bigskip
+\begin{center}
+\large{\textbf{521230 Cálculo Numérico (2018-I)}}\\
+\large{\textbf{Evaluación 1 (para rezagados con justificación)}
+\par \medskip 27 de junio de 2018}
+\end{center}
+
+\bigskip
+
+\noindent%
+\textbf{Nombre:} \dashuline{\hfill}\\[1.5ex]
+\textbf{Número de matrícula:} \dashuline{\hfill}\\[1.5ex]
+\textbf{Sección:} {\small $\square$ 1 (Prof.~Leonardo Figueroa C.) \hfill $\square$ 2 (Prof.\ Franco Milanese P.) \hfill $\square$ 3 (Prof.~Mauricio Vega H.)}
+
+\bigskip
+
+Esta evaluación consta de \textbf{cuatro} preguntas con la misma ponderación.
+No se permite el uso de calculadoras u otros dispositivos electrónicos.
+Duración: 100 minutos.
+
+\begin{question} Se desea aproximar una solución de la ecuación
+%
+\begin{equation*}
+x \, \ln(x) = 2.
+\end{equation*}
+%
+\begin{enumerate}
+\item\label{it:Newton} (50\%) Efectúe una iteración del método de Newton aplicado a este problema inicializando con $x_0 = 2$ (esto es, calcule el $x_1$ que arroja este método).
+\item\label{it:secant} (50\%) Efectúe una iteración del método de la secante aplicado a este problema inicializando con $x_0 = 1/2$ y $x_1 = 3$ (esto es, calcule el $x_2$ que arroja este método).
+\end{enumerate}
+\end{question}
+
+\newpage
+\begin{question} Sea $f \colon \mathbb{R} \to \mathbb{R}$ la función definida por
+%
+\begin{equation*}
+(\forall\,x\in\mathbb{R}) \quad f(x) = \sen(x) + x^2.
+\end{equation*}
+%
+\begin{enumerate}
+\item\label{it:coarse} (50\%) Calcule la aproximación de la integral $I = \int_0^\pi f(x) \, \mathrm{d}x$ producida por el método de Simpson compuesto con tamaño de paso $h = \pi/4$ (recuerde que nuestra convención indica que $h$ es la distancia entre dos puntos vecinos de la partición/malla/grilla equiespaciada de donde se obtienen las evaluaciones del integrando que se van a utilizar).
+\item\label{it:fine} (50\%) Calcule la aproximación de la integral $J = \int_{-\pi}^\pi f(x) \, \mathrm{d}x$ producida por el método de Simpson compuesto con tamaño de paso $h = \pi/1024$.
+\emph{Indicación:} Recuerde que para todo $x \in \mathbb{R}$, $\sen(-x) = -\sen(x)$.
+\end{enumerate}
+\end{question}
+
+\newpage
+\begin{question}\hfill
+\begin{enumerate}
+\item\label{it:fit} (80\%) Ajuste por mínimos cuadrados los coeficientes $\alpha_1$, $\alpha_2$ y $\alpha_3$ del modelo
+%
+\begin{equation*}
+f(x) = \alpha_0 + \alpha_1 \cos(x) + \alpha_2 \cos(2 x)
+\end{equation*}
+%
+a los datos de la tabla
+%
+\begin{center}
+\begin{tabular}{c|cccc}
+$x_i$ & $0$ & $\displaystyle\frac{\pi}{3}$ & $\displaystyle\frac{2\pi}{3}$ & $\pi$\\[1.5ex]\hline
+$f(x_i)$ & 5 & 0 & 0 & -5
+\end{tabular}
+\end{center}
+\item\label{it:assess} (20\%) ¿El modelo ajustado interpola los datos?
+\end{enumerate}
+\end{question}
+
+\newpage
+\begin{question} Los nodos y los correspondientes pesos de la regla de cuadratura de Gauss--Legendre de 4 puntos aparecen indicados en la siguiente tabla:
+%
+\begin{center}
+\begin{tabular}{c|cccc}
+$x_i$ & $\displaystyle-\sqrt{\frac{1}{35} \left(15+2\sqrt{30}\right)}$ & $\displaystyle-\sqrt{\frac{1}{35} \left(15-2\sqrt{30}\right)}$ & $\displaystyle\sqrt{\frac{1}{35} \left(15-2\sqrt{30}\right)}$ & $\displaystyle\sqrt{\frac{1}{35} \left(15+2\sqrt{30}\right)}$\\\hline
+$w_i$ & $\displaystyle\frac{1}{2}-\frac{\sqrt{\frac{5}{6}}}{6}$ & $\displaystyle\frac{1}{36} \left(\sqrt{30}+18\right) $ & $\displaystyle\frac{1}{36} \left(\sqrt{30}+18\right)$ & $\displaystyle\frac{1}{2}-\frac{\sqrt{\frac{5}{6}}}{6}$
+\end{tabular}
+\end{center}
+
+\medskip
+
+Calcule la aproximación de la integral $\displaystyle I = \int_{-1}^1 (7 x^7 + 1) \, \mathrm{d}x$ que se obtiene mediante la cuadratura de Gauss--Legendre de 4 puntos.
+\end{question}
+
+
+\end{document}

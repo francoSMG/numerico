@@ -1,0 +1,138 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+\begin{document}
+
+\title{Test1  NUMERICO 525 UDEC}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Segundo Semestre de 2015}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2015}}
+\end{picture}}
+
+\vspace*{0.5cm} \centerline {\bf\underline{Test 1, M\'etodos Num\'ericos I 220023 }}
+\centerline{\textrm{Lunes 9 de abril de 2016.}}  \vspace{0.2cm}
+
+
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2  &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &     \\
+ \hline
+ \end{tabular}
+ \end{center}
+ Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (40 pt) Cree un rutero llamado \texttt{p1.m} en el cual se carge el archivo ubicado en
+
+usando el comando \texttt{load data.mat}. Este archivo contiene dos vectores \texttt{x,y} 
+que contienen el tiempo y el voltaje de una señal captada por un osciloscopio. En el rutero
+\texttt{p1.m} incluya las funciones para gerenerar un gr\'afico que contenga
+\begin{enumerate}
+	\item los puntos capturados por el osciloscopio con asteriscos verdes,
+    \item el polinomio de grado 8 que mejor se ajuste a estos puntos con una línea azul,
+    \item el polinomio de grado 12 que mejor se ajuste a estos puntos con una línea roja,
+    \item el interpolante por splines c\'ubicos naturales que se ajusta a estos puntos con una línea negra.
+\end{enumerate}
+Adjunte el rutero \texttt{p1.m} y la gr\'afica generada como \texttt{p1.jpg}.
+
+\textbf{Desarollo:} 
+
+
+\item (20 pt) Considere la funci\'on
+$$
+f(x)=
+\begin{cases}
+\frac{cos(x)}{x} \quad  \text{, si } x\in\,[-5,0[\\
+\frac{sin(x)}{x} \quad  \text{, si } x\in\,]0,5[
+\end{cases}.
+$$
+En una misma figura grafique las funciones dadas por $f(x)$, $f(f(x))$, $f(x+1)$ y $f(x^2+1)$. Grabe esta im\'agen como \texttt{funciones2.jpg} y adj\'untela al correo.
+
+\textbf{Desarrollo:} Utilizando una funci\'on de matlab dada por
+\begin{lstlisting}
+function y=p2(x)
+    %Funcion del problema 2
+    for i=1:length(x)
+        if(x(i)<0)
+            y(i)=cos(x(i))/x(i);
+        else
+            y(i)=sin(x(i))/x(i);
+        end
+    end
+end
+\end{lstlisting}
+y con el rutero
+\begin{lstlisting}
+x=-5:0.03:5;%vector para dibujar que no contiene a cero
+figure(2);
+subplot(2,2,1);
+plot(x,p2(x));
+subplot(2,2,2);
+plot(x,p2(p2(x)));
+subplot(2,2,3);
+plot(x,p2(x+1));
+subplot(2,2,4);
+plot(x,p2(x.^2+1));
+\end{lstlisting}
+se crea la gr\'afica solicitada
+
+\includegraphics[width=0.8\textwidth]{funciones2.jpg} 
+\fbox{20 pt}
+
+\end{enumerate}
+\end{document}   

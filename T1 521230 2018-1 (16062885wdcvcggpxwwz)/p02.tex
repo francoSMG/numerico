@@ -1,0 +1,52 @@
+
+Considere el polinomio
+$$
+p(x)=\frac{1}{8}\left(63x^5-70x^3+15x\right)
+$$
+en un rutero de \matlab llamado \texttt{polinomio.m}:
+\begin{enumerate}
+\item Grafique este polinomio en el intervalo $[-1,1]$ con una l\'inea continua negra.
+\item Use el m\'etodo de la bisecci\'on para calcular todas las ra\'ices negativas de $p$, con una tolerancia menor que $10^{-4}$.
+\item Calcule todas las restantes ra\'ices positivas de $p$ usando el m\'etodo de Newton--Raphson, con una tolerancia menor que $10^{-6}$.
+\item Grafique las ra\'ices  positivas del polinomio usando c\'irculos rojos y las negativas usando c\'irculos azules.
+\end{enumerate}
+Adjunte el programa solicitado y todas las funciones o programas necesarios para su ejecuci\'on.
+
+\textbf{Desarrollo:} Pueden venir anexas dos funciones que implementen los m\'etodos de bisecci\'on y/o de Newton--Raphson, similares a
+\begin{lstlisting}
+function xr=bisec(f,xa,xb,tol)                                    
+while abs(xa-xb)>=tol           	%
+    xr=(xa+xb)/2;                   %
+    if f(xa)*f(xr)<0                %
+        xb=xr;                      %
+    else
+        xa=xr;                      %
+    end
+end
+\end{lstlisting}
+
+\begin{lstlisting}
+function x1=newtonR(f,df,x0,tol)
+x1=x0+tol;
+while abs(x0-x1)>=tol                          %
+  x1=x0-f(x0)/df(x0);                          %
+  x0=x1;
+end
+\end{lstlisting}
+
+El programa \texttt{polinomio.m} debe tener instrucciones similares a
+\begin{lstlisting}
+clear all; close all; clc;
+f=@(x) 1/8*(23*x.^5-70*x.^3+15*x);
+df=@(x) 1/8*(23*5*x.^4-70*3*x.^2+15);
+x=-1:0.01:1;
+plot(x,f(x),'-k');
+raicesN=[bisec(f,-0.9,-0.75,10^(-4)),bisec(f,-0.75,-0.25,10^(-4))]; 
+	%Raices negativas
+raicesP=[newtonR(f,df,0.5,10^(-6)),newtonR(f,df,0.75,10^(-6))]
+	%Raices positivas
+
+%%Grafica de las raices pedidas
+hold on;
+plot(raicesN,f(raicesN),'or',raicesP,f(raicesP),'ob')
+\end{lstlisting}

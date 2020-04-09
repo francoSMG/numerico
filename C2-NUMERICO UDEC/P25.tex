@@ -1,0 +1,31 @@
+\begin{pregunta}
+\puntaje{5}
+\begin{cuerpo}
+\textquestiondown Cu\'al de los siguientes ruteros calcula un spline c\'ubico de un muestro de la funci\'on $sen(3x+1)$ y lo grafica?
+\end{cuerpo}
+
+\begin{multicols}{2}
+\begin{alternativas}
+{
+\texttt{x=1:10;}	\\
+\texttt{y=sin(3*x+1);}\\
+\texttt{plot(x,y,'*b'); hold on;}\\
+\texttt{pS=spline(x,y);}\\
+\texttt{x=1:0.01:10;}\\
+\texttt{plot(x,ppval(pS,x));}	}
+{
+\texttt{x=1:10;}	\\
+\texttt{y=sin(3*x+1);}\\
+\texttt{plotSpline(x,y)}	}
+{
+\texttt{y=sin(3*x+1);}\\
+\texttt{plot(x,spline(x,y));}	}
+{
+\texttt{x=1:10;}	\\
+\texttt{y=sin(3x+1);}\\
+\texttt{pS=spline(x,y);}\\
+\texttt{plot(x,ppval(pS,x));}	}
+\end{alternativas}
+\end{multicols}
+\justificacion{0cm}
+\end{pregunta}

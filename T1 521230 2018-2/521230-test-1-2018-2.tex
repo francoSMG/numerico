@@ -1,0 +1,212 @@
+\documentclass[letter,11pt]{article}
+\input{preamble}
+
+\begin{document}
+\titulo{1}{2} 				
+\begin{enumerate}
+
+%FMP
+\item Considere los conjuntos de polinomios
+$$
+P_1=\{x^2+2x+1,x+1,x\}, \quad
+P_2=\{ax^3+bx^2+x: a+b=0\}.
+$$
+\begin{enumerate}
+  \item \puntaje{10} Construya un programa de \octave que grafique en un mismo gr\'afico todos los polinomios de $P_1$.
+
+ \item \puntaje{20} Construya un programa de \octave que decida si existe o no un polinomio interpolante en $P_2$ de los pares ordenados
+ $$
+ \{(-2,-38),(-1,-7),(0,0),(1,1),(2,14)\}
+ $$
+\end{enumerate}
+
+% FV
+\item En dos ruteros de \octave resuelva los siguientes problemas.
+\begin{enumerate}
+    \item \puntaje{15} Determine el valor de $x>0$ tal que 
+    \begin{equation*}
+        \int_{0}^{x} t e^{t^2}\text{d}t = x.
+    \end{equation*}
+    \item \puntaje{15} Considere la funci\'on $f(x) = -\dfrac{1}{2}\sqrt{5x} + \sin(3x) + 1, \ x\in [1,4]$. Hallar los puntos en que el gr\'afico de $f$ tiene m\'aximos y m\'inimos locales.
+\end{enumerate}
+\end{enumerate}
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+    \item El programa solicitado en la parte a) debe tener instrucciones similares a
+    
+    \item
+\end{enumerate}
+
+\end{enumerate}
+\titulo{2}{2}
+\begin{enumerate}
+%FMP
+\item Descargue el archivo disponible en
+\begin{center}
+   \url{http://goo.gl/cQetKF}
+\end{center}
+este contiene una celda en donde se registran algunos precios diarios de cierre y la cantidad de acciones tranzadas de la sociedad an\'onima Aesgener en la bolsa de Santiago.
+
+Usando estos datos y en un rutero de \octave
+\begin{enumerate}
+   \item \puntaje{5} Cargue los datos usando la funci\'on \texttt{load}. ?`C\'omo se llama la variable que tiene los datos?, ?`Cuantas filas y columnas tiene esta variable?.
+   \item \puntaje{10} Calcule en cuantos d\'ias el precio de cierre de la acci\'on de Aesgener ha estado sobre el promedio.
+   \item \puntaje{15} Grafique usando una l\'inea roja con puntos verdes el precio de cierre para cada d\'ia.
+\end{enumerate}
+
+%MS
+\item 
+Se quiere interpolar la funci\'on $f(x) = 1/(x^2+1)$, $x\in [-5,5]$. Para ello se consideran las dos siguientes alternativas.
+\begin{enumerate}
+    \item \puntaje{10}  Considere el conjunto de puntos $x_i = -5+0.5(i-1)$ con $i=1, ...,21$.
+    Construya un programa de \octave que calcule el prolinomio interpolante de la funci\'on $f$ en estos puntos. Adem\'as, en un mismo gr\'afico, grafique la funci\'on $f$, los puntos de interpolaci\'on y el polinomio de interpolaci\'on obtenido.
+    \item  \puntaje{15} Considere ahora el conjunto de puntos $z_i =  5\cos\left(\dfrac{(2i-1)\pi}{42}\right)$ con $i=1, ...,21$.
+    Construya un programa de \octave que interpole la funci\'on $f$ en estos puntos. Adem\'as, en un mismo gr\'afico, grafique la funci\'on $f$, los puntos de interpolaci\'on y el polinomio de interpolaci\'on obtenido. Observaci\'on: los putnos $z_i$ se conocen como nodos de Chebyshev.
+    \item \puntaje{5} ?`Qu\'e fen\'omeno observa en las gr\'aficas?. Justifique.
+\end{enumerate}
+\end{enumerate}
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+    \item 
+    \item
+\end{enumerate}
+
+\titulo{3}{2}
+\begin{enumerate}
+
+%FMP
+\item Considere el conjunto de matrices
+$$
+M=\left\{
+\begin{bmatrix}
+(-1)^i & i \\
+2^{-i} & \frac{1}{i}
+\end{bmatrix}
+\right\}_{i=1}^{101}
+$$
+\begin{enumerate}
+    \item \puntaje{5} Cree una funci\'on de \octave llamada \texttt{generadorM} que tenga como entrada el \'indice $i$ y como salida la i-\'esima matriz del conjunto anterior.
+    \item \puntaje{10} En un rutero de \octave grafique el determinante de cada matr\'iz de $M$ versus el \'indice de estas matrices.
+    \item \puntaje{15} En un rutero de \octave usando la funci\'on \texttt{det} y mediante un ciclo de iteraci\'on decida si las 101 matrices de este conjunto son o no invertibles.
+\end{enumerate}
+
+%MS
+\item
+Considere los siguientes datos de temperaturas en Concepci\'on  el jueves pasado.
+La hora $0$ corresponde a las 0:00 hrs.
+\begin{center}
+\begin{tabular}{c|ccccccccccccccccccccccccccccccccc}
+Hora (H) & 0 & 2 & 4 & 6 & 8 &10 &12 &14 &16 &18 &20 &22 &24 \\
+\hline 
+Temperatura ($^\circ C$)
+& 12 & 12 & 11 &10 &10 &14 &15 & 16 &15 &14 &11& 11 & 9
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+    \item  \puntaje{10} Construya un programa de \octave  que ajuste los datos por el siguente modelo:
+    $$
+    \displaystyle T(H) =  a_0 + a_1 H + a_2H^2.
+    $$
+    Graficar los puntos y la curva obtenida.  Adem\'as calcular $T(9)$.
+    \item  \puntaje{15}  Construya un programa de \octave  que ajuste los datos por el siguente modelo:
+    $$
+    \displaystyle f(H) =  c_1 + c_2 \cos\bigg(\frac{2\pi}{24} H\bigg) + c_3 \sen\bigg(\frac{2\pi}{24} H\bigg).
+    $$
+    Graficar los puntos y la curva obtenida.  Adem\'as calcular $f(9)$.
+    \item  \puntaje{5} ?`Cu\'al de los dos modelos ajusta mejor a los datos?. Justifique.
+\end{enumerate}
+\end{enumerate}
+\textbf{Desarrollo:}
+\begin{enumerate}
+    \item 
+    \item
+\end{enumerate}
+
+
+\titulo{4}{2}
+\begin{enumerate}
+
+%MS
+\item 
+Considere los siguientes datos de temperaturas en Concepci\'on  el jueves pasado.
+ La hora $0$ corresponde a las 0:00 hrs.
+ 
+ \begin{center}
+\begin{tabular}{c|ccccccccccccccccccccccccccccccccc}
+Hora (H) & 0 & 2 & 4 & 6 & 8 &10 &12 &14 &16 &18 &20 &22 &24 \\
+\hline 
+Temperatura ($^\circ C$)
+& 12 & 12 & 11 &10 &10 &14 &15 & 16 &15 &14 &11& 11 & 9
+\end{tabular}
+\end{center}
+  \begin{enumerate}
+\item  \puntaje{15} Construya un programa de \octave  que ajuste los datos por el siguente modelo:
+$$
+\displaystyle f(H) =  c_1 + c_2 \cos\bigg(\frac{2\pi}{24} H\bigg) + c_3 \sen\bigg(\frac{2\pi}{24} H\bigg).
+$$
+Graficar los puntos y la curva obtenida.  Adem\'as calcular $f(9)$.
+
+\item  \puntaje{10} Ajuste los datos utilizando splines c\'ubica natural. Graficar los puntos y la curva obtenida.  Adem\'as calcular el valor del spline en  $H =9$.
+
+\item  \puntaje{5} ?`Cu\'al de los dos modelos ajusta mejor a los datos?. Justifique.
+  \end{enumerate}
+% FV
+\item
+Considere la funci\'on definida por $f(x) = \sin(3x) + x^2, \ x\in [-\pi,\pi]$, y la recta $L$ de ecuaci\'on $2x-y+1=0$. Construya un programa de \octave que:
+\begin{enumerate}
+    \item \puntaje{10} Grafique, en un mismo gr\'afico (con distinto color), la funci\'on $f$ y la recta $L$.
+    \item \puntaje{20} Encuentre los puntos del intervalo $[-\pi,\pi]$ en que la recta tangente al gr\'afico de $f$ es paralela a la recta $L$.
+\end{enumerate}
+\end{enumerate}
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+    \item 
+    \item
+\end{enumerate}
+\titulo{5}{2}
+\begin{enumerate}
+
+%FMP
+\item El n\'umero $6174$ es conocido como una constante de \textbf{Kaprekar}. Todos los n\'umeros naturales menores que $10000$ y mayores que $1000$, a excepcion de los que tengan sus digitos repetidos, se pueden transformar en $6174$ ordenando los d\'itigos del n\'umero en orden descendente y ascendente, luego calcular la resta entre estos dos n\'umeros y finalmente repitiendo este proceso.
+
+Por ejemplo, para el n\'umero $n=2368$, sus digitos ordenados en orden ascendente son $2368$ y descendente son $8632$. As\'i la diferencia entre ellos es
+$$
+8632-2368=6264,
+$$
+repitiendo este proceso con el n\'umero reci\'en calculado
+$$
+6642-2466=4176
+$$
+similarmente, se llega a constante de Kaprekar.
+$$
+7641-1467=6174.
+$$
+As\'i, se dice que el n\'umero $n=2368$ tiene 3 pasos de Kaprekar.
+
+\begin{enumerate}
+    \item \puntaje{20} Cree una funci\'on de \octave que tenga como entrada un n\'umero natural menor que $10000$ y mayor que $1000$ y que tenga como salida los pasos de Kaprekar de dicho n\'umero.
+    \item \puntaje{10} Grafique los pasos de Kaprekar versus el n\'umero para los n\'umeros naturales entre $6000$ y $6200$.
+\end{enumerate}
+
+
+
+% FV
+\item
+Considere la funci\'on definida por $f(x) = \sin(x^2) - e^{3x+1}, \ x\in [-\pi,0]$, y la recta $L$ de ecuaci\'on $2x+y+4=0$. Construya un programa de \octave que:
+\begin{enumerate}
+    \item \puntaje{10} Grafique, en un mismo gr\'afico (con distinto color), la funci\'on $f$ y la recta $L$.
+    \item \puntaje{20} Encuentre los puntos del intervalo $[-\pi,0]$ en que la recta $L$ intersecta el gr\'afico de $f$.
+\end{enumerate}
+\end{enumerate}
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+    \item 
+    \item
+\end{enumerate}
+
+\end{document}

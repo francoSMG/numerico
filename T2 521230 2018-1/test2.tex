@@ -1,0 +1,380 @@
+\documentclass[legalpaper,11pt]{article}
+\input{preamble}
+
+\title{T2 521230 2018-1}
+\begin{document}
+\titulo{1}{4}	%Versión,cantidad de preguntas
+\begin{enumerate}
+\item
+Considere la familia de PVI
+$$
+\begin{array}{rl|}
+y'(x)	&=-\alpha\, y(x) \\
+y(1)	&=1 \\
+\hline
+\end{array}
+$$
+que se genera variando el valor del par\'ametro $\alpha$ en el conjunto $\{1,2,3,10,15,20,60,80\}$. Las soluciones exactas de estos problemas tienen la forma
+$$
+y(x)=e^{-\alpha x+ \alpha}.
+$$
+En un programa de \matlab llamado \texttt{ejercicio1.m},
+\begin{enumerate}
+    \item \puntaje{40} Programe el m\'etodo de Euler (RK11) para resolver todos estos problemas sobre la malla \texttt{1:0.1:2}.
+    \item \puntaje{20} Grafique en un mismo gr\'afico todas las soluciones num\'ericas obtenidas anteriormente.
+    \item \puntaje{20} Calcule el error global de cada soluci\'on obtenida anteriormente.
+    \item \puntaje{20} Construya el gr\'afico de error global versus $\alpha$ para cada soluci\'on obtenida.
+\end{enumerate}
+Adjunte el programa asociado a este problema al correo.
+\vfill
+
+\newpage
+\titulo{2}{5}	%Versión,cantidad de preguntas
+\item
+ Considere el PVI
+$$
+\begin{array}{rl|}
+xy'''+2xy'	&=0 \\
+y(0)	&=1\\
+y'(0)	&=1\\
+y''(0)	&=2\\
+\hline
+\end{array}
+$$
+cuya soluci\'on exacta es
+$$
+y(x) = \frac{sen(\sqrt{2} x)}{\sqrt{2}} - cos(\sqrt{2} x) + 2.
+$$
+En el siguiente casillero, mediante sustituciones, reduzca el orden del PVI para ser resuelto usando los m\'etodos RK.
+
+\hspace{-10mm}
+\framebox(500,250){}
+
+En un programa de Matlab llamado \texttt{programa1.m}
+\begin{enumerate}
+\item\puntaje{30}  Resuelva num\'ericamente el PVI usando el m\'etodo de Euler (RK11) y el m\'etodo RK45 usado en \texttt{ode45} sobre la malla \texttt{0:0.1:10}.
+\item \puntaje{20}  Grafique en un mismo gr\'afico la soluci\'on exacta y las obtenidas anteriormente.
+\item\puntaje{20}  Calcule los errores locales de estos m\'etodos.
+\item  \puntaje{15} Grafique los pares ordenados $\{(x_i,\tau_i)\}_{i=1}^N$ obtenidos, donde $x_i$ es el $i$-\'esimo nodo y $\tau_i$ es el $i$-\'esimo error local para cada soluci\'on num\'erica calculada.
+\item \puntaje{15} Determine el error global de cada m\'etodo.
+\end{enumerate}
+Adjunte el programa al correo.
+
+
+
+\newpage
+\titulo{3}{2}
+\item   Dado $N \in \mathbb{N} = \{1, 2, 3, \dotsc\}$ se define la siguiente regla de cuadratura sobre el intervalo $[0,2\pi]$:
+%
+\begin{subequations}\label{trig-quad}
+\begin{equation}
+\int_0^{2\pi} f(x) \, \mathrm{d}x \approx I_N(f) := \sum_{k=0}^{N-1} w_k \, f(x_k),
+\end{equation}
+%
+donde
+%
+\begin{equation}
+(\forall\,k\in\{0,\dotsc,N-1\}) \qquad x_k := \frac{2\pi k}{N} \quad\text{y}\quad w_k := \frac{2\pi}{N}.
+\end{equation}
+\end{subequations}
+%
+Note que el extremo $0$ es un nodo ($x_0)$ pero el extremo $2\pi$ no lo es.
+
+Se dice la regla de cuadratura $I_N$ es exacta para polinomios trigonom\'etricos de grado menor o igual a $M \in \mathbb{N}$ si y solo si la regla integra exactamente a las funciones en la colecci\'on $\{1\} \cup \bigcup_{m=1}^M \{ \cos(mx), \sen(mx) \}$; esto es,
+%
+\begin{equation*}
+I_N(1) = 2\pi \qquad\wedge\quad (\forall\,m\in\{1,\dotsc,M\}) \quad I_N(\cos(mx)) = 0 \ \wedge\ I_N(\sen(mx)) = 0.
+\end{equation*}
+
+\begin{enumerate}
+\item \puntaje{60} Escriba una funci\'on \matlab que reciba una funci\'on $f$ y un $N \in \mathbb{N}$ y devuelva la cuadratura $I_N(f)$.
+
+Por ejemplo, si su funci\'on se llama \texttt{trigquad}, deber\'ia poder usarse de la siguiente manera:
+\begin{lstlisting}
+>> trigquad(@(x) x.^0, 10) % @(x) x.^0 es la funci\'on 1 vectorizada
+
+ans =
+
+    6.2832
+
+>> trigquad(@(x) cos(3*x), 5)
+
+ans =
+
+   1.3951e-16
+\end{lstlisting}
+
+\medskip
+
+?`C\'omo llam\'o a su funci\'on?
+
+\begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+Nombre funci\'on & \\\hline
+\end{tabularx}
+
+\medskip
+
+\item \puntaje{40} Escriba un rutero \matlab donde se compruebe num\'ericamente que la regla de cuadratura $I_N$ es exacta (salvo errores de redondeo) para polinomios trigonom\'etricos de grado menor o igual a $N-1$ pero \textbf{no lo es} para polinomios trigonom\'etricos de grado menor o igual a $N$, para $N \in \{1, 6, 11\}$.
+
+\medskip
+
+?`C\'omo llam\'o a su rutero?
+
+\begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+Nombre rutero & \\\hline
+\end{tabularx}
+
+% \medskip
+
+% \item (30\%) Sea $g \colon [0,2\pi] \to \mathbb{R}$ la funci\'on definida por
+% %
+% \begin{equation*}
+% g(x) = \exp(-2 \sen(x+2)) - \exp(-\cos(x)) \cos(\sen(x)).
+% \end{equation*}
+% %
+% El valor de la integral $I := \int_0^{2\pi} g(x) \, \mathrm{d} x$ se puede representar con alta precisi\'on en \matlab mediante
+% \begin{Verbatim}[frame=single]
+% I = 2*pi*(besseli(0,2)-1)
+% \end{Verbatim}
+% (aqu\'i \texttt{besseli} es una \emph{funci\'on de Bessel}).
+% Escriba un rutero \matlab que grafique $N$ versus $\lvert I_N(g) - I \rvert$ en escala horizontalmente lineal y verticalmente logar\'itmica ---esto es, use \texttt{semilogy} en lugar de \texttt{plot}; la sintaxis es id\'entica--- para $N \in \{1, 2, \dotsc, 24\}$.
+
+% Deber\'ia obtener una curva que inicialmente es, a grandes rasgos, semejante a una recta con pendiente negativa, reflejando un r\'egimen de \emph{convergencia exponencial} de la regla de cuadratura; seguidamente, la curva se estanca en un valor del orden de \texttt{eps} debido a que los n\'umeros de punto flotante, al almacenar una cantidad finita fija de d\'igitos significativos, no pueden reflejar la precisi\'on te\'orica del m\'etodo en forma indefinida.
+
+% \medskip
+
+% ?`C\'omo llam\'o a su rutero?
+
+% \begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+% Nombre rutero & \\\hline
+% \end{tabularx}
+
+% \medskip
+
+\end{enumerate}
+
+
+\titulo{4}{2}
+\item Dado $N \in \mathbb{N} = \{1, 2, 3, \dotsc \}$ se define la siguiente regla de cuadratura de $N+1$ puntos sobre el intervalo $[-1,1]$:
+%
+\begin{subequations}\label{cheb-quad}
+\begin{equation}\label{cheb-quad-main}
+\int_{-1}^1 f(x) \, \frac{1}{\sqrt{1-x^2}} \, \mathrm{d}x
+\approx I_N(f) := \sum_{k=0}^N w_k \, f(x_k),
+\end{equation}
+%
+donde los nodos y los pesos est\'an dados por
+%
+\begin{equation}
+(\forall\,k\in\{0,\dotsc,N\}) \quad x_k = \cos\left(\frac{k \pi}{N}\right)
+\end{equation}
+%
+y
+%
+\begin{equation}
+w_0 = \frac{\pi}{2N}, \qquad (\forall\,k\in\{1, \dotsc, N-1\}) \quad w_k = \frac{\pi}{N}, \qquad w_N = \frac{\pi}{2N}.
+\end{equation}
+\end{subequations}
+
+\textbf{Es muy importante} notar que las integrales que se aproximan (lado izquierdo de \eqref{cheb-quad-main}) involucran la \emph{funci\'on peso} $\frac{1}{\sqrt{1-x^2}}$ pero que la regla de cuadratura precisa solamente de evaluaciones de la funci\'on que en el integrando multiplica a dicha funci\'on peso.
+
+\begin{enumerate}
+\item \puntaje{60} Escriba una funci\'on \matlab que reciba una funci\'on $f$ y un $N \in \mathbb{N}$ y devuelva la cuadratura $I_N(f)$ para aproximar la integral que aparece en \eqref{cheb-quad-main}.
+
+Por ejemplo, si su funci\'on se llama \texttt{weightedquad}, deber\'ia poder usarse de la siguiente manera:
+\begin{Verbatim}[frame=single]
+>> weightedquad(@(x) x.^0, 10) % "@(x) x.^0" es la funci\'on 1 vectorizada
+
+ans =
+
+    3.1416
+
+>> weightedquad(@(x) x.^3, 5)
+
+ans =
+
+   1.3951e-16
+\end{Verbatim}
+
+\medskip
+
+?`C\'omo llam\'o a su funci\'on?
+
+\begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+Nombre funci\'on & \\\hline
+\end{tabularx}
+
+\medskip
+
+\item \puntaje{40} Escriba un rutero \matlab donde se compruebe num\'ericamente que la regla de cuadratura $I_N$ es exacta (salvo errores de redondeo) para computar la integral del producto de cualquier polinomio de grado menor o igual a $2N-1$ por la funci\'on peso $\frac{1}{\sqrt{1-x^2}}$ pero \textbf{no lo es} para el computar la integral del producto de polinomios de grado $2N$ y la misma funci\'on peso para $N \in \{1, 6, 11\}$.
+
+\emph{Indicaci\'on:} Note que
+%
+\begin{equation*}
+\int_{-1}^1 \frac{1}{\sqrt{1-x^2}} \, \mathrm{d}x = \pi
+\end{equation*}
+%
+y que
+%
+\begin{equation*}
+(\forall\,n\in\mathbb{N}) \quad
+\int_{-1}^1 x^n \frac{1}{\sqrt{1-x^2}} \, \mathrm{d}x
+= \begin{cases}
+\frac{2\sqrt{\pi}}{n} \frac{\Gamma\left(\frac{n+1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)} & \text{si $n$ es par,}\\
+0 & \text{si $n$ es impar.}
+\end{cases}
+\end{equation*}
+%
+En \matlab la funci\'on $\Gamma$ se llama \texttt{gamma}.
+En \matlab se puede testear si un n\'umero \texttt{n} es par mediante \texttt{n == 2*round(n/2)}.
+
+\medskip
+
+?`C\'omo llam\'o a su rutero?
+
+\begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+Nombre rutero & \\\hline
+\end{tabularx}
+
+\medskip
+
+% \item (30\%) Sea $g \colon [-1,1] \to \mathbb{R}$ la funci\'on definida por
+% %
+% \begin{equation*}
+% g(x) = \cos\left(x-\frac{1}{2}\right).
+% \end{equation*}
+% %
+% El valor de la integral $I := \int_{-1}^1 g(x) \frac{1}{\sqrt{1-x^2}} \, \mathrm{d} x$ se puede representar con alta precisi\'on en \matlab mediante
+% \begin{Verbatim}[frame=single]
+% I = pi*besselj(0,1)*cos(1/2)
+% \end{Verbatim}
+% (aqu\'i \texttt{besselj} es una \emph{funci\'on de Bessel}).
+% Escriba un rutero \matlab que grafique $N$ versus $\lvert I_N(g) - I \rvert$ en escala horizontalmente lineal y verticalmente logar\'itmica ---esto es, use \texttt{semilogy} en lugar de \texttt{plot}; la sintaxis es id\'entica--- para $N \in \{1, 2, \dotsc, 14\}$.
+
+% Deber\'ia obtener una curva que inicialmente es, a grandes rasgos, semejante a una recta con pendiente negativa, reflejando un r\'egimen de \emph{convergencia exponencial} de la regla de cuadratura; seguidamente, la curva se estanca en un valor del orden de \texttt{eps} debido a que los n\'umeros de punto flotante, al almacenar una cantidad finita fija de d\'igitos significativos, no pueden reflejar la precisi\'on te\'orica del m\'etodo en forma indefinida.
+
+% \medskip
+
+% ?`C\'omo llam\'o a su rutero?
+
+% \begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+% Nombre rutero & \\\hline
+% \end{tabularx}
+
+% \medskip
+
+\end{enumerate}
+
+\newpage
+\titulo{5}{3}
+\item El PVC
+$$
+\begin{array}{cl|}
+y''(t)	&=-0.5y'(t)+9.81\\
+y(0)	&=1\\
+y(10)	&=10\\ \hline
+\end{array}
+$$
+modela la altura de un objeto $y(t)$ en el instante $t$. El objeto parte en la posici\'on $(0,1)$ y termina en la posici\'on $(10,10)$. Recuerde que este PVC se resuelve num\'ericamente resolviendo el sistema de ecuaciones tridiagonal
+$$
+\begin{bmatrix}
+2 & -1-\frac{h}{4} & 0 & \cdots & 0 \\
+-1+\frac{h}{4} & 2 & -1-\frac{h}{4} & \cdots& 0 \\
+\vdots & \ddots & \ddots & \ddots &\vdots \\
+0 & \cdots &-1+\frac{h}{4} & 2 & -1-\frac{h}{4} \\
+0 & \cdots & 0 &-1+\frac{h}{4} & 2  \\
+\end{bmatrix}
+\begin{bmatrix}
+y_1\\y_2\\\vdots \\y_{n-2}\\y_{n-1}
+\end{bmatrix}
+=
+h^2\begin{bmatrix}
+-9.81-1+\frac{h}{4}\\
+-9.81\\
+\vdots \\
+-9.81\\
+-9.81-1-\frac{h}{4}
+\end{bmatrix}
+$$
+el cual da origen a la soluci\'on num\'erica $\{(x_i,y_i)\}_{i=0}^n$ mediante el m\'etodo de diferencias finitas en una malla de nodos equiespaciados definidos por $x_i=1+i\frac{9}{n}$, $\forall i \in\{0,\cdots, n\}$, donde $h=\frac{9}{n}$ es el tama\~{n}o de la malla del m\'etodo.
+
+\begin{enumerate}
+\item \puntaje{40} Cree una funci\'on de llamada \texttt{matricesDF.m}, que tenga como entrada la cantidad de nodos \texttt{n} y que retorne la matriz de coeficientes el vector del lado derecho del sistema anterior.
+
+\item \puntaje{40} En un rutero llamado \texttt{DF.m}, usando la funci\'on \texttt{matricesDF}, resuelva el problema anterior para $n\in \{5,10,15,20,25,30\}$
+
+\item \puntaje{20} Grafique las soluciones obtenidas.
+\end{enumerate}
+
+Adjunte el rutero \texttt{DF.m} y la funci\'on \texttt{matricesDF.m} al correo.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55555
+\newpage
+\titulo{6}{2}
+ \item Considere el siguiente PVI:
+ $$
+ \left\{
+ \renewcommand*{\arraystretch}{1.5}
+ \begin{array}{l}
+ e^xy'''-\sen(y'')+2e^xy'-y=\displaystyle\int_0^x\cos(t^2)\,dt,\qquad x\in[0,10]\\
+ y(0)=0,\quad, y'(0)=1,\quad y''(0)=-1,
+ \end{array}
+ \right.
+ $$
+ donde $y=y(x)$.
+ \begin{enumerate}
+ \item \puntaje{20} En el siguiente casillero, mediante sustituciones, reduzca el orden del PVI para ser resuelto usando los m\'etodos RK.
+
+\hspace{-10mm}
+\framebox(500,250){}
+\item  Escriba un rutero \matlab, llamado \verb"version6.m", que realice las siguientes tareas:
+\begin{itemize}
+\item \puntaje{40} resuelva num\'ericamente el problema,
+\item \puntaje{20} grafique las soluciones $y$ e $y'$, en un mismo gr\'afico,
+\item \puntaje{20} muestre en pantalla los valores que se pide a continuaci\'on:
+$$
+y(10),\qquad y'(10),\qquad y''(10), \qquad y'''(10).
+$$
+\end{itemize}
+Puede escribir los programas adicionales que considere necesario para desarrollar este ejercicio.
+ \end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\titulo{7}{3}
+\item Considere el siguiente Problema de Valores Iniciales:
+
+$$
+\left\{
+\renewcommand*{\arraystretch}{1.5}
+\begin{array}{l}
+ x'=3\sen(t)x+2ty+1 \qquad t\in[0, 1{.}5]\\
+y''=2x+t^2y'-5y+e^t\qquad t\in[0, 1{.}5]\\
+x(0)=0,\quad y(0)=2,\quad y'(0)=0\\
+\end{array}\right.
+$$
+
+\noindent donde $x=x(t)$ e $y=y(t)$. Para resolver este problema, utilizaremos el M\'etodo de Euler Impl\'icito, en cual considera una partici\'on del intervalo $[0, 1{.}5]$ en $N$ subintervalos de tama\~no $h$, donde:
+$$t_i=(i-1)h,\,\,\,i=1,\ldots,N+1\qquad \textrm{con} \qquad h=\dfrac{1{.}5}{N}. $$
+  \begin{enumerate}
+ \item \puntaje{20} En el siguiente casillero, mediante sustituciones, reduzca el orden del PVI para ser resuelto usando el m\'etodo de Euler Impl\'icito.
+
+\hspace{-10mm}
+\framebox(500,200){}
+
+\item \puntaje{20} En el siguiente casillero escriba, como un sistema de ecuaciones lineales, el esquema resultante al aplicar el m\'etodo de Euler Impl\'icito al PVI del item anterior.
+
+\hspace{-10mm}
+\framebox(500,150){}
+
+\item  Escriba un rutero \matlab, llamado \verb"version7.m", que realice las siguientes tareas:
+\begin{itemize}
+\item \puntaje{40} resuelva num\'ericamente el problema usando el esquema de Euler Impl\'icito obtenido en el item anterior,
+\item \puntaje{20} grafique las soluciones $x$ e $y$, en un mismo gr\'afico,
+\end{itemize}
+Puede escribir los programas adicionales que considere necesario para desarrollar este ejercicio.
+ \end{enumerate}
+\end{enumerate}
+\end{document}

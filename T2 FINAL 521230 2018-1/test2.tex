@@ -1,0 +1,544 @@
+\documentclass[legalpaper,11pt]{article}
+\input{preamble}
+
+\title{T2 FINAL 521230 2018-1}
+\begin{document}
+\titulo{1}{5}	%Versión,cantidad de preguntas 				
+\begin{enumerate}
+\item 
+ Considere el P.V.I.
+$$
+\begin{array}{rl|}
+xy'''+2xy'	&=0 \\
+y(0)	&=1\\
+y'(0)	&=1\\
+y''(0)	&=2\\
+\hline
+\end{array}
+$$
+cuya soluci\'on exacta es 
+$$
+y(x) = \frac{sen(\sqrt{2} x)}{\sqrt{2}} - cos(\sqrt{2} x) + 2.
+$$
+En el siguiente casillero, mediante sustituciones, reduzca el orden del P.V.I. para ser resuelto usando los m\'etodos RK.
+
+\hspace{-10mm}
+\framebox(500,250){}
+
+En un programa de Matlab llamado \texttt{programa1.m}
+\begin{enumerate}
+\item\puntaje{30}  Resuelva num\'ericamente el P.V.I. usando el m\'etodo de Euler (RK11) y el m\'etodo RK45 usado en \texttt{ode45} sobre la malla \texttt{0:0.1:10}.
+\item \puntaje{20}  Grafique en un mismo gr\'afico la soluci\'on exacta y las obtenidas anteriormente.
+\item\puntaje{20}  Calcule los errores locales de estos m\'etodos.
+\item  \puntaje{15} Grafique los pares ordenados $\{(x_i,\tau_i)\}_{i=1}^N$ obtenidos, donde $x_i$ es el $i$-\'esimo nodo y $\tau_i$ es el $i$-\'esimo error local para cada soluci\'on num\'erica calculada.
+\item \puntaje{15} Determine el error global de cada m\'etodo.
+\end{enumerate}
+Adjunte el programa al correo.
+
+\textbf{Desarrollo:} La sustituci\'on necesaria para este problema es
+$$
+u_1=y, \quad u_2=y', \quad u_3=y'',
+$$
+con la cual se crea el sistema
+$$
+\begin{array}{cl|}
+u_1'	&=u_2\\
+u_2'	&=u_3\\
+u_3'	&=-2 u_2\\ 
+\hline
+\end{array}
+\text{ con las condiciones iniciales }
+\begin{array}{cl|}
+u_1(0)	&=1\\
+u_2(0)	&=1\\
+u_3(0)	&=2\\ 
+\hline
+\end{array}
+$$
+El programa solicitado debe tener instrucciones similares a
+\begin{lstlisting}
+%%Método de Euler
+DF=@(x,u) [0,1,0;0,0,1;0,-2,0]*u
+x=0:0.1:1;
+u=[1;1;2]
+for i=1:length(x)-1
+   u(:,i+1)=DF(x(i),u(:,i))*(x(i+1)-x(i))+u(:,i);
+endfor
+
+%Método de ode45
+[X,U]=ode45(DF,x,[1;1;2]);    %%30 PUNTOS
+
+plot(x,u(1,:),X,U(:,1))   	%%20 PUNTOS
+
+f=@(x) sin(sqrt(2)*x)/sqrt(2)-cos(sqrt(2)*x)+2;
+errorLocal1=abs(u(1,:)-f(x));
+errorLocal2=abs(U(:,1)-f(X)); %%20 PUNTOS
+
+figure(2)
+subplot(1,2,1)
+plot(x,errorLocal1);
+subplot(1,2,2)
+plot(x,errorLocal2);  %%15 PUNTOS
+
+errorGlobal1=max(errorLocal1)
+errorGlobal2=max(errorLocal2) %%15 PUNTOS
+\end{lstlisting}
+con las cuales se hacen las gr\'aficas
+\begin{center}
+\includegraphics[width=0.6\textwidth]{./T2V1-1.eps}
+
+\includegraphics[width=0.6\textwidth]{./T2V1-2.eps}
+\end{center}
+
+
+
+\newpage
+\titulo{2}{2}
+\item   Dado $N \in \mathbb{N} = \{1, 2, 3, \dotsc\}$ se define la siguiente regla de cuadratura sobre el intervalo $[0,2\pi]$:
+%
+\begin{subequations}\label{trig-quad}
+\begin{equation}
+\int_0^{2\pi} f(x) \, \mathrm{d}x \approx I_N(f) := \sum_{k=0}^{N-1} w_k \, f(x_k),
+\end{equation}
+%
+donde
+%
+\begin{equation}
+(\forall\,k\in\{0,\dotsc,N-1\}) \qquad x_k := \frac{2\pi k}{N} \quad\text{y}\quad w_k := \frac{2\pi}{N}.
+\end{equation}
+\end{subequations}
+%
+Note que el extremo $0$ es un nodo ($x_0)$ pero el extremo $2\pi$ no lo es.
+
+Se dice la regla de cuadratura $I_N$ es exacta para polinomios trigonom\'etricos de grado menor o igual a $M \in \mathbb{N}$ si y solo si la regla integra exactamente a las funciones en la colecci\'on $\{1\} \cup \bigcup_{m=1}^M \{ \cos(mx), \sen(mx) \}$; esto es,
+%
+\begin{equation*}
+I_N(1) = 2\pi \qquad\wedge\quad (\forall\,m\in\{1,\dotsc,M\}) \quad I_N(\cos(mx)) = 0 \ \wedge\ I_N(\sen(mx)) = 0.
+\end{equation*}
+
+\begin{enumerate}
+\item \puntaje{60} Escriba una funci\'on \matlab que reciba una funci\'on $f$ y un $N \in \mathbb{N}$ y devuelva la cuadratura $I_N(f)$.
+
+Por ejemplo, si su funci\'on se llama \texttt{trigquad}, deber\'ia poder usarse de la siguiente manera:
+\begin{lstlisting}
+>> trigquad(@(x) x.^0, 10) % @(x) x.^0 es la funci\'on 1 vectorizada
+
+ans =
+
+    6.2832
+
+>> trigquad(@(x) cos(3*x), 5)
+
+ans =
+
+   1.3951e-16
+\end{lstlisting}
+
+\medskip
+
+?`C\'omo llam\'o a su funci\'on?
+
+\begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+Nombre funci\'on & \\\hline
+\end{tabularx}
+
+\medskip
+
+\item \puntaje{40} Escriba un rutero \matlab donde se compruebe num\'ericamente que la regla de cuadratura $I_N$ es exacta (salvo errores de redondeo) para polinomios trigonom\'etricos de grado menor o igual a $N-1$ pero \textbf{no lo es} para polinomios trigonom\'etricos de grado menor o igual a $N$, para $N \in \{1, 6, 11\}$.
+
+\medskip
+
+?`C\'omo llam\'o a su rutero?
+
+\begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+Nombre rutero & \\\hline
+\end{tabularx}
+\end{enumerate}
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+\item La funci\'on solicitada debe tener instrucciones similares a
+\begin{lstlisting}
+function val = trigquad (f,N)
+  x=2*pi/N*[0:N-1];
+  w=2*pi/N*ones(1,N);
+  val=w*f(x)';
+endfunction
+\end{lstlisting}
+\hfill\fbox{60 puntos}
+
+\item El programa debe contener instrucciones similares a
+\begin{lstlisting}
+for N=[1,6,11]
+    p=@(x) x.^0
+    int=2*pi;
+    quad=trigquad(p,N);
+    if(abs(int-quad)>10^-10)
+        disp(['Error de cuadratura :', num2str(abs(int-quad))] );
+        disp(['Con nodos :', num2str(N)] );
+        disp(['Para la función trigonometrica: f(x)=1']);
+        endif
+    for i=1:N
+      p=@(x) cos(i*x);
+      int=(sin(i*2*pi)-sin(i*0))/i;
+      quad=trigquad(p,N);
+      if(abs(int-quad)>10^-10)
+        disp(['Error de cuadratura :', num2str(abs(int-quad))] );
+        disp(['Con nodos :', num2str(N)] );
+        disp(['Para la función trigonometrica: cos(',num2str(i),'x)']);
+      endif
+    endfor
+    for i=1:N
+      p=@(x) sin(i*x);
+      int=(-cos(i*2*pi)+cos(i*0))/i;
+      quad=trigquad(p,N);
+      if(abs(int-quad)>10^-10)
+        disp(['Error de cuadratura :', num2str(abs(int-quad))] );
+        disp(['Con nodos :', num2str(N)] );
+        disp(['Para la función trigonometrica: sen(',num2str(i),'x)']);
+      endif    
+    endfor
+  endfor
+\end{lstlisting}
+\hfill\fbox{40 puntos}
+
+El cual al ejecutarse muestra la salida
+
+\begin{lstlisting}
+Error de cuadratura :6.2832
+Con nodos :1
+Para la función trigonometrica: cos(1x)
+Error de cuadratura :6.2832
+Con nodos :6
+Para la función trigonometrica: cos(6x)
+Error de cuadratura :6.2832
+Con nodos :11
+Para la función trigonometrica: cos(11x)
+\end{lstlisting}
+
+\end{enumerate}
+
+
+\titulo{3}{2}
+\item Dado $N \in \mathbb{N} = \{1, 2, 3, \dotsc \}$ se define la siguiente regla de cuadratura de $N+1$ puntos sobre el intervalo $[-1,1]$:
+%
+\begin{subequations}\label{cheb-quad}
+\begin{equation}\label{cheb-quad-main}
+\int_{-1}^1 f(x) \, \frac{1}{\sqrt{1-x^2}} \, \mathrm{d}x
+\approx I_N(f) := \sum_{k=0}^N w_k \, f(x_k),
+\end{equation}
+%
+donde los nodos y los pesos est\'an dados por
+%
+\begin{equation}
+(\forall\,k\in\{0,\dotsc,N\}) \quad x_k = \cos\left(\frac{k \pi}{N}\right)
+\end{equation}
+%
+y
+%
+\begin{equation}
+w_0 = \frac{\pi}{2N}, \qquad (\forall\,k\in\{1, \dotsc, N-1\}) \quad w_k = \frac{\pi}{N}, \qquad w_N = \frac{\pi}{2N}.
+\end{equation}
+\end{subequations}
+
+\textbf{Es muy importante} notar que las integrales que se aproximan (lado izquierdo de \eqref{cheb-quad-main}) involucran la \emph{funci\'on peso} $\frac{1}{\sqrt{1-x^2}}$ pero que la regla de cuadratura precisa solamente de evaluaciones de la funci\'on que en el integrando multiplica a dicha funci\'on peso.
+
+\begin{enumerate}
+\item \puntaje{60} Escriba una funci\'on \matlab que reciba una funci\'on $f$ y un $N \in \mathbb{N}$ y devuelva la cuadratura $I_N(f)$ para aproximar la integral que aparece en \eqref{cheb-quad-main}.
+
+Por ejemplo, si su funci\'on se llama \texttt{weightedquad}, deber\'ia poder usarse de la siguiente manera:
+\begin{Verbatim}[frame=single]
+>> weightedquad(@(x) x.^0, 10) % "@(x) x.^0" es la funci\'on 1 vectorizada
+
+ans =
+
+    3.1416
+
+>> weightedquad(@(x) x.^3, 5)
+
+ans =
+
+   1.3951e-16
+\end{Verbatim}
+
+\medskip3
+
+?`C\'omo llam\'o a su funci\'on?
+
+\begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+Nombre funci\'on & \\\hline
+\end{tabularx}
+
+\medskip
+
+\item \puntaje{40} Escriba un rutero \matlab donde se compruebe num\'ericamente que la regla de cuadratura $I_N$ es exacta (salvo errores de redondeo) para computar la integral del producto de cualquier polinomio de grado menor o igual a $2N-1$ por la funci\'on peso $\frac{1}{\sqrt{1-x^2}}$ pero \textbf{no lo es} para el computar la integral del producto de polinomios de grado $2N$ y la misma funci\'on peso para $N \in \{1, 6, 11\}$.
+
+\emph{Indicaci\'on:} Note que
+%
+\begin{equation*}
+\int_{-1}^1 \frac{1}{\sqrt{1-x^2}} \, \mathrm{d}x = \pi
+\end{equation*}
+%
+y que
+%
+\begin{equation*}
+(\forall\,n\in\mathbb{N}) \quad
+\int_{-1}^1 x^n \frac{1}{\sqrt{1-x^2}} \, \mathrm{d}x
+= \begin{cases}
+\frac{2\sqrt{\pi}}{n} \frac{\Gamma\left(\frac{n+1}{2}\right)}{\Gamma\left(\frac{n}{2}\right)} & \text{si $n$ es par,}\\
+0 & \text{si $n$ es impar.}
+\end{cases}
+\end{equation*}
+%
+En \matlab la funci\'on $\Gamma$ se llama \texttt{gamma}.
+En \matlab se puede testear si un n\'umero \texttt{n} es par mediante \texttt{n == 2*round(n/2)}.
+
+\medskip
+
+?`C\'omo llam\'o a su rutero?
+
+\begin{tabularx}{\linewidth}{|p{7em}|X|}\hline
+Nombre rutero & \\\hline
+\end{tabularx}
+
+\medskip
+
+\end{enumerate}
+\textbf{Desarrollo:} 
+\begin{enumerate}
+\item 
+La funci\'on debe tener una estructura similar a
+\begin{lstlisting}
+function val = weightedquad (f,N)
+x=cos(pi/N*[0:N]);
+w=[pi/2/N,pi/N*ones(1,N-1),pi/2/N];
+val=w*f(x)';
+endfunction
+\end{lstlisting}
+\hfill\fbox{60 puntos}
+
+\item El rutero debe hacer instrucciones similares a
+\begin{lstlisting}
+for N=[1,6,11]
+    for i=1:2*N
+      p=@(x) x.^i;
+      if i==2*round(i/2)
+        int=2*sqrt(pi)/i*gamma((i+1)/2)/gamma(i/2);
+      else
+        int=0;
+      endif
+      quad=weightedquad(p,N);
+      if(abs(int-quad)>=10^-10)
+        disp(['Error de cuadratura :', num2str(abs(int-quad))] );
+        disp(['Con nodos :', num2str(N)] );
+        disp(['Para la función trigonometrica: x^',num2str(i)]);
+      endif
+    endfor
+  endfor
+\end{lstlisting}
+\hfill\fbox{40 puntos}
+
+con los cuales se observa que
+\begin{lstlisting}
+Error de cuadratura :1.5708
+Con nodos :1
+Para la función trigonometrica: x^2
+Error de cuadratura :0.001534
+Con nodos :6
+Para la función trigonometrica: x^12
+Error de cuadratura :1.498e-006
+Con nodos :11
+Para la función trigonometrica: x^22
+\end{lstlisting}
+\end{enumerate}
+
+\newpage
+\titulo{4}{4}
+\item El P.V.C.
+$$
+\begin{array}{cl|}
+y''(t)	&=-0.5y'(t)-9.81\\
+y(0)	&=1\\
+y(10)	&=10\\ \hline
+\end{array}
+$$
+modela la altura de un objeto $y(t)$ en el instante $t$. El cual parte en la posici\'on $(0,1)$ y termina en la posici\'on $(10,10)$. Recuerde que este P.V.C. se resuelve num\'ericamente resolviendo el sistema de ecuaciones tridiagonal
+$$
+\begin{bmatrix}
+2 & -1+\frac{h}{4} & 0 & \cdots & 0 \\
+-1-\frac{h}{4} & 2 & -1+\frac{h}{4} & \cdots& 0 \\
+\vdots & \ddots & \ddots & \ddots &\vdots \\
+0 & \cdots &-1-\frac{h}{4} & 2 & -1+\frac{h}{4} \\
+0 & \cdots & 0 &-1-\frac{h}{4} & 2  \\
+\end{bmatrix}
+\begin{bmatrix}
+y_1\\y_2\\\vdots \\y_{n-2}\\y_{n-1}
+\end{bmatrix}
+=
+h^2\begin{bmatrix}
+9.81-1+\frac{h}{4}\\
+9.81\\
+\vdots \\
+9.81\\
+9.81-1-\frac{h}{4}
+\end{bmatrix}
+$$
+el cual da origen a la soluci\'on num\'erica $\{(x_i,y_i)\}_{i=0}^n$ mediante el m\'etodo de diferencias finitas, en una malla de $n+1$ nodos equiespaciados definidos por $x_i=1+i\frac{9}{n}$, $\forall i \in\{0,\cdots, n\}$, donde $h=\frac{9}{n}$ es el tama\~{n}o de la malla del m\'etodo.
+
+\begin{enumerate}
+\item \puntaje{40} Cree una funci\'on de llamada \texttt{matricesDF.m}, que tenga como entrada el m\'aximo \'indice de nodos \texttt{n} y que retorne la matriz de coeficientes del sistema anterior y el vector del lado derecho.
+
+\item \puntaje{40} En un rutero llamado \texttt{DF.m}, usando la funci\'on \texttt{matricesDF} resuelva el problema anterior para $n\in \{5,10,15,20,25,30\}$
+
+\item \puntaje{10} En este mismo rutero, grafique las soluciones obtenidas en un mismo gr\'afico.
+
+\item \puntaje{10} Determine la altura m\'axima que alcanza este objeto en su trayectoria.
+
+\hspace{-10mm}
+\framebox(500,100){}
+\end{enumerate}
+
+Adjunte el rutero \texttt{DF.m} y la funci\'on \texttt{matricesDF.m} al correo.
+
+\textbf{Desarrollo:} 
+
+La funci\'on \texttt{matricesDF} debe tener instrucciones similares a
+\begin{lstlisting}
+function [M,b]=matricesDF(n)
+  h=9/n;
+  M=diag(2*ones(1,n-1))+diag((-1-h/4)*ones(1,n-2),-1)+diag((-1+h/4)*ones(1,n-2),1);
+  b=9.81*ones(n-1,1);
+  b(1)=b(1)-1+h/4;
+  b(end)=b(end)-1-h/4;
+  b=h^2*b;
+\end{lstlisting}
+\hfill\fbox{40 puntos}
+
+y el rutero debe contener las instrucciones
+\begin{lstlisting}
+clear all; close all; clc;
+for n=5:5:30
+   [M,b]=matricesDF(n);
+   y=M\b;
+   y=[1;y;10];
+   t=1:9/n:10;
+   plot(t,y);hold on;
+end
+
+max(y)
+\end{lstlisting}
+\hfill\fbox{ 50 puntos}
+
+con la cual se observa que la altura m\'axima del objeto es alrededor de \texttt{79} unidades de medida.  \hfill\fbox{ 10 puntos}
+ 
+ 
+ 
+ \newpage
+ \titulo{5}{3}
+ \item Considere el siguiente Problema de Valores Iniciales:
+
+$$
+\left\{
+\renewcommand*{\arraystretch}{1.5}
+\begin{array}{l}
+ x'=3\sen(t)x+2ty+1 \qquad t\in[0, 1{.}5]\\
+y''=2x+t^2y'-5y+e^t\qquad t\in[0, 1{.}5]\\
+x(0)=0,\quad y(0)=2,\quad y'(0)=0\\
+\end{array}\right.
+$$
+
+\noindent donde $x=x(t)$ e $y=y(t)$. Para resolver este problema, utilizaremos el M\'etodo de Euler Impl\'icito, en cual considera una partici\'on del intervalo $[0, 1{.}5]$ en $N$ subintervalos de tama\~no $h$, donde:
+$$t_i=(i-1)h,\,\,\,i=1,\ldots,N+1\qquad \textrm{con} \qquad h=\dfrac{1{.}5}{N}. $$
+  \begin{enumerate}
+ \item \puntaje{20} En el siguiente casillero, mediante sustituciones, reduzca el orden del PVI para ser resuelto usando el m\'etodo de Euler Impl\'icito.
+
+\hspace{-10mm}
+\framebox(500,200){}
+
+\item \puntaje{20} En el siguiente casillero escriba, como un sistema de ecuaciones lineales, el esquema resultante al aplicar el m\'etodo de Euler Impl\'icito al PVI del item anterior.
+
+\hspace{-10mm}
+\framebox(500,150){}
+
+\item  Escriba un rutero \matlab, llamado \texttt{version5.m}, que realice las siguientes tareas:
+\begin{itemize}
+\item \puntaje{40} resuelva num\'ericamente el problema usando el esquema de Euler Impl\'icito obtenido en el item anterior, 
+\item \puntaje{20} grafique las soluciones $x$ e $y$, en un mismo gr\'afico,
+\end{itemize}
+Puede escribir los programas adicionales que considere necesario para desarrollar este ejercicio, no olvide adjuntarlos al correo.
+ \end{enumerate}
+ 
+ \textbf{Desarrollo:}
+ \begin{enumerate}
+\item  Mediante las sustituciones
+ $$
+ u_1=x, \quad u_2=y, \quad u_3=y',
+ $$
+ el P.V.I. puede ser planteado como
+ $$
+ \begin{array}{l|}
+ u_1'=3sen(t)u_1+2tu_2+1\\
+ u_2'=u_3\\
+ u_3'=2u_1+t^2u_3-5u_2+e^t\\
+ u_1(0)=0, \quad u_2(0)= 2, \quad u_3(0)=0\\ \hline 
+ \end{array}
+ $$
+\hfill\fbox{20 puntos}
+
+\item Usando el m\'etodo de Euler impl\'icito
+$$
+\begin{bmatrix}
+u_1^{i+1}\\ u_2^{i+1}\\ u_3^{i+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+3sen(t_{i+1})u_1^{i+1}+2t_{i+1}u_2^{i+1}+1\\
+u_3^{i+1}\\
+2u_1^{i+1}+t_{i+1}^2u_3^{i+1}-5u_2^{i+1}+e^{t_{i+1}}\\
+\end{bmatrix}
+\begin{bmatrix}
+h
+\end{bmatrix}
++
+\begin{bmatrix}
+u_1^{i}\\ u_2^{i}\\ u_3^{i}
+\end{bmatrix}
+$$
+de donde, reordenando se llega al sistema
+$$
+\begin{bmatrix}
+-3sen(t_{i+1})h+1 	& 2t_{i+1}h	& 0 \\
+0					& 1 		& -h\\
+2h					& -5h		&-t_{i+1}^2h
+\end{bmatrix}
+\begin{bmatrix}
+u_1^{i+1}\\u_2^{i+1}\\u_3^{i+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+u_1^{i}+h\\u_2^{i}\\u_3^{i}+e^{t_{i+1}}h
+\end{bmatrix}
+$$
+\hfill\fbox{20 puntos}
+
+\item De donde se puede programar este m\'etodo similar a
+\begin{lstlisting}
+clear all; close all;
+N=10
+h=1.5/N
+t=0:h:1.5;
+
+u(1,1)=0;
+u(2,1)=2;
+u(3,1)=0;
+
+for i=1:length(t)-1
+  u(:,i+1)=[-3*sin(t(i+1))*h+1,2*t(i+1)*h,0; 0,1,-h;2*h,-5*h,-t(i+1)^2*h]\[u(:,i)+[h;0;exp(t(i+1))*h]]
+endfor				%%40 PUNTOS
+
+plot(t,u(1,:),t,u(2,:))		%% 20 PUNTOS
+\end{lstlisting}
+ 
+\end{enumerate}
+\end{enumerate}
+\end{document}

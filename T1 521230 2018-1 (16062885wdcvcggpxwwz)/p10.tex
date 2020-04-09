@@ -1,0 +1,41 @@
+Considere la sucesi\'on de Fibonacci, dada por:
+$$
+f_{n+1}=f_n+f_{n-1}, \qquad n=1,2,3,\ldots,
+$$
+con $f_0=0$ y $f_1=1$. 
+\begin{enumerate}
+\item Escriba una funci\'on en \matlab que, dado un valor de entrada $n\in \mathbb{N}$, devuelva como salidas, el valor de $f_{n+1}$, el cuociente $f_{n+1}/f_n$ y el valor $|f_{n+1}/f_n-\varphi|$, donde $\varphi=(1+\sqrt{5})/2$ es el n\'umero dorado.
+
+\textbf{Observaci\'on:} Recuerde que $\mathbb{N}=\{1,2,3,4,\cdots\}$.
+\item Escriba un rutero en \matlab que llame a la funci\'on anterior y muestre sus salidas, para cada valor $n\in \{1, 10, 100, 1000\}$.
+\item >Qu\'e relaci\'on existe entre el cuociente $f_{n+1}/f_n$ y el n\'umero dorado $\varphi$? Justifique en base a los resultados obtenidos en el siguiente casillero.\bigskip
+
+\respuesta{2cm}
+\end{enumerate}
+\textbf{Desarrollo:}  Cada programa viene dado por:
+\begin{lstlisting}
+function [fnp1,cuociente,err] = fibonacci(n)
+fnm1 = 0;
+fn = 1;
+for i=1:n
+    fnp1 = fn + fnm1;
+    cuociente = fnp1 / fn;
+    fnm1 = fn;
+    fn = fnp1;
+end
+phi = (1 + sqrt(5)) / 2; 
+err = abs(cuociente - phi);
+\end{lstlisting}
+\hfill\fbox{30 puntos}.
+
+\begin{lstlisting}
+N = [1, 10, 100, 1000];
+for i = 0:3;
+    [fn, cuociente, err] = fibonacci(N(i+1))
+end
+\end{lstlisting}
+\hfill\fbox{15 puntos}.
+
+La relaci\'on entre el cuociente $f_{n+1}/f_n$ y el n\'umero dorado $\varphi$ est\'a dada por $\displaystyle \lim_{n\to \infty}\dfrac{f_{n+1}}{f_n}=\varphi$. Esto puede ser notado en el decrecimiento de los errores $|f_{n+1}/f_n-\varphi|$ a medida que aumenta $n$
+
+\hfill\fbox{15 puntos}.

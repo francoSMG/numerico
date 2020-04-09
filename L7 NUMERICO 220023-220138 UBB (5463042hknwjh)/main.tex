@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{longtable}
+
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+
+
+\begin{document}
+
+\title{L7 NUMERICO 220023-220138 UBB}
+
+{\begin{minipage}{2cm}
+\hspace*{1cm}\includegraphics[width=0.6\textwidth]{escubo-ubb.eps}
+\end{minipage}
+\begin{minipage}{12cm}
+\small
+{\bf \rm 
+{
+\begin{center}
+{\footnotesize UNIVERSIDAD DEL B\'IO-B\'IO} \\
+{\scriptsize FACULTAD DE CIENCIAS}  \\
+{\scriptsize DEPARTAMENTO DE MATEM\'ATICA}  \\
+{\scriptsize Profesor:  Franco Milanese}\\
+{\scriptsize Primer Semestre de 2016}
+\end{center}
+}}
+\end{minipage}}
+{\begin{minipage}{2cm}
+\hspace*{-0.5cm}\vspace*{-0.05cm}\includegraphics[width=0.7\textwidth]{escudo-dmat.eps}
+\end{minipage}}
+
+\hspace*{-1,5cm}\rotatebox[origin=c]{90}{\begin{picture}(0,0)
+\put(0,7){\makebox(9,-13)[l]{\hspace*{-6.5in} \bf \it Departamento de Matem\'atica - Universidad del B\'io-B\'io - 2016}}
+\end{picture}}
+
+
+\vspace*{0.5cm} \centerline {\bf\underline{Laboratorio 7, M\'etodos Num\'ericos I 220023-220138}}
+\centerline{\textrm{Semana 6 de junio de 2016.}}  \vspace{0.2cm}
+
+% \textbf{Nombre:} \hspace{0.5\textwidth}\textbf{Carrera:}
+% \vspace{0.1cm}
+% \textbf{Profesor:}\hspace{0.5\textwidth} \textbf{ RUT:}
+%  \begin{center}
+%  \begin{tabular}{||p{2cm}|p{2cm}|p{2cm}||}
+%  \hline
+%  Pregunta 1 &  Pregunta 2 &     Total\\
+%  \hline
+
+%   \vspace{1.5cm} & &       \\
+%  \hline
+%  \end{tabular}
+%  \end{center}
+% Enviar documentos solicitados en el formato solicitado a \textbf{veranonumerico@gmail.com}.
+
+\section{P.V.I. en Matlab}
+
+\begin{thebibliography}{9}
+\bibitem{Mo2} Moler, Cleve, Numerical Computing with MATLAB, S.I.A.M. Disponible en http://www.mathworks.com/moler/quad.pdf.
+
+\bibitem{MH} Heath, Michael, Scientific Computing: an introductory survey. McGraw Hill 2005.
+
+%\bibitem{DB} de Boor, Charles, A Practical Guide to Splines, Springer-Verlag, New York, 1978.
+
+% http://www.uam.es/personal_pdi/ciencias/barcelo/cnumerico/recursos/interpolacion.html
+
+%\bibitem{H1} N. J. Higham, Accuracy and Stability of Numerical Algorithms, SIAM, Philadelphia, 2002
+\end{thebibliography}
+
+\end{document}

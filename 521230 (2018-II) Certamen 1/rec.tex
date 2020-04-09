@@ -1,0 +1,257 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{verbatim} % Para el ambiente comment
+\usepackage{dashundergaps} % Para \dashuline
+\usepackage{srcltx}
+
+\theoremstyle{definition}
+\newtheorem{question}{Pregunta}
+\renewcommand{\thequestion}{\Alph{question}}
+\numberwithin{equation}{question}
+
+\newenvironment{solution}{\begin{proof}[Solución]}{\end{proof}}
+%\newenvironment{solution}{\comment}{\endcomment}
+
+\renewcommand{\theenumi}{\roman{enumi}}
+
+\pagestyle{empty}
+\usepackage[left=1.5cm, right=1.5cm, top=1.5cm, bottom=2cm]{geometry}
+
+\title{521230 (2018-II): Certamen 1} %For overleaf only
+
+\begin{document}
+\font\bff=cmbx10 at 10truept
+\font\lg=cmdunh10 at 10truept
+\font\bl=cmss10 at 10truept
+
+\noindent{\lg UNIVERSIDAD DE CONCEPCIÓN}\hfill
+\vskip-2truept
+\noindent{\bff FACULTAD DE CIENCIAS FÍSICAS Y MATEMÁTICAS}\hfill
+\vskip-2truept
+\noindent{\bl DEPARTAMENTO DE INGENIERÍA MATEMÁTICA}\hfill
+\vskip4truept\hrule\hrule\vskip4truept
+\par
+\bigskip
+\begin{center}
+\large{\textbf{521230 Cálculo Numérico (2018-I)}}\\
+\large{\textbf{Evaluación de Recuperaci\'on}
+\par \medskip 25 de julio de 2018}
+\end{center}
+
+\bigskip
+
+\noindent%
+\textbf{Nombre:} \dashuline{\hfill}\\[1.5ex]
+\textbf{Número de matrícula:} \dashuline{\hfill}\\[1.5ex]
+\textbf{Sección:} {\small $\square$ 1 (Prof.~Leonardo Figueroa C.) \hfill $\square$ 2 (Prof.\ Franco Milanese P.) \hfill $\square$ 3 (Prof.~Mauricio Vega H.)}
+
+\bigskip
+
+Esta evaluación consta de \textbf{tres} preguntas con la misma ponderación.
+No se permite el uso de calculadoras u otros dispositivos electrónicos.
+Duración: 100 minutos.
+
+\begin{question}[20 puntos]
+Según lo visto en clase, usando la notación habitual, en el método de Adams--Moulton de orden 2,
+%
+\begin{equation}\label{general-multistep}
+y_{i+1} = y_i + \int_{x_i}^{x_{i+1}} p(x) \, \mathrm{d} x,
+\end{equation}
+%
+donde $p$ es el único polinomio de grado menor o igual a $k = 1$ que interpola los pares ordenados $(x_i, f_i)$ y $(x_{i+1}, f_{i+1})$.
+\textbf{Calcule} a partir de lo anterior los números $\sigma_i$ y $\sigma_{i+1}$, que deben ser independientes del tamaño de paso $h$, tales que
+%
+\begin{equation*}
+y_{i+1} = y_i + h \left(\sigma_i f_i + \sigma_{i+1} f_{i+1}\right)
+\end{equation*}
+%
+sea el método de Adams--Moulton de orden 2.
+\textbf{Nota:} Esta no es una pregunta de memoria.
+\begin{solution}
+
+Usando interpolación de Lagrange, el polinomio $p$ es
+%
+\begin{equation*}
+p(x) = \frac{x - x_{i+1}}{x_i - x_{i+1}} f_i + \frac{x - x_i}{x_{i+1} - x_i} f_{i+1}
+= -\frac{x - x_{i+1}}{h} f_i + \frac{x-x_i}{h} f_{i+1}.
+\end{equation*}
+%
+Así, sustituyendo en \eqref{general-multistep},
+%
+\begin{multline*}
+y_{i+1} = y_i + \int_{x_i}^{x_{i+1}} \left[ -\frac{x - x_{i+1}}{h} f_i + \frac{x-x_i}{h} f_{i+1} \right] \, \mathrm{d} x
+= y_i + \left.\left[ -\frac{(x - x_{i+1})^2}{2h} f_i + \frac{(x-x_i)^2}{2h} f_{i+1} \right]\right|_{x=x_i}^{x=x_{i+1}}\\
+= y_i + \left[ -0 + \frac{(x_{i+1} - x_i)^2}{2h} f_{i+1} + \frac{(x_i - x_{i+1})^2}{2h} f_i - 0 \right]
+= y_i + \left[ \frac{h^2}{2h} f_{i+1} + \frac{(-h)^2}{2h} f_i \right]\\
+= y_i + h \left( \frac{1}{2} f_i + \frac{1}{2} f_{i+1} \right),
+\end{multline*}
+%
+de donde $\sigma_i = \sigma_{i+1} = \frac{1}{2}$.
+
+\bigskip
+\begin{center}\framebox{\begin{minipage}{0.9\linewidth}
+Definir el polinomio de interpolaci\'on apropiado: 8 puntos.
+Desarrollar la integral hasta obtener la f\'ormula del m\'etodo de A-M: 10 puntos.
+Identificar los par\'ametros $\sigma$: 2 puntos.
+\end{minipage}}\end{center}
+
+\end{solution}
+\end{question}
+
+\newpage
+
+\begin{question}[20 puntos]
+Construya una regla de cuadratura de la forma
+%
+\begin{equation}\label{weirdRule}
+\int_0^1 f(\sqrt{x})\,\mathrm{d}x \approx w_1 \, f(0) + w_2 \, f(1/2) + w_3 \, f(1)
+\end{equation}
+%
+que sea exacta para todos los polinomios de grado menor o igual a dos.
+Aplique esta f\'ormula con los $w_1$, $w_2$ y $w_3$ obtenidos para estimar la integral
+%
+\begin{equation}
+I = \int_0^1\sqrt{1+\sqrt{x}}\,\mathrm{d}x
+\end{equation}
+%
+y luego calcule el error cometido por esta cuadratura (use que el valor exacto de $I$ es $\frac{8(\sqrt{2}+1)}{15}$).
+\end{question}
+
+\begin{solution}
+Para que la regla de cuadratrua \eqref{weirdRule} sea exacta para polinomios de grado dos, debe ser exacta en cualquier base de este espacio. En particular, usando la base can\'onica de monomios,
+\begin{align*}
+f(t)=1 		&\quad\longrightarrow\quad 1=\int_0^1 1 \, \mathrm{d}x = w_1+w_2+w_3,\\
+f(t)=t 		&\quad\longrightarrow\quad \frac{2}{3}=\int_0^1 \sqrt{x} \, \mathrm{d}x = 0w_1+\frac{1}{2}w_2+w_3,\\
+f(t)=t^2	&\quad\longrightarrow\quad \frac{1}{2}=\int_0^1 \left(\sqrt{x}\right)^2 \, \mathrm{d}x = 0w_1+\frac{1}{4}w_2+w_3,
+\end{align*}
+de donde se llega al sistema
+$$
+\begin{bmatrix}
+1 & 1 & 1 \\
+0 & 1/2 & 1\\
+0 & 1/4 & 1 
+\end{bmatrix}
+\begin{bmatrix}
+w_1\\w_2\\w_3
+\end{bmatrix}
+=
+\begin{bmatrix}
+1\\ \frac{2}{3}\\1
+\end{bmatrix}
+\rightarrow
+w_1 = 0,\quad
+w_2 = \frac{2}{3},\quad
+w_3 = \frac{1}{3}.
+$$
+De donde, aplicando la regla de cuadratura \eqref{weirdRule} a la función $f(t) = \sqrt{1+t}$,
+\begin{equation*}
+\displaystyle \int_0^1\sqrt{1+\sqrt{x}} \, \mathrm{d}x \approx
+0 \, \sqrt{1+0} + \frac{2}{3} \, \sqrt{1+\frac{1}{2}} + \frac{1}{3} \, \sqrt{1+1}
+= \frac{2}{3} \sqrt{\frac{3}{2}} + \frac{1}{3} \sqrt{2}
+= \frac{\sqrt{2}}{3} (\sqrt{3} + 1).
+\end{equation*}
+As\'i, el error de esta regla aplicada a este caso es
+$$
+\frac{8(\sqrt{2}+1)}{15} - \frac{\sqrt{2}}{3} (\sqrt{3} + 1).
+$$
+\bigskip
+\begin{center}\framebox{\begin{minipage}{0.9\linewidth}
+Construir el sistema de ecuaciones utilizando los polinomios apropiados: 5 puntos.
+Resolver el sistema para obtener los par\'ametros $w$: 5 puntos.
+Calcular la integral usando la f\'ormula obtenida: 5 puntos. 
+Calcular el error: 5 puntos.
+\end{minipage}}\end{center}
+
+\end{solution}
+
+
+\newpage
+\begin{question}[20 puntos]
+Los datos de la siguiente tabla, muestran los resultados de un experimento donde la variable $y$ depende del tiempo $t$:
+\begin{center}
+\begin{tabular}{c|cccc}
+$t$ & 1 & 2 & 6 & 13\\
+\hline
+$y(t)$ & $-\frac{3}{2}$ & 1 & $\frac{3}{4}$ & $\frac{1}{2}$
+\end{tabular}
+\end{center}
+Se desea ajustar estos datos al modelo
+%
+\begin{equation}\label{modelo}
+y(t)=\dfrac{t}{a \, 3^{bt}-1}.
+\end{equation}
+%
+Para ello:
+\begin{enumerate}
+\setlength{\itemsep}{-1ex}
+\item\label{it:transform} aplique una transformación apropiada,
+\item\label{it:system} escriba el sistema rectangular que habría que resolver en el sentido de los mínimos cuadrados,
+\item\label{it:solve} resuelva el sistema obtenido
+\item\label{it:recover-parameters} y obtenga los parámetros $a$ y $b$ que se desean.
+\end{enumerate}
+\begin{solution}
+A partir de \eqref{modelo}, tomando recíprocos, multiplicando por $t$, sumando $1$ y tomando logaritmo natural \footnote{Tambi\'en es v\'alido tomar el logaritmo en base 3, lo cual simplifica los c\'alculos.} a ambos lados obtenemos
+%
+\begin{equation*}
+\ln(a) + \ln(3) \, t \, b = \ln\left(\frac{t}{y(t)} + 1\right).
+\end{equation*}
+%
+Sustituyendo los datos de la tabla obtenemos el sistema rectangular de ecuaciones lineales
+%
+\begin{equation*}
+\begin{pmatrix}
+1 & \ln(3)\\
+1 & 2\ln(3)\\
+1 & 6\ln(3)\\
+1 & 13\ln(3)
+\end{pmatrix}
+\begin{pmatrix}
+\ln(a)\\ b
+\end{pmatrix}
+= \begin{pmatrix}
+-\ln(3)\\ \ln(3) \\ 2 \ln(3) \\ 3\ln(3)
+\end{pmatrix}.
+\end{equation*}
+%
+El sistema normal asociado es
+%
+\begin{equation*}
+\begin{pmatrix}
+4 & 22 \ln(3)\\ 22 \ln(3) & 210 \ln(3)^2
+\end{pmatrix}
+\begin{pmatrix}
+\ln(a)\\ b
+\end{pmatrix}
+= \begin{pmatrix}
+5 \ln(3)\\ 52 \ln(3)^2
+\end{pmatrix},
+\end{equation*}
+%
+cuya solución es
+%
+\begin{equation*}
+\ln(a) = -\frac{47}{178}\ln(3), \quad b = \frac{49}{178}.
+\end{equation*}
+%
+Para obtener $a$ tomamos la exponencial.
+Así, finalmente,
+%
+\begin{equation*}
+a = 3^{-\frac{47}{178}}, \quad b = \frac{49}{178}.
+\end{equation*}
+\bigskip
+\begin{center}\framebox{\begin{minipage}{0.9\linewidth}
+Reducir \eqref{modelo} a un modelo lineal: 7 puntos.
+Obtener el sistema rectangular: 3 puntos.
+Resolver el sistema rectangular en el sentido de los m\'inimos cuadrados: 7 puntos.
+Obtener los par\'ametros $a$ y $b$: 3 puntos ( 2 y 1 respectivamente).
+\end{minipage}}\end{center}
+\end{solution}
+\end{question}
+
+\end{document}

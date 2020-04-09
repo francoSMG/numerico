@@ -1,0 +1,105 @@
+ \documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\usepackage{polynom}
+\usepackage{hyperref}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\usepackage[utf8]{inputenc}\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+\newcommand{\function}[5]{
+\begin{array}{cccl}
+#1 :& #2 	& \longrightarrow 	& #3\\
+	& #4	& \longmapsto		& #5
+\end{array}
+}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+
+\title{T2 V1 N2MERICO 521230 UDEC}
+
+\begin{minipage}{0.12\textwidth}
+\includegraphics[width=\textwidth]{logoudec.eps}
+\end{minipage}
+\hspace{5mm}
+\begin{minipage}{0.9\textwidth}
+UNIVERSIDAD DE CONCEPCION\\
+{\small\small\bf 
+FACULTAD DE CIENCIAS\\ 
+FISICAS Y MATEMATICAS}\\
+DEPARTAMENTO DE INGENIERIA MATEMATICA\\
+\rule{0.66\textwidth}{.5pt} Franco A. Milanese
+\end{minipage}
+
+\vspace{0.5cm}
+\centerline{\bf Test II (521230)}
+\begin{center}
+ \begin{tabular}{p{0.7\textwidth}p{0.3\textwidth}}
+	\textbf{Nombre:}   &\textbf{Carrera:}\\
+	\textbf{Profesor:} & \textbf{ RUT:}
+ \end{tabular}
+ \\
+ \vspace{0.2cm}
+ \begin{tabular}{||p{2cm}|p{2cm}||p{2cm}||}
+ \hline
+ Pregunta 1 &  Pregunta 2 &     Total\\
+ \hline
+
+  \vspace{1.5cm} & &       \\
+ \hline
+ \end{tabular}
+ \end{center}
+ Enviar documentos solicitados en el formato solicitado a 
+ %\textbf{veranonumerico@gmail.com}.
+
+\begin{enumerate}
+\item (40 pt) El P.V.I.
+$$
+\begin{array}{rl|}
+\frac{1}{5}h'(t)	&= -\pi r^2\cdot \sqrt{2 g h(t)}\\
+h(0)	&= 5[m] \\ \hline
+\end{array}
+$$
+modela la caida altura $h(t)[m]$ del petr\'oleo contenido en un estanque cil\'indrico de radio $1[mt]$ considerando que existe una perforaci\'on de radio $r[m]$ en su cara inferior.
+
+En un rutero llamado \texttt{p1v1.m}
+\begin{enumerate}
+	\item Estime, usando una funci\'on propia de Matlab como \texttt{ode45, ode23, ode23s} u \texttt{ode113}, la altura de la columna de petr\'oleo para los siguientes radios de la perforaci\'on
+$$
+r=1[mm], \quad r=10[mm] ,\quad r=25[mm]
+$$
+	\item Grafique las estimaciones num\'ericas de las alturas del estanque en funci\'on del tiempo.
+    \item Encuentre cuanto tiempo se demoran en llegar a $1[m]$ el nivel de los estanques con las distintas perforaciones.
+\end{enumerate}
+
+% \textbf{Desarollo:} 
+
+
+\item (20 pt) En un rutero llamado \texttt{p2v1.m} programe el m\'etodo de la secante para que calcule la ra\'iz de de la funci\'on 
+$$
+j(x)=\frac{1}{x^2+1}-\frac{1}{2}
+$$
+que se encuentra a la derecha de $x=-2$, con una tolerancia de $10^{-8}$.
+
+% \textbf{Desarollo:} 
+
+\end{enumerate}
+\end{document}  

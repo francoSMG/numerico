@@ -1,0 +1,367 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[spanish,activeacute]{babel}
+\decimalpoint
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{longtable}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+}
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\setlength{\oddsidemargin}{-0.5cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{17.5cm}
+\setlength{\textheight}{24cm}
+\setlength{\topmargin}{-1.7cm}
+
+\title{lab07 521230 2018-1}
+
+\font\bff=cmbx10 at 10truept
+\font\lg=cmdunh10 at 10truept
+\font\bl=cmss10 at 10truept
+
+\newcommand{\matlab}{{\sc Matlab} }
+
+\newcommand{\header}{\noindent%
+{\lg UNIVERSIDAD DE CONCEPCI\'ON}\hfill
+\vskip-4truept
+\noindent{\bff FACULTAD DE CIENCIAS F\'ISICAS Y MATEM\'ATICAS}\hfill
+\vskip-4truept
+\noindent{\bl DEPARTAMENTO DE INGENIER\'IA MATEM\'ATICA}\hfill
+\vskip4truept\hrule\hrule\vskip4truept
+\par
+}
+
+\begin{document}
+\header
+\vspace{0.7cm}
+\begin{center}
+\textbf{\small C\'alculo Num\'erico (521230) - Laboratorio 7}\\
+\vspace{0.1cm}
+\textbf{\Large PROBLEMAS DE ECUACIONES DIFERENCIALES EN MATLAB}
+\vspace{0.7cm}
+\end{center}
+
+\section{M\'etodo de Diferencias Finitas}
+
+Considere el problema de valores de contorno
+
+\begin{equation}\tag{PVC--1}
+\left\{
+\begin{aligned}
+& -y''+ry'+ky=f(x), \qquad x\in(a,b),\\
+& y(a)=\alpha,\quad y(b)=\beta,
+\end{aligned}
+\right.
+\end{equation}
+donde $k$ y $r$ son constantes positivas. Las derivadas de $y$ pueden ser aproximadas por las siguientes expresiones:
+\begin{equation}\tag{DC}
+\begin{array}{l}
+y'(x)=\dfrac{y(x+h)-y(x-h)}{2h}+\mathcal{O}(h^2),\\
+\\
+y''(x)=\dfrac{y(x+h)-2y(x)+y(x-h)}{h^2}+\mathcal{O}(h^2),
+\end{array}
+\end{equation}
+las cuales son llamadas diferencias centradas. Consideramos una partici\'on uniforme del intervalo $[a,b]$ en $n$ subintervalos de igual tama\~no:
+$$
+h=\frac{b-a}{n}, \qquad x_i=a+ih,\,\,i=0,1,\ldots n.
+$$
+Evaluando (DC) en $x=x_i$, para $i=1,\ldots,n-1$, obtenemos:
+$$
+\begin{array}{l}
+y'(x_i)=\dfrac{y(x_i+h)-y(x_i-h)}{2h}+\mathcal{O}(h^2)=\dfrac{y(x_{i+1})-y(x_{i-1})}{2h}+\mathcal{O}(h^2),\\
+\\
+y''(x_i)=\dfrac{y(x_i+h)-2y(x_i)+y(x_i-h)}{h^2}+\mathcal{O}(h^2)=\dfrac{y(x_{i+1})-2y(x_i)+y(x_{i-1})}{h^2}+\mathcal{O}(h^2).
+\end{array}
+$$
+Reemplazando estas expresiones en (PVC--1) obtenemos:
+$$
+\left\{
+\begin{aligned}
+& -\dfrac{y(x_{i+1})-2y(x_i)+y(x_{i-1})}{h^2}+r\,\dfrac{y(x_{i+1})-y(x_{i-1})}{2h}+ky(x_i)=f(x_i)+\mathcal{O}(h^2), \qquad \forall\,i=1,\ldots,n-1,\\
+& y(x_0)=\alpha,\quad y(x_n)=\beta.
+\end{aligned}
+\right.
+$$
+Si $h$ es peque\~no, es posible despreciar los errores $\mathcal{O}(h^2)$ en la expresi\'on anterior para obtener aproximaciones $y_i\approx y(x_i)$ que satisfacen:
+$$
+\left\{
+\begin{array}{l}
+-\dfrac{y_{i+1}-2y_i+y_{i-1}}{h^2}+r\,\dfrac{y_{i+1}-y_{i-1}}{2h}+ky_i=f(x_i), \qquad \forall\,i=1,\ldots,n-1,\\
+y_0=\alpha,\quad y_n=\beta.
+\end{array}
+\right.
+$$
+Reordenando obtenemos el siguiente sistema de ecuaciones:
+$$
+\left\{
+\begin{aligned}
+& \left(-1-\dfrac{rh}{2}\right)y_{i-1}+(2+kh^2)y_i+\left(-1+\dfrac{rh}{2}\right)y_{i+1}=h^2f(x_i) \qquad \forall\,i=1,\ldots,n-1,\\
+& y_0=\alpha,\quad y_n=\beta.
+\end{aligned}
+\right.
+$$
+Este sistema de ecuaciones es tridiagonal y puede ser escrito en forma matricial como
+$$
+\begin{pmatrix}
+B & C & 0 & \cdots &0\\
+A & \ddots & \ddots & \ddots & \vdots\\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \ddots & \ddots & \ddots & C\\
+0 & \cdots & 0 & A & B
+\end{pmatrix}
+\begin{pmatrix}
+y_1\\
+y_2\\
+\vdots\\
+y_{n-2}\\
+y_{n-1}
+\end{pmatrix}
+= h^2
+\begin{pmatrix}
+f_1\\
+f_2\\
+\vdots\\
+f_{n-2}\\
+f_{n-1}
+\end{pmatrix}
+-
+\begin{pmatrix}
+A\alpha\\
+0\\
+\vdots\\
+0\\
+C\beta
+\end{pmatrix}
+$$
+donde:
+$$
+A:=-1-\dfrac{rh}{2},\qquad B:=2+kh^2,\qquad C=-1+\dfrac{rh}{2}\quad \text{ y }\quad f_i=f(x_i),\quad i=1,\ldots,n-1.
+$$
+As\'i, las aproximaciones $y_i$ pueden obtenerse resolviendo el sistema tridiagonal anterior.
+\medskip
+
+\begin{description}
+\item[\textbf{Ejercicio 1.}] Escriba una funci\'on en \matlab{} que resuelva (PVC--1) mediante el m\'etodo de diferencias finitas. Las entradas de esta funci\'on deben ser los par\'ametros $r$, $k$, $f(x)$ (definida como una funci\'on \verb"inline" o a trav\'es de otra funci\'on \matlab), $a$, $b$, $\alpha$, $\beta$ y $n$, y la salida debe ser el vector \break $\boldsymbol{y}=(y_0,\ldots,y_n)^t$. Su funci\'on adem\'as debe graficar la soluci\'on obtenida por este m\'etodo.\medskip
+\item[\textbf{Ejercicio 2.}] Escriba un rutero que ejecute las siguientes tareas:
+\begin{itemize}
+\item[2.1)] Llame a la funci\'on anterior para resolver el siguiente PVC
+$$
+\left\{
+\begin{aligned}
+& -y''+3y'+2y=3(\sen(x)+\cos(x)),\qquad x\in[-\pi,\pi],\\
+& y(-\pi)=0,\quad y(\pi)=0,
+\end{aligned}
+\right.
+$$
+con $n=100$.
+\item[2.2)] Calcule el error cuadr\'atico dado por
+$$
+\text{error}=\sum_{i=0}^{n}|y(x_i)-y_i|^2,
+$$
+donde la soluci\'on exacta del PVC es $y(x)=\sen(x)$.
+\item[2.3)] En una misma gr\'afica dibuje la soluci\'on calculada del PVC mediante diferencias finitas (use c\'irculos) y la soluci\'on exacta (use una linea continua).
+\end{itemize}
+\end{description}
+
+\section{M\'etodo de Elementos Finitos}
+
+Considere el problema de valores de contorno
+\begin{equation}\tag{PVC--2}
+\left\{
+\begin{aligned}
+& -u''+cu=f, \qquad x\in(a,b),\\
+& u(a)=0,\quad u(b)=0,
+\end{aligned}
+\right.
+\end{equation}
+donde $c$ es una constante positiva. Al multiplicar la EDO por una funci\'on $v \in V$, donde $V$ es el espacio de funciones definidas en $(a,b)$ y que se anulan en los extremos de este intervalo, e integrar por partes obtenemos el problema: \medskip
+
+\emph{Hallar $u\in V$ tal que:}
+\begin{equation}\tag{FD}
+\int_a^b u'(x)v'(x)\,\mathrm{d}x+c\int_a^b u(x)v(x)\,\mathrm{d}x=\int_a^b f(x)v(x)\,\mathrm{d}x \qquad \forall\,v\in V,
+\end{equation}
+%
+el cual es una fomulaci\'on d\'ebil del problema (PVC--2). Usando un subespacio de dimensi\'on finita $V_h$ de $V$ obtenemos una formulaci\'on d\'ebil discreta del problema (FD): \medskip
+
+\emph{Hallar $u_h\in V_h$ tal que:}
+\begin{equation}\tag{FD$_h$}
+\int_a^b u'_h(x)v'_h(x)\,\mathrm{d}x+c\int_a^b u_h(x)v_h(x)\,\mathrm{d}x=\int_a^b f(x)v_h(x)\,\mathrm{d}x \qquad \forall\,v_h\in V_h.
+\end{equation}
+
+El subespacio $V_h$ m\'as usado es el de las funciones continuas y lineales a trozos respecto auna partici\'on arbitraria del intervalo $[a,b]$. Sin embargo, en este laboratorio solamente consideraremos una partici\'on uniforme:
+$$
+h=\frac{b-a}{n}, \qquad x_i=a+ih,\,\,i=0,1,\ldots n.
+$$
+Una base del espacio $V_h$ es el de las funciones techo, las cuales se definen, para $i=1,\ldots,n-1$, como:
+$$
+\phi_i(x)=
+\begin{cases}
+\dfrac{x-x_{i-1}}{x_i-x_{i-1}},&\quad \text{si } x\in[x_{i-1},x_i],\\
+\dfrac{x_{i+1}-x}{x_{i+1}-x_i},&\quad \text{si } x\in[x_i,x_{i+1}],\\
+0,&\quad \text{si } x\notin[x_{i-1},x_{i+1}]\\
+\end{cases}
+\qquad \text{y que satisfacen } \qquad
+\phi_i(x_j)=
+\left\{
+\begin{array}{cl}
+1,&\quad \text{si } i=j,\\
+0,&\quad \text{si } i\neq j.\\
+\end{array}
+\right.
+$$
+
+As\'i, como la expresi\'on integral en (FD$_h$) es v\'alida para todo $v_h \in V_h$, en particular es v\'alida para los elementos de la base. Adem\'as, escribiendo $u_h(x)=\sum_{j=1}^{n-1}\alpha_j\phi_j(x)$, donde los coeficientes $\alpha_j=u_h(x_j)$ obtenemos el problema \medskip
+
+\emph{Hallar $\alpha_1,\ldots,\alpha_{n-1}\in \mathbb{R}$ tal que:}
+\begin{equation*}
+\int_a^b \left(\sum_{j=1}^{n-1}\alpha_j\phi_j(x)\right)'\phi_i'(x)\,\mathrm{d}x+c\int_a^b \left(\sum_{j=1}^{n-1}\alpha_j\phi_j(x)\right)\phi_i(x)\,\mathrm{d}x=\int_a^b f(x)\phi_i(x)\,\mathrm{d}x \qquad \forall\,i=1,\ldots,n-1,
+\end{equation*}
+%
+o bien, reordenando, tenemos: \medskip
+
+\emph{Hallar $\alpha_1,\ldots,\alpha_{n-1}\in \mathbb{R}$ tal que:}
+\begin{equation*}\tag{FD$_i$}
+\sum_{j=1}^{n-1} \left(\int_a^b\phi_j'(x)\phi_i'(x)\,\mathrm{d}x+c\int_a^b \phi_j(x)\phi_i(x)\,\mathrm{d}x\right)\alpha_j=\int_a^b f(x)\phi_i(x)\,\mathrm{d}x \qquad \forall\,i=1,\ldots,n-1.
+\end{equation*}
+%
+Esta \'ultima expresi\'on es un sistema de ecuaciones de $(n-1)\times(n-1)$. Si $j\notin\{i-1,i,i+1\}$, entonces
+$$
+\int_a^b\phi_j'(x)\phi_i'(x)\,\mathrm{d}x = 0 \qquad \text{y} \qquad \int_a^b\phi_j(x)\phi_i(x)\,\mathrm{d}x = 0.
+$$
+As\'i, el sistema (FD$_i$) se reduce a un sistema tridiagonal
+$$
+\begin{pmatrix}
+a_1 & b_2 & 0 & \cdots &0\\
+b_2 & \ddots & \ddots & \ddots & \vdots\\
+0 & \ddots & \ddots & \ddots & 0\\
+\vdots & \ddots & \ddots & \ddots & b_{n-1}\\
+0 & \cdots & 0 & b_{n-1} & a_{n-1}
+\end{pmatrix}
+\begin{pmatrix}
+\alpha_1\\
+\alpha_2\\
+\vdots\\
+\alpha_{n-2}\\
+\alpha_{n-1}
+\end{pmatrix}
+=
+\begin{pmatrix}
+f_1\\
+f_2\\
+\vdots\\
+f_{n-2}\\
+f_{n-1}
+\end{pmatrix},
+$$
+donde
+\begin{align*}
+a_i{}&=\int_a^b[\phi_i'(x)]^2\,\mathrm{d}x+c \int_a^b [\phi_i(x)]^2\,\mathrm{d}x,&&\forall\,i=1,\ldots,n-1,\\
+b_i{}&=\int_a^b \phi_{i-1}'(x)\phi_i'(x)\,\mathrm{d}x+c\int_a^b \phi_{i-1}(x)\phi_i(x)\,\mathrm{d}x,&&\forall\,i=2,\ldots,n-1,\\
+f_i{}&=\int_a^b f(x)\phi_i(x)\,\mathrm{d}x, && \forall i=1,\ldots,n-1.
+\end{align*}
+Las integrales para $a_i$ y $b_i$ se pueden calcular de manera exacta usando la Regla elemental de Simpson sobre cada subintervalo $[x_{i-1},x_i]$, ya que sobre estos subintervalos $[\phi_i(x)]^2$ y $\phi_{i-1}(x)\phi_i(x)$ son polinomios de grado 2, y usando integraci\'on directa en las integrales que contienen $[\phi_i'(x)]^2$ y $\phi_{i-1}'(x)\phi_i'(x)$, pues son constantes en estos subintervalos. As\'i:
+\begin{align*}
+a_i{}&=\dfrac{x_{i+1}-x_{i-1}}{(x_{i}-x_{i-1})(x_{i+1}-x_{i})}+c\dfrac{x_{i+1}-x_{i-1}}{3}=\dfrac{2}{h}+c\dfrac{2h}{3},&&\forall\,i=1,\ldots,n-1,\\
+b_i{}&=\dfrac{1}{x_{i-1}-x_{i}}+c\dfrac{x_{i}-x_{i-1}}{6}=-\dfrac{1}{h}+c\dfrac{h}{6},&&\forall\,i=2,\ldots,n-1.
+\end{align*}
+Por otro lado, dado que el error del m\'etodo de elementos finitos es de orden $\mathcal{O}(h^2)$, podemos utilizar un m\'etodo de integraci\'on del mismo orden para estimar la integral que define a la variable $f_i$. Dado que la partici\'on es uniforme, podemos utilizar la regla del punto medio compuesta para aproximar $f_i$. Notando que:
+$$
+\phi_i(\hat{x}_j)=
+\begin{cases}
+1/2 &\quad \text{si } j=i\, \vee\, j=i+1,\\
+0 & \quad \text{en otro caso,}
+\end{cases}
+\qquad \text{ con }\qquad \hat{x}_j=\dfrac{x_{j-1}+x_{j}}{2},
+$$
+tenemos:
+$$
+f_i=\int_a^b f(x)\phi_i(x)\,\mathrm{d}x\approx h\sum_{j=1}^n f(\hat{x}_j)\phi_i(\hat{x}_j) = \dfrac{h}{2}\left(f(\hat{x}_i)+f(\hat{x}_{i+1})\right).
+$$
+
+\begin{description}
+\item[\textbf{Ejercicio 3.}] Escriba una funci\'on en \matlab{} que resuelva (PVC--2) mediante el m\'etodo de elementos finitos. Las entradas de esta funci\'on deben ser los par\'ametros $c$, $f(x)$ (definida como una funci\'on \verb"inline" o a trav\'es de otra funci\'on \matlab), $a$, $b$, y $n$, y la salida debe ser el vector $\boldsymbol{\alpha}=(\alpha_0,\ldots,\alpha_n)^t=(u_h(x_0),\ldots,u_h(x_n))^t$. Su funci\'on adem\'as debe graficar la soluci\'on obtenida por este m\'etodo.\medskip
+
+\item[\textbf{Ejercicio 4.}]
+Escriba un rutero que ejecute las siguientes tareas:
+\begin{itemize}
+\item[4.1)] Llame a la funci\'on anterior para resolver el siguiente PVC
+$$
+\left\{
+\begin{aligned}
+& -u''+4u=4x^3-10x,\qquad x\in[-1,1],\\
+& u(-1)=0,\quad u(1)=0,
+\end{aligned}
+\right.
+$$
+con $n=100$.
+\item[4.2)] Calcule el error cuadr\'atico dado por
+$$
+\text{error}=\sum_{i=0}^{n}|u(x_i)-u_h(x_i)|^2,
+$$
+donde la soluci\'on exacta del PVC es $u(x)=x^3-x$.
+\item[4.3)] En una misma gr\'afica dibuje la soluci\'on calculada del PVC mediante elementos finitos (use c\'irculos) y la soluci\'on exacta (use una linea continua).
+\end{itemize}
+\item[\textbf{Ejercicio 5.}] Modifique su programa hecho en el ejercicio 3 para que resuelva el problema con condiciones de contorno no homog\'eneas:
+\begin{equation}\tag{PVC--3}
+\left\{
+\begin{aligned}
+& -u''+cu=f, \qquad x\in(a,b),\\
+& u(a)=\alpha,\quad u(b)=\beta.
+\end{aligned}
+\right.
+\end{equation}
+Para ello, transforme (PVC--3) a un problema con condiciones de contorno homog\'eneas mediante el cambio de variable:
+$$
+u(x)=v(x)+\alpha\left(\dfrac{x-b}{a-b}\right)+\beta\left(\dfrac{x-a}{b-a}\right)
+$$
+Repita el ejercicio 4 con el PVC
+$$
+\left\{
+\begin{array}{l}
+-u''+\ln(2)^2u=0,\qquad x\in[0,1],\\
+u(0)=1,\quad u(1)=2,
+\end{array}
+\right.
+$$
+cuya soluci\'on exacta es $u(x)=2^x$.
+
+\item[\textbf{Ejercicio 6.}] Se puede usar la conservaci\'on del calor para desarrollar un balance de calor para una barra larga y delgada de longutud $L$. Si la barra no est\'a aislada en toda su longitud y el sistema se encuentra en estado estacionario, la ecuaci\'on resultante es:
+$$
+\dfrac{\mathrm{d}^2T}{\mathrm{d}x^2}+k(T_a-T)=0,\qquad x\in [0,L],
+$$
+donde $k$ es un coeficiente de transferencia de calor que parametriza la raz\'on de disipaci\'on de calor con el aire circundante, y $T_a$ es la temperatura del aire circundante. La temperatura de la barra en los extemos mantiene valores fijos:
+$$
+T(0)=T_1 \qquad \text{ y } \qquad T(L)=T_2.
+$$
+Escriba un rutero en \matlab{} que ejecute las siguientes tareas:
+\begin{itemize}
+\item[6.1)] Encuentre la temperatura en una barra de largo $L=10m$, con $k=0.01m^{-2}$ temperatura de aire circundante $T_a=20^\circ C$ y con temperatura en los extremos dadas por $T_1=40^\circ C$ y $T_2=200^\circ C$. Para ello utilice el m\'etodo de diferencias finitas y el m\'etodo de elementos finitos, en ambos casos con una partici\'on de $n=100$.
+\item[6.2)] En un mismo gr\'afico dibuje la temperatura obtenida con diferencias finitas y la temperatura obtenida con elementos finitos.
+\item[6.3)] Calcule la siguiente norma:
+$$
+||\boldsymbol{y}_{mdf}-\boldsymbol{y}_{mef}||_2
+$$
+donde $\boldsymbol{y}_{mdf}$ es el vector obtenido mediante diferencias finitas y $\boldsymbol{y}_{mef}$ es el vector obtenido mediante elementos finitos.
+\end{itemize}
+
+\end{description}
+
+
+\vfill
+\hfill Revisado a Semestre 2018--1
+\end{document}

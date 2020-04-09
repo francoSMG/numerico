@@ -1,0 +1,40 @@
+\begin{pregunta}
+\puntaje{5}
+\begin{cuerpo}
+\textquestiondown Cu\'al de los siguientes programas de Matlab encuentra el volumen de agua en un tanque en el tiempo $v(t)$?, Si se sabe que tiene un caudal de entrada de $q_{in}(t)=0.3[L/s]$, uno de salida de $q_{out}(t)=0.1e^{0.001}t[L/s]$ e inicialmente el tanque contiene $20[L]$.
+\end{cuerpo}
+
+\begin{multicols}{2}
+\begin{alternativas}
+{
+\texttt{f=@(t,v) 0.3-0.1*exp(0.01*t)}\\
+\texttt{t=0:0.001:250;} \\
+\texttt{v(1)=20;} \\
+\texttt{for i=1:length(t)-1} \\
+\texttt{v(i+1)=f(t(i),v(i))*0.001+v(i);}\\
+\texttt{end}}
+{
+\texttt{f=@(t,v) 0.3-0.1*exp(0.01*t)}\\
+\texttt{t=0:0.001:250;} \\
+\texttt{v(0)=20;} \\
+\texttt{for i=1:length(t)} \\
+\texttt{v(i+1)=f(t(i),v(i))*0.001+v(i);}\\
+\texttt{end}}
+{
+\texttt{f=@(t,v) 0.3-0.1*exp(0.01*t)}\\
+\texttt{t=0:0.001:250;} \\
+\texttt{v(1)=20;} \\
+\texttt{for i=1:length(t)} \\
+\texttt{v(i+1)=f(t(i),v(i))*0.001+v(i);}\\
+\texttt{end}}
+{
+\texttt{f=@(t,v) 0.3-0.1*exp(0.01*t)}\\
+\texttt{t=0:0.001:250;} \\
+\texttt{v(0)=20;} \\
+\texttt{for i=1:length(t)+1} \\
+\texttt{v(i+1)=f(t(i),v(i))*0.001+v(i);}\\
+\texttt{end}}
+\end{alternativas}
+\end{multicols}
+\justificacion{0cm}
+\end{pregunta}

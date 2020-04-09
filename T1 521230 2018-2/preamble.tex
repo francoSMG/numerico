@@ -1,0 +1,108 @@
+\usepackage[spanish, mexico, activeacute]{babel}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{xy}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{enumerate}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{hyperref}
+
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+  morekeywords={endif,endfor,endwhile},
+}
+
+\setlength{\oddsidemargin}{-0.5cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{17.5cm}
+\setlength{\textheight}{25cm}
+\setlength{\topmargin}{-2.5cm}
+
+\font\bff=cmbx10 at 10truept
+\font\lg=cmdunh10 at 10truept
+\font\bl=cmss10 at 10truept
+
+\newcommand{\matlab}{{\sc Matlab} }
+\newcommand{\octave}{{\sc Octave} }
+
+\newcommand{\header}{\noindent%
+\begin{minipage}{0.09\textwidth}
+\includegraphics[width=\textwidth]{logoudec.eps}
+\end{minipage}
+\hspace{3mm}
+\begin{minipage}{0.5\textwidth}
+{\lg UNIVERSIDAD DE CONCEPCI\'ON}\hfill
+\vskip-4truept
+\noindent{\bff FACULTAD DE CIENCIAS}\hfill
+\vskip-4truept
+\noindent{\bff F\'ISICAS Y MATEM\'ATICAS}\hfill
+\vskip-4truept
+\noindent{\bl DEPARTAMENTO DE INGENIER\'IA MATEM\'ATICA}\hfill
+\vskip4truept\hrule\hrule\vskip4truept
+\par
+\end{minipage}
+}
+
+\newcommand{\respuesta}[1]{
+%\noindent\makebox[\textwidth][r]{
+\fbox{
+\begin{minipage}{\linewidth}
+\hfill
+\vspace{#1}
+\end{minipage}
+}
+%}
+}
+
+\newcommand{\puntaje}[1]{
+\textbf{(#1 puntos)} }
+
+\newcommand{\titulo}[2]{
+\newpage
+\header
+\begin{minipage}{0.4\textwidth}
+	\begin{center}
+    \ifnum#2=2
+       \begin{tabular}{||p{2cm}|p{2.1cm}||}
+       \hline
+       Pregunta 1 &  Pregunta 2   \\
+       \hline
+       \vspace{1cm}\null &     \\
+       \hline
+       \end{tabular}
+    \else
+       \begin{tabular}{||p{2cm}||}
+       \hline
+       Pregunta 1   \\
+       \hline
+       \vspace{1cm}\null      \\
+       \hline
+       \end{tabular}
+    \fi
+  \end{center}
+\end{minipage}
+\begin{center}
+%\textbf{\Large TEST DE RECUPERACI\'ON \\ VERSI\'ON #1  C\'ALCULO NUM\'ERICO 521230}\\
+\textbf{\Large TEST 1 VERSI\'ON #1 C\'ALCULO NUM\'ERICO 521230}\\
+\vspace{5mm}
+ \begin{tabular}{p{0.6\textwidth}p{0.35\textwidth}}
+	\textbf{Nombre:}    &\textbf{Carrera:}\\ \\
+	\textbf{Ayudante:} & \textbf{Matr\'icula:}
+ \end{tabular}
+ \\
+\end{center}
+ 
+ Enviar los programas solicitados en el formato solicitado al correo informado por el ayudante de su secci\'on y con copia a \textbf{numerico@ing-mat.udec.cl}.
+ }
+ 
+ \pagestyle{empty}

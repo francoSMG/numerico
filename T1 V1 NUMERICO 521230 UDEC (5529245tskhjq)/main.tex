@@ -1,0 +1,179 @@
+ \documentclass[11pt]{article} 
+\usepackage[english]{babel}
+\usepackage{pgfplots}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{array}
+\pgfplotsset{compat=1.6}
+
+\pgfplotsset{soldot/.style={color=blue,only marks,mark=*}} \pgfplotsset{holdot/.style={color=blue,fill=white,only marks,mark=*}}
+
+\usepackage[utf8]{inputenc}\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings,multicol}
+\setlength{\oddsidemargin}{0.5cm} \setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{16cm} \setlength{\textheight}{23cm}
+\setlength{\topmargin}{-0.5cm}
+\textheight 21.5cm
+\newcommand{\function}[5]{
+\begin{array}{cccl}
+#1 :& #2 	& \longrightarrow 	& #3\\
+	& #4	& \longmapsto		& #5
+\end{array}
+}
+
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  %basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\begin{document}
+
+\title{T1 V1 NUMERICO 521230 UDEC}
+
+\vspace*{-3cm}
+\hspace{-3cm}
+\begin{minipage}{0.12\textwidth}
+\includegraphics[width=\textwidth]{logoudec.eps}
+\end{minipage}
+\hspace{5mm}
+\begin{minipage}{0.9\textwidth}
+UNIVERSIDAD DE CONCEPCION\\
+{\small\small\bf 
+FACULTAD DE CIENCIAS\\ 
+FISICAS Y MATEMATICAS}\\
+DEPARTAMENTO DE INGENIERIA MATEMATICA\\
+\end{minipage}
+
+\rule{16cm}{.5pt}
+
+\vspace{0.2cm}
+\centerline{\LARGE C\'alculo Num\'erico (521230)}
+
+\vspace{0.1cm}
+\centerline{\Large\bf Evaluaci\'on  2 }
+
+
+\def\arraystretch{1.5}
+\vbox{\begin{center}
+\begin{tabular}{|l||l|}
+\hline {\bf Nombre y apellidos}  & \ \hskip10.cm\ \\
+\hline {\bf Profesor} & \ \hskip10.cm\ \\
+\hline
+\end{tabular}
+\end{center}}
+
+\hspace{-2.5cm}
+\begin{minipage}{10.5cm}
+\def\arraystretch{1.25}
+\begin{tabular}{|c||>{\tiny}c||>{\tiny}c||>{\tiny}c||>{\tiny}c||>{\tiny}c||>{\tiny}c||>{\tiny}c||>{\tiny}c||>{\tiny}c||>{\tiny}c||c||>{\tiny}c|}
+\hline
+Matr\'icula
+ & 	& 	&	&	&	&	&	&	&	&	&-&	\\\hline\hline
+ & 1& 1 &1 & 1 & 1& 1 &1 & 1 & 1 & 1 & - & 1 \\ \hline
+ & 2& 2 &2 & 2 & 2& 2 &2 & 2 & 2 & 2 & - & 2 \\ \hline
+ & 3& 3 &3 & 3 & 3& 3 &3 & 3 & 3 & 3 & - & 3 \\ \hline
+ & 4& 4 &4 & 4 & 4& 4 &4 & 4 & 4 & 4 & - & 4 \\ \hline
+ & 5& 5 &5 & 5 & 5& 5 &5 & 5 & 5 & 5 & - & 5 \\ \hline
+ & 6& 6 &6 & 6 & 6& 6 &6 & 6 & 6 & 6 & - & 6 \\ \hline
+ & 7& 7 &7 & 7 & 7& 7 &7 & 7 & 7 & 7 & - & 7 \\ \hline
+ & 8& 8 &8 & 8 & 8& 8 &8 & 8 & 8 & 8 & - & 8 \\ \hline
+ & 9& 9 &9 & 9 & 9& 9 &9 & 9 & 9 & 9 & - & 9 \\ \hline
+ & 0& 0 &0 & 0 & 0& 0 &0 & 0 & 0 & 0 & - & 0 \\ \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{4cm}
+\def\arraystretch{1.25}
+\begin{tabular}{|c||>{\tiny}c||>{\tiny}c||>{\tiny}c||}
+\hline
+Tema
+ & 	& 	&  \\\hline\hline
+ & 1& 1 &1 \\ \hline
+ & 2& 2 &2 \\ \hline
+ & 3& 3 &3 \\ \hline
+ & 4& 4 &4 \\ \hline
+ & 5& 5 &5 \\ \hline
+ & 6& 6 &6 \\ \hline
+ & 7& 7 &7 \\ \hline
+ & 8& 8 &8 \\ \hline
+ & 9& 9 &9 \\ \hline
+ & 0& 0 &0 \\ \hline
+\end{tabular}
+\end{minipage}
+\begin{minipage}{2cm}
+\begin{tabular}{|c||>{\tiny}c||>{\tiny}c||>{\tiny}c||>{\tiny}c|}
+\hline
+Pregunta&\multicolumn{4}{|c|}{Respuesta} \\
+\hline\hline
+ 1& a& b &c &d\\ \hline
+ 2& a& b &c &d\\ \hline
+ 3& a& b &c &d\\ \hline
+ 4& a& b &c &d\\ \hline
+ 5& a& b &c &d\\ \hline
+ 6& a& b &c &d\\ \hline
+ 7& a& b &c &d\\ \hline
+ 8& a& b &c &d\\ \hline
+ 9& a& b &c &d\\ \hline
+10& a& b &c &d\\ \hline
+11& a& b &c &d\\ \hline
+12& a& b &c &d\\ \hline
+%13& a& b &c &d\\ \hline
+%14& a& b &c &d\\ \hline
+%15& a& b &c &d\\ \hline
+\end{tabular}
+\end{minipage}
+
+
+\vspace{5mm}
+\hspace{-1.5cm}
+\begin{minipage}{15cm}
+\noindent
+{\small
+\begin{itemize}
+\item Marque los casilleros usando l\'apiz grafito o pasta de color negro o azul.
+\item Marque s{\'o}lo una alternativa, en caso contrario la pregunta
+{\bf no ser{\'a} evaluada}.
+\item Todas las respuestas, incluyendo aquellas obtenidas por descarte, deben
+ser justificadas en los cuadros provistos, a menos que se indique lo contrario
+expl\'icitamente en la pregunta.\\ \textbf{Respuestas correctas sin justificar y sin
+indicaci\'on de no justificar no se evaluar\'an. Respuestas con justificaci\'on incorrecta se contar\'an como equivocadas.}
+\item {\bf No intente adivinar.} Por cada respuesta equivocada se
+descontar\'a un tercio del valor de una respuesta correcta; es decir:
+
+\centerline{$\displaystyle\mbox{Calificaci\'on}=1+\max\left\{0,
+\frac{6}{12}\left({\mbox{Buenas}}-\frac{\mbox{Malas}}3\right)\right\}$.}
+\item Cualquier intento de copia ser\'a {\bf sancionado}.
+\item Duraci\'on de la prueba: {\bf 100 minutos}.
+\end{itemize}
+\noindent MCP/MVH/FMP. \hfill 28--Junio--2016.
+}
+\end{minipage}
+\begin{minipage}{4cm}
+\begin{center}
+\begin{tabular}{|p{3cm}|}
+\hline
+Reservado para la
+correcci\'on\\
+{\bf No rellenar}\\ \hline \hline \\
+\large
+\begin{tabular}{c|p{1.15cm}}
+B & \\ \hline
+M & \\ \hline
+NR & \\ \hline\hline
+Cal. & \\
+\end{tabular}\\ \\
+\hline
+\end{tabular}
+\end{center}
+\end{minipage}
+
+
+
+
+\end{document}

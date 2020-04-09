@@ -1,0 +1,355 @@
+\documentclass[letter,12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{verbatim} % Para el ambiente comment
+\usepackage{dashundergaps} % Para \dashuline
+\usepackage{srcltx}
+
+\theoremstyle{definition}
+\newtheorem{question}{Pregunta}
+\renewcommand{\thequestion}{\Alph{question}}
+\numberwithin{equation}{question}
+
+\newenvironment{solution}{\begin{proof}[Solución]}{\end{proof}}
+
+\renewcommand{\theenumi}{\roman{enumi}}
+
+\pagestyle{empty}
+\usepackage[left=1.5cm, right=1.5cm, top=1.5cm, bottom=2cm]{geometry}
+
+\begin{document}
+\font\bff=cmbx10 at 10truept
+\font\lg=cmdunh10 at 10truept
+\font\bl=cmss10 at 10truept
+
+\noindent{\lg UNIVERSIDAD DE CONCEPCIÓN}\hfill
+\vskip-2truept
+\noindent{\bff FACULTAD DE CIENCIAS FÍSICAS Y MATEMÁTICAS}\hfill
+\vskip-2truept
+\noindent{\bl DEPARTAMENTO DE INGENIERÍA MATEMÁTICA}\hfill
+\vskip4truept\hrule\hrule\vskip4truept
+\par
+\bigskip
+\begin{center}
+\large{\textbf{521230 Cálculo Numérico (2018-I)}}\\
+\large{\textbf{Evaluación 1}
+\par \medskip 16 de mayo de 2018}
+\end{center}
+
+\bigskip
+
+\noindent%
+\textbf{Nombre:} \dashuline{\hfill}\\[1.5ex]
+\textbf{Número de matrícula:} \dashuline{\hfill}\\[1.5ex]
+\textbf{Sección:} {\small $\square$ 1 (Prof.~Leonardo Figueroa C.) \hfill $\square$ 2 (Prof.\ Franco Milanese P.) \hfill $\square$ 3 (Prof.~Mauricio Vega H.)}
+
+\bigskip
+
+Esta evaluación consta de \textbf{cuatro} preguntas con la misma ponderación.
+No se permite el uso de calculadoras u otros dispositivos electrónicos.
+Duración: 100 minutos.
+
+\begin{question}[\framebox{15 puntos}] Se desea aproximar una solución de la ecuación
+%
+\begin{equation*}
+x \, \exp(x) = 2.
+\end{equation*}
+%
+\begin{enumerate}
+\item\label{it:bisec} (50\%) Efectúe una iteración del método de la bisección aplicado a este problema inicializando con $a = -1$ y $b = 1$.
+\item\label{it:Newton} (50\%) Efectúe una iteración del método de Newton aplicado a este problema inicializando con $x_0 = 0$.
+\end{enumerate}
+
+\begin{solution}
+\textbf{Parte \ref{it:bisec}.}
+
+\framebox{1.5 puntos} Definiendo la función $f$ por $f(x) = x\,\exp(x)-2$, el problema se reduce a buscar una raíz de $f$.
+
+\framebox{5 puntos} Como $f$ es continua en $[a,b]$ y $f(a) = -\exp(-1)-2 < 0$ y $f(b) = \exp(1)-2 > 0$, podemos aplicar el método de la bisección.
+El primer punto medio es $\hat x = 0$.
+Como $f(0) = -2 < 0$, redefinimos $a = 0$.
+Nuestro nuevo intervalo de trabajo es $[a,b] = [0,1]$.
+
+\framebox{1 punto} La respuesta de la primera iteración es el punto medio del nuevo intervalo; esto es, $\hat x = \frac{1}{2}$.
+
+\medskip
+
+\textbf{Parte \ref{it:Newton}.}
+
+\smallskip
+\noindent\framebox{\begin{minipage}{\linewidth}
+1.5 puntos --- Si se identificó una función apropiada como $f$ en la parte anterior, también se asigna el puntaje.
+\end{minipage}}
+Definiendo la función $f$ por $f(x) = x\,\exp(x)-2$, el problema se reduce a buscar una raíz de $f$.
+
+
+\framebox{2 puntos} Calculamos $f'(x) = x \, \exp(x) + \exp(x) = (x+1) \exp(x)$.
+Entonces, el resultado de aplicar una iteración del método de Newton a este problema es
+%
+\begin{equation*}
+\text{\framebox{4 puntos}} \quad x_1 = x_0 - \frac{f(x_0)}{f'(x_0)} = 0 - \frac{(-2)}{1} = 2.
+\end{equation*}
+
+\end{solution}
+\end{question}
+
+\newpage
+\begin{question}[\framebox{15 puntos}] Sea $f \colon [0,2] \to \mathbb{R}$ la función definida por
+%
+\begin{equation*}
+(\forall\,x\in[0,2]) \quad f(x)
+= \begin{cases} x-2 & \text{si } 0 \leq x \leq 1,\\
+-2x + 1 & \text{si } 1 < x \leq 2.
+\end{cases}
+\end{equation*}
+%
+\begin{enumerate}
+\item\label{it:coarse} (50\%) Calcule la aproximación de la integral $I = \int_0^2 f(x) \, \mathrm{d}x$ producida por el método del trapecio compuesto con tamaño de paso $h = 2/3$.
+\item\label{it:fine} (50\%) Calcule la aproximación de la misma integral $I$ producida por el método del trapecio compuesto con tamaño de paso $h = 1/32$.
+\end{enumerate}
+
+\begin{solution}
+\textbf{Parte \ref{it:coarse}.}
+
+\smallskip
+\noindent\framebox{\begin{minipage}{\textwidth}
+Recordar fórmula o definición del método del trapecio compuesto: 2 puntos;
+usar el $h$ indicado y no otro: 3 puntos;
+realizar bien las operaciones aritméticas: 2.5 puntos
+\end{minipage}}
+
+Con tamaño de paso $h = 2/3$ la aproximación es
+%
+\begin{multline*}
+\frac{2/3}{2}\left[f(0) + 2 f(2/3) + 2 f(4/3) + f(2)\right]
+= \frac{1}{3}\left[(0-2) + 2(2/3-2) + 2(-2\times4/3+1) + (-2\times2+1)\right]\\
+= \frac{1}{3}\left[-2 + -8/3 - 10/3 - 3\right]
+= \frac{1}{3} \frac{(-33)}{3} = -\frac{11}{3}.
+\end{multline*}
+
+\medskip
+
+\textbf{Parte \ref{it:fine}.}
+
+\smallskip
+\noindent\framebox{\begin{minipage}{\textwidth}
+Recordar fórmula o definición del método del trapecio compuesto: 2 puntos;
+usar el $h$ indicado y no otro: 3 puntos;
+realizar bien las operaciones aritméticas incluyendo, de ser necesario, evaluación de sumas: 2.5 puntos
+\end{minipage}}
+
+Al aplicar el método del trapecio compuesto con paso $h = 1/32$, lo que estamos haciendo, por definición, es descomponer
+%
+\begin{equation}\label{aux}
+I = \sum_{i=1}^{n} \int_{x_{i-1}}^{x_i} f(x) \, \mathrm{d}x,
+\end{equation}
+%
+y aplicar el método del trapecio elemental a cada integral dentro de la suma en \eqref{aux}.
+En \eqref{aux} $n$ está relacionado con $h$ a través de $h = (2-0)/n$ (esto es, $n = 2/h = 64$) y, para todo $i \in \{0, \dotsc, n\}$, $x_i = 0 + i\,h = i/32$.
+Ahora, si $i \leq 32$, $x_i \leq 1$.
+Por otro lado, si $i \geq 33$, $x_{i-1} = (i-1)/32 \geq (33-1)/32 = 1$.
+Entonces, por la definición de $f$,
+%
+\begin{subequations}\label{eux}
+\begin{gather}
+(\forall\,i\in\{1,\dotsc,32\}) \quad \int_{x_{i-1}}^{x_i} f(x) \,\mathrm{d}x = \int_{x_{i-1}}^{x_i} (x-2) \,\mathrm{d}x,\\
+(\forall\,i\in\{33,\dotsc,64\}) \quad \int_{x_{i-1}}^{x_i} f(x) \,\mathrm{d}x = \int_{x_{i-1}}^{x_i} (-2x+1) \,\mathrm{d}x.
+\end{gather}
+\end{subequations}
+%
+Como tanto $x \mapsto x-2$ y $x \mapsto -2x+1$ son polinomios de grado menor o igual a $1$, la regla del trapecio elemental aproxima a estas integrales en \eqref{eux} en forma exacta.
+Por lo tanto, la aproximación de $I$ es
+%
+\begin{multline*}
+\sum_{i=1}^{32} \int_{x_{i-1}}^{x_i} (x-2) \,\mathrm{d}x + \sum_{i=33}^{64} \int_{x_{i-1}}^{x_i} (-2x+1) \, \mathrm{d}x
+= \int_0^1 (x-2) \, \mathrm{d}x + \int_1^2 (-2x+1) \, \mathrm{d} x\\
+= \left.\left(\frac{1}{2} x^2 - 2x \right)\right|_{x=0}^{x=1} + \left.\left(-x^2 + x\right)\right|_{x=1}^{x=2}
+= \frac{1}{2} - 2 -4 + 2 - (-1) - 1
+= -\frac{7}{2}.
+\end{multline*}
+%
+\textbf{Alternativamente}, la aproximación de $I$ que hace el método del trapecio compuesto con paso $h = 1/32$ se puede calcular utilizando la fórmula derivada en clase:
+%
+\begin{multline*}
+\frac{1/32}{2} \left(f(0) + 2 \sum_{i=1}^{63} f(x_i) + f(2)\right)
+= \frac{1}{64} \left(f(0) + 2 \sum_{i=1}^{32} f(i/32) + 2 \sum_{i=33}^{63} f(i/32) + f(2)\right)\\
+= \frac{1}{64} \left(-2 + 2 \sum_{i=1}^{32} (i/32-2) + 2 \sum_{i=33}^{63} (-2\,i/32 + 1) -3\right)\\
+= \frac{1}{64} \left(-2 + \sum_{i=1}^{32} (i/16-4) + \sum_{i=33}^{63} (-i/8 + 2) -3\right)\\
+= \frac{1}{64} \left(-2 - 4\times 32 + 2\times(63-33+1) - 3 + \frac{1}{16} \sum_{i=1}^{32} i - \frac{1}{8} \left[\sum_{i=1}^{63} i - \sum_{i=1}^{32} i\right]\right)\\
+= \frac{1}{64} \left(-71 + \frac{32(32+1)}{16 \times 2} - \frac{63(63+1)}{8 \times 2} + \frac{32(32+1)}{8\times2} \right)
+= \frac{1}{64}\left(-71 + 33 - 63\times 4 + 2 \times 33\right) = -\frac{7}{2}.
+\end{multline*}
+%
+\end{solution}
+\end{question}
+
+\newpage
+\begin{question}[\framebox{15 puntos}]\hfill
+\begin{enumerate}
+\item\label{it:fit} (80\%) Ajuste por mínimos cuadrados los coeficientes $\alpha_1$, $\alpha_2$ y $\alpha_3$ del modelo
+%
+\begin{equation*}
+f(x) = \alpha_1 + \alpha_2 x + \alpha_3 \left(\frac{x^2}{2} - 1\right)
+\end{equation*}
+%
+a los datos de la tabla
+%
+\begin{center}
+\begin{tabular}{c|cccc}
+$x_i$ & $-\sqrt{2+\sqrt{2}}$ & $-\sqrt{2-\sqrt{2}}$ & $\sqrt{2-\sqrt{2}}$ & $\sqrt{2+\sqrt{2}}$\\\hline
+$f(x_i)$ & -4 & 0 & 0 & 4
+\end{tabular}
+\end{center}
+\item\label{it:assess} (20\%) ¿El modelo ajustado interpola los datos?
+\end{enumerate}
+
+\begin{solution}
+\textbf{Parte \ref{it:fit}.}
+
+\framebox{Planteo del sistema rectangular: 4 puntos} Las ecuaciones que deseamos ajustar son
+%
+\begin{align*}
+\alpha_1 - \alpha_2 \sqrt{2+\sqrt{2}} + \alpha_3 \left(\left(-\sqrt{2+\sqrt{2}}\right)^2/2-1\right)  & = -4,\\
+\alpha_1 - \alpha_2 \sqrt{2-\sqrt{2}} + \alpha_3 \left(\left(-\sqrt{2-\sqrt{2}}\right)^2/2-1\right)  & = 0,\\
+\alpha_1 + \alpha_2 \sqrt{2-\sqrt{2}} + \alpha_3 \left(\left(\sqrt{2-\sqrt{2}}\right)^2/2-1\right)  & = 0,\\
+\alpha_1 + \alpha_2 \sqrt{2+\sqrt{2}} + \alpha_3 \left(\left(\sqrt{2+\sqrt{2}}\right)^2/2-1\right)  & = 4.
+\end{align*}
+%
+En términos de matrices y vectores, podemos escribir esto como que deseamos ajustar el sistema no-rectangular de ecuaciones $\boldsymbol{A} \boldsymbol{\alpha} = \boldsymbol{b}$, donde $\boldsymbol{\alpha} = \begin{pmatrix} \alpha_1 & \alpha_2 & \alpha_3 \end{pmatrix}^{\mathrm{T}}$, $\boldsymbol{b} = \begin{pmatrix} -4 & 0 & 0 & 4 \end{pmatrix}^{\mathrm{T}}$ y, usando que
+%
+\begin{gather*}
+\left(-\sqrt{2+\sqrt{2}}\right)^2/2-1 = \left(\sqrt{2+\sqrt{2}}\right)^2/2-1 = \frac{2+\sqrt{2}}{2} - 1 = \frac{\sqrt{2}}{2}
+\intertext{y}
+\left(-\sqrt{2-\sqrt{2}}\right)^2/2-1 = \left(\sqrt{2-\sqrt{2}}\right)^2/2-1 = \frac{2-\sqrt{2}}{2} - 1 = -\frac{\sqrt{2}}{2},
+\end{gather*}
+%
+la matriz $\boldsymbol{A}$ está dada por
+%
+\begin{equation*}
+\boldsymbol{A} = \begin{pmatrix}
+1 & -\sqrt{2+\sqrt{2}} & \frac{\sqrt{2}}{2}\\
+1 & -\sqrt{2-\sqrt{2}} & -\frac{\sqrt{2}}{2}\\
+1 & \sqrt{2-\sqrt{2}} & -\frac{\sqrt{2}}{2}\\
+1 & \sqrt{2+\sqrt{2}} & \frac{\sqrt{2}}{2}
+\end{pmatrix}.
+\end{equation*}
+%
+\framebox{Planteo del sistema normal: 4 puntos}
+La solución al sistema normal de ecuaciones $\boldsymbol{A}^{\mathrm{T}} \boldsymbol{A} \boldsymbol{\alpha} = \boldsymbol{A}^{\mathrm{T}} \boldsymbol{b}$ es la solución en el sentido de mínimos cuadrados del sistema no-rectangular $\boldsymbol{A} \boldsymbol{\alpha} = \boldsymbol{b}$.
+Calculamos
+%
+\begin{equation*}
+\boldsymbol{A}^{\mathrm{T}} \boldsymbol{A} =
+\begin{pmatrix}
+1 & 1 & 1 & 1\\
+-\sqrt{2+\sqrt{2}} & -\sqrt{2-\sqrt{2}} & \sqrt{2-\sqrt{2}} & \sqrt{2+\sqrt{2}}\\
+\frac{\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} & \frac{\sqrt{2}}{2}
+\end{pmatrix}
+\begin{pmatrix}
+1 & -\sqrt{2+\sqrt{2}} & \frac{\sqrt{2}}{2}\\
+1 & -\sqrt{2-\sqrt{2}} & -\frac{\sqrt{2}}{2}\\
+1 & \sqrt{2-\sqrt{2}} & -\frac{\sqrt{2}}{2}\\
+1 & \sqrt{2+\sqrt{2}} & \frac{\sqrt{2}}{2}
+\end{pmatrix}
+= \begin{pmatrix}
+4 & 0 & 0\\
+0 & 8 & 0\\
+0 & 0 & 2
+\end{pmatrix}
+\end{equation*}
+%
+y
+\begin{equation*}
+\boldsymbol{A}^{\mathrm{T}} \boldsymbol{b}
+= \begin{pmatrix}
+1 & 1 & 1 & 1\\
+-\sqrt{2+\sqrt{2}} & -\sqrt{2-\sqrt{2}} & \sqrt{2-\sqrt{2}} & \sqrt{2+\sqrt{2}}\\
+\frac{\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} & -\frac{\sqrt{2}}{2} & \frac{\sqrt{2}}{2}
+\end{pmatrix}
+\begin{pmatrix} -4 \\ 0 \\ 0 \\ 4 \end{pmatrix}
+= \begin{pmatrix} 0 \\ 8\sqrt{2+\sqrt{2}} \\ 0\end{pmatrix}.
+\end{equation*}
+%
+\framebox{Obtención y uso de parámetros de ajuste: 4 puntos} Resolviendo, $\boldsymbol{\alpha} = \begin{pmatrix} 0 & \sqrt{2+\sqrt{2}} & 0 \end{pmatrix}^{\mathrm{T}}$.
+El modelo ajustado es entonces $f(x) = \sqrt{2+\sqrt{2}} \, x$.
+
+\medskip
+
+\textbf{Parte \ref{it:assess}.}
+
+\framebox{3 puntos} El modelo ajustado no interpola los datos, porque, por ejemplo,
+%
+\begin{equation*}
+f\left(\sqrt{2-\sqrt{2}}\right) = \sqrt{2+\sqrt{2}} \sqrt{2-\sqrt{2}} \neq 0.
+\end{equation*}
+%
+\end{solution}
+\end{question}
+
+\newpage
+\begin{question}[\framebox{15 puntos}] El polinomio de Legendre de grado $3$ es $p_3(x) = \frac{1}{2}(5 x^3 - 3 x)$.
+Calcule los nodos y los pesos de la regla de cuadratura de Gauss--Legendre de $3$ puntos.
+
+\begin{solution} \framebox{6 puntos} Los nodos de la cuadratura de Gauss--Legendre de $3$ puntos son las raíces de $p_3$.
+Claramente $0$ es una raíz de $p_3$.
+Factorizando el monomio asociado a esa raíz, hallamos que $p_3(x) = \frac{5}{2} x \left(x^2 - \frac{3}{5}\right)$.
+Desde esta última expresión obtenemos que las otras dos raíces son $-\sqrt{\frac{3}{5}}$ y $\sqrt{\frac{3}{5}}$.
+En resumen, lo nodos son
+%
+\begin{equation*}
+x_1 = -\sqrt{\frac{3}{5}}, \quad x_2 = 0 \quad\text{y}\quad x_3 = \sqrt{\frac{3}{5}}.
+\end{equation*}
+%
+
+\smallskip
+\noindent\framebox{\begin{minipage}{\linewidth}
+Planteo de una estrategia apropiada para obtener pesos: 5 puntos; realizar bien las operaciones aritméticas: 4 puntos
+\end{minipage}}
+Sabemos que la cuadratura de Gauss--Legendre de $3$ puntos es exacta para polinomios de grado menor o igual a $2\times 3 - 1 = 5$.
+En particular, es exacta para los polinomios $x \mapsto 1$, $x \mapsto x$ y $x \mapsto x^2$ (cualquier otra base del espacio de los polinomios de grado menor o igual que $2$ también sirve).
+Por lo tanto, denotando por $w_1$, $w_2$ y $w_3$ a los pesos asociados a los nodos $x_1$, $x_2$ y $x_3$, respectivamente,
+%
+\begin{align*}
+w_1 + w_2 + w_3 = \int_{-1}^1 1 \, \mathrm{d} x & = 2,\\
+-\sqrt{\frac{3}{5}} \, w_1 + 0\,w_2 + \sqrt{\frac{3}{5}} \, w_3 = \int_{-1}^1 x \, \mathrm{d}x & = 0,\\
+\frac{3}{5} \, w_1 + 0\,w_2 + \frac{3}{5} \, w_3 = \int_{-1}^1 x^2 \, \mathrm{d}x & = \frac{2}{3}.
+\end{align*}
+%
+De la segunda ecuación se obtiene que $w_1 = w_3$ y de la tercera que $2 \times \frac{3}{5} w_1 = \frac{3}{5} w_1 + \frac{3}{5} w_3 = \frac{2}{3}$, de donde $w_1 = w_3 = \frac{5}{9}$.
+De la primera ecuación, $\frac{5}{9} + w_2 + \frac{5}{9} = 2$, de donde $w_2 = \frac{8}{9}$.
+En resumen, los pesos son
+%
+\begin{equation*}
+w_1 = \frac{5}{9}, \quad w_2 = \frac{8}{9} \quad\text{y}\quad w_3 = \frac{5}{9}.
+\end{equation*}
+%
+\textbf{Alternativamente}, los pesos se pueden calcular como las integrales de los polinomios de Lagrange asociados a los nodos:
+%
+\begin{multline*}
+w_1 = \int_{-1}^1 \frac{x-0}{-\sqrt{3/5}-0} \, \frac{x-\sqrt{3/5}}{-\sqrt{3/5}-\sqrt{3/5}} \, \mathrm{d}x
+= \frac{1}{2 \times 3/5} \int_{-1}^1 x \left(x-\sqrt{3/5}\right) \, \mathrm{d}x\\
+= \frac{5}{6} \int_{-1}^1 x^2 \, \mathrm{d} x - \frac{5}{6}\sqrt{3/5} \underbrace{\int_{-1}^1 x \, \mathrm{d}x}_{= 0} = \frac{5}{6} \, \frac{2}{3} = \frac{5}{9},
+\end{multline*}
+%
+\begin{multline*}
+w_2 = \int_{-1}^1 \frac{x+\sqrt{3/5}}{0 + \sqrt{3/5}} \, \frac{x-\sqrt{3/5}}{0-\sqrt{3/5}} \, \mathrm{d}x
+= -\frac{1}{3/5} \int_{-1}^1 \left(x+\sqrt{3/5}\right) \left(x-\sqrt{3/5}\right) \, \mathrm{d}x
+= -\frac{5}{3} \int_{-1}^1 \left(x^2 - \frac{3}{5}\right) \, \mathrm{d}x\\
+= -\frac{5}{3} \left( \frac{2}{3} - \frac{3}{5}\times 2\right)
+= -\frac{5}{3} \left(-\frac{8}{15}\right) = \frac{8}{9},
+\end{multline*}
+%
+\begin{multline*}
+w_3 = \int_{-1}^1 \frac{x+\sqrt{3/5}}{\sqrt{3/5}+\sqrt{3/5}} \, \frac{x-0}{\sqrt{3/5}-0} \, \mathrm{d}x
+= \frac{1}{2\times 3/5} \int_{-1}^1 \left(x+\sqrt{3/5}\right) x \, \mathrm{d}x\\
+= \frac{5}{6} \int_{-1}^1 x^2 \, \mathrm{d}x + \frac{5}{6} \sqrt{3/5} \underbrace{\int_{-1}^1 x \, \mathrm{d}x}_{= 0} = \frac{5}{6} \, \frac{2}{3} = \frac{5}{9}.
+\end{multline*}
+\end{solution}
+\end{question}
+
+
+\end{document}

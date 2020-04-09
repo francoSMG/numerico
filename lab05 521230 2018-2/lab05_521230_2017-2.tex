@@ -1,0 +1,398 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[spanish,activeacute]{babel}
+\decimalpoint
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{longtable}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+}
+\usepackage[numbered,framed]{matlab-prettifier}
+\lstMakeShortInline"
+\lstset{
+  style              = Matlab-editor,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
+
+\setlength{\oddsidemargin}{-0.5cm}
+\setlength{\evensidemargin}{0cm}
+\setlength{\textwidth}{17.5cm}
+\setlength{\textheight}{24cm}
+\setlength{\topmargin}{-1.7cm}
+
+\title{lab05 521230 2018-1}
+
+\font\bff=cmbx10 at 10truept
+\font\lg=cmdunh10 at 10truept
+\font\bl=cmss10 at 10truept
+
+\newcommand{\matlab}{{\sc Matlab} }
+
+\newcommand{\header}{\noindent%
+{\lg UNIVERSIDAD DE CONCEPCI\'ON}\hfill
+\vskip-4truept
+\noindent{\bff FACULTAD DE CIENCIAS}\hfill
+\vskip-4truept
+\noindent{\bff F\'ISICAS Y MATEM\'ATICAS}\hfill
+\vskip-4truept
+\noindent{\bl DEPARTAMENTO DE INGENIER\'IA MATEM\'ATICA}\hfill
+\vskip4truept\hrule\hrule\vskip4truept
+\par
+}
+
+\begin{document}
+\header
+\vspace{0.7cm}
+\begin{center}
+\textbf{\small C\'alculo Num\'erico (521230) - Laboratorio 5}\\
+\vspace{0.1cm}
+\textbf{\Large INTEGRACI\'ON NUM\'ERICA EN MATLAB}
+\vspace{0.7cm}
+\end{center}
+
+\section{Reglas de Newton--Cotes}
+Descargue la funci\'on de \matlab 
+\href{ftp://ftp.ing-mat.udec.cl/pub/ing-mat/asignaturas/521230/ejercicios/2018-1/trap.m}{trap.m} 
+esta funci\'on consiste en una implementaci\'on del m\'etodo del trapecio. Utilice la funci\'on \texttt{help} para aprender a usar la funci\'on \texttt{trap}.
+
+Mediante la funci\'on \texttt{trap} estime las integrales definidas
+$$
+\displaystyle
+\int_{-\pi}^{\pi} \cos(x+1)\, \mathrm{d}x, \quad
+\int_{-4}^{7} (2x^2-x+1) \, \mathrm{d}x, \quad
+\int_{-1}^{1} e^{2x+1} \sen(2x+1)\, \mathrm{d}x. \quad
+$$
+
+
+El c\'odigo disponible en 
+\href{ftp://ftp.ing-mat.udec.cl/pub/ing-mat/asignaturas/521230/ejercicios/2018-1/cuadratura1.m}{cuadratura1.m} 
+genera una animaci\'on que muestra la construcci\'on de una regla de cuadratura compuesta para una funci\'on dada. Descargue este programa y comente qu\'e hace cada l\'inea del c\'odigo.
+
+
+\textbf{Ejercicio}
+
+Cree un rutero de \matlab que permita aproximar, usando las reglas del punto medio y trapecio, la integral definida
+$$
+\displaystyle
+\int_{-2}^2 \left|\cos(3x)+\frac{\sen(x^2)}{10}\right|\,\mathrm{d}x
+$$
+y que le permita completar la siguiente tabla
+\begin{center}
+\begin{tabular}{c|c|c}
+Cant. nodos & Punto medio & Trapecio \\
+\hline
+2& & \\
+3 & & \\
+4 & & \\
+5 & & \\
+6 & & \\
+7 & & \\
+8 & & \\
+9 & & \\
+\end{tabular}
+\end{center}
+de los valores aproximados para esta integral usando estos m\'etodos para reglas compuestas con distintas cantidades de nodos.
+
+\textquestiondown Qu\'e observa en los digitos obtenidos?, \textquestiondown C\'ual de los dos m\'etodos funciona mejor en este caso?.
+
+\subsection{Generalizaci\'on}
+Estas reglas provienen de la aproximaci\'on de una funci\'on por su interpolante en los puntos $\{(x_i,f(x_i))\}_{i=0}^n$
+$$
+\displaystyle
+f(x)\approx \sum_{i=0}^n f(x_i) \ell_i(x)=\sum_{i=0}^n f(x_i) \prod_{\substack{k=0\\k\neq i}}^n \frac{x-x_k}{x_i-x_k},
+$$
+de donde surge la idea de aproximar la integral definida mediante la integral de la interpolante, a la que llamamos \emph{cuadratura}:
+$$
+\displaystyle
+\int_{x_0}^{x_n}
+f(x)\,\mathrm{d}x \approx 
+\int_{x_0}^{x_n}
+\sum_{i=0}^n
+f(x_i) \ell_i(x)\,\mathrm{d}x 
+=
+\sum_{i=0}^n
+f(x_i) 
+\int_{x_0}^{x_n} \ell_i(x)\,\mathrm{d}x.
+$$
+As\'i, los \emph{pesos} de estas reglas son
+$$
+(\forall\,i\in\{0,\dotsc,n\}) \quad w_i = \int_{x_0}^{x_n} \ell_i(x)\,\mathrm{d}x.
+$$
+
+En el caso \textbf{muy particular} en el que los nodos $\{x_i\}_{i=0}^n$ son equiespaciados con tama\~no de paso $h$, entonces mediante el cambio de variable
+$
+x=x_0+h\,t, 
+$
+se tiene que
+$$
+w_i
+=	\int_{x_0}^{x_n} \ell_i(x)\,\mathrm{d}x 
+=	\int_{x_0}^{x_n}
+	\prod_{\substack{k=0\\k\neq i}}^n 
+    	\frac{x-x_k}{x_i-x_k}\,\mathrm{d}x
+=	\int_{0}^{n}
+	\prod_{\substack{k=0\\k\neq i}}^n 
+    	\frac{t-k}{i-k}\,h\,\mathrm{d}t   
+=	h \int_{0}^{n}
+	\prod_{\substack{k=0\\k\neq i}}^n 
+    	\frac{t-k}{i-k}\,\mathrm{d}t.
+$$
+Observe estas \'ultimas integrales, a saber,
+ $$
+\alpha_i= \int_{0}^{n}
+	\prod_{\stackrel{k=0}{k\neq i}}^n 
+    	\frac{t-k}{i-k}\,\mathrm{d}t,
+ $$
+son independientes del intervalo de integraci\'on. Para el caso de $n=2$, tenemos que
+ $$
+ \begin{array}{cllll}
+ \alpha_0 
+ &\displaystyle 
+ =\int_0^2 \frac{t-1}{0-1} \, \frac{t-2}{0-2}\,\mathrm{d}t
+ &\displaystyle
+ =\frac{1}{2}\int_0^2 (t^2-3t+2)\,\mathrm{d}t
+ &
+ =\frac{1}{2}\left(\frac{8}{3}-\frac{12}{2}+4\right)=\frac{1}{3}
+\\ \\
+\alpha_1 
+ &\displaystyle 
+ =\int_0^2 \frac{t-0}{1-0} \, \frac{t-2}{1-2}\,\mathrm{d}t
+ &\displaystyle
+ =-\int_0^2 (t^2-2t)\,\mathrm{d}t
+ &
+ =-\left(\frac{8}{3}-4\right)=\frac{4}{3}
+ \\ \\
+\alpha_2 
+ &\displaystyle 
+ =\int_0^2 \frac{t-0}{2-0} \, \frac{t-1}{2-1}\,\mathrm{d}t
+ &\displaystyle
+ =\frac{1}{2}\int_0^2 (t^2-t)\,\mathrm{d}t
+ &
+=\frac{1}{2}\left(\frac{8}{3}-\frac{4}{2}\right) =\frac{1}{3}\\
+ \end{array}
+ $$
+ con la cual se genera la \emph{regla de Simpson}:
+ $$
+ \displaystyle
+ \int_{x_0}^{x_n} f(x)dx \approx \frac{h}{3} f(x_0)+\frac{4h}{3} f(x_1)+\frac{h}{3} f(x_2).
+ $$
+Aqu\'i, $h = x_1-x_0 = x_2-x_1$. Los valores exactos de estas los pesos de estas reglas de cuadratura, para distintas cantidades de nodos, est\'an disponibles en el archivo
+ \href{ftp://ftp.ing-mat.udec.cl/pub/ing-mat/asignaturas/521230/ejercicios/2018-1/pesosnc.mat}{pesosnc.mat}
+
+\subsection{Ejercicios.}
+\begin{enumerate}
+\item 
+Calcule anal\'iticamente los coeficientes $\alpha_0,\alpha_1$ de una regla de Newton--Cotes con dos nodos. \textquestiondown Reconoce esta regla?.
+
+\item
+Las reglas de Newton--Cotes de 4 y 5 nodos son conocidas como de Simpson-$3/8$ y de Milne, respectivamente.
+Calcule anal\'iticamente los coeficientes asociados a estas reglas.
+
+\item Aproxime usando la regla de Simpson las siguientes integrales
+\begin{multicols}{2}
+\begin{enumerate}
+\item $\int_0^\pi \cos(2\pi x)\,\mathrm{d}x$
+\item $\int_{-1}^1 e^{x+1}\,\mathrm{d}x$
+\item $\int_{-\pi}^\pi \sen(2\pi x)\,\mathrm{d}x$
+\item $\int_{-10}^{10} (3x^2+2x+1)\,\mathrm{d}x$
+\end{enumerate}
+\end{multicols}
+A continuaci\'on calcule anal\'iticamente el valor de cada una de estas integrales y calcule el error cometido en cada caso.
+
+\item Aproxime el valor de la integral
+$$
+\int_{-1}^1 \frac{\cos(30\pi x)}{2x^2+1}\, dx
+$$
+usando una sucesi\'on de reglas compuestas de Simpson. Considere nodos equiespaciados con
+$$
+h=0.5, \quad h=0.25,\quad h=0.1 \quad\text{y}\quad h=0.05
+$$
+\item Escriba un rutero de \matlab que grafique a la funci\'on $f$ definida por
+$$
+f(x)=\frac{\cos(x)}{x^4+1}
+$$
+en el intervalo $[-5,5]$. Agregue al gr\'afico los $5$ puntos que subyacen a la regla de cuadratura de Newton--Cotes de 5 puntos\footnote{Recuerde que el interpolante de estos cinco puntos es un polinomio de grado 4 y que los cinco puntos deben ser equiespaciados en el eje de las abcisas.}.
+
+Luego grafique el polinomio interpolante en cuesti\'on y calcule usando la regla mencionada la aproximaci\'on de esta integral.
+
+\item Modifique el programa anterior para que se calculen las integrales aproximadas usando las reglas disponibles en
+ \href{ftp://ftp.ing-mat.udec.cl/pub/ing-mat/asignaturas/521230/ejercicios/2018-1/pesosnc.mat}{pesosnc.mat} . 
+\textquestiondown Qu\'e observa con las convergencias de estas aproximaciones?.
+\end{enumerate}
+
+\section{Cuadraturas de Gauss}
+
+Si bien las reglas de Newton--Cotes se pueden definir para una cantidad arbitraria de puntos, en la pr\'actica se observan errores significativos a medida que se aumenta la cantidad de puntos, los que pueden atribuirse al fen\'omeno de Runge.
+Por esto, no suelen usarse reglas de Newton--Cotes compuestas cuya contraparte b\'asica (en un solo intervalo) involucre m\'as de 7 nodos.
+
+Las reglas de cuadratura Gaussiana, permiten aumentar arbitrariamente la cantidad de nodos manteniendo la convergencia de la cuadratura y en general suelen tener una mejor aproximaci\'on que las reglas de Newton--Cotes con el mismo costo computacional.
+
+La idea de estas cuadraturas es elegir los mejores nodos $\{x_i\}_{i=0}^n$ de modo que la regla de cuadratura resultante
+$$
+\displaystyle
+\int_{-1}^1 f(x)\,\mathrm{d}x \approx w_1 f(x_1) +\cdots+ w_n f(x_n)
+$$
+sea exacta para polinomios del mayor grado posible.
+
+En el archivo 
+ \href{ftp://ftp.ing-mat.udec.cl/pub/ing-mat/asignaturas/521230/ejercicios/2018-1/gauss25.mat}{gauss25.mat}
+se encuentran los pesos $w_i$ y nodos $x_i$ de las primeras 25 reglas de cuadratura Gaussiana.
+
+\subsection{Ejercicios}
+\begin{enumerate}
+	\item Calcule anal\'iticamente la integral
+    $$
+    \int_{-1}^1 (x^7+2x-1) \,\mathrm{d}x
+    $$
+    y luego en un programa de \matlab h\'agalo usando las primeras 10 reglas de cuadratura de Gauss Calcule adem\'as el error de integraci\'on en cada una de estas reglas.
+    
+	\item En un rutero de \matlab cree una matriz que contenga los valores aproximados al estimar las integrales
+    $$
+    \displaystyle
+    \int_{-1}^1 x(x-1)(x+1)\, \mathrm{d}x,
+    \quad
+    \int_{-\pi}^\pi \frac{\cos(10x)}{|x|+1}\, \mathrm{d}x,
+    \quad
+    \int_{0}^1 \frac{e^{2x}}{2x+1}\, \mathrm{d}x.
+    $$
+con las reglas de Gauss. \textquestiondown Qu\'e observa?.
+
+Recuerde que debe hacer un cambio de variable si el intervalo no de integraci\'on no es $[-1,1]$.
+\end{enumerate}
+
+
+\section{Funciones propias de \matlab}
+\matlab tiene dos funciones \texttt{quad} y \texttt{quadl} que permiten calcular de manera autom\'atica integrales 
+de funciones suaves con error menor que una tolerancia dada. 
+
+La funci\'on \texttt{quad} es un m\'etodo de bajo
+orden basado en la regla de Simpson, mientras que \texttt{quadl} es un m\'etodo de alto orden.
+
+\begin{enumerate}
+\item Utilice el comando \texttt{help} de \matlab\, para conocer la sintaxis de estos comandos.
+\item Aproxime mediante \texttt{quad} y \texttt{quadl} las integrales 
+$$
+\displaystyle
+\int_{-1}^1 e^{-x^2}\,\mathrm{d}x \quad \text{y} \quad \int_0^1 \sqrt{x}\,\mathrm{d}x
+$$
+con la tolerancia por defecto que asumen los comandos y despu\'es  especificando que el error sea menor que $10^{-6}$.
+\end{enumerate}
+
+\section{Ejercicios}
+\begin{enumerate}
+\item
+\begin{enumerate}
+\item Escriba en un archivo \texttt{trap.m} un programa tipo \texttt{function} que clacule la aproximaci\'on de la integral de una funci\'on dada en un intervalo gen\'erico $[a,\,b]$ por la regla de los trapecios con $N$ subintervalos.
+
+\item Testee su programa con las siguientes integrales y $N=10, 20, 40, 80$:
+
+$$\int_0^3 x^2\,\mathrm{d}x\qquad\int_{-1}^1 e^{-x^2}\,\mathrm{d}x\qquad\int_1^2 \log(x)\,\mathrm{d}x\qquad\int_0^1 \sqrt{x}\,\mathrm{d}x$$
+
+\item Haga un programa semejante para la regla de Simpson. Gu\'ardelo en un archivo \texttt{simpson.m} y pru\'ebelo con las mismas funciones.
+\end{enumerate}
+
+\item Escriba un programa tipo \texttt{function} en \matlab que reciba como entrada una funci\'on de 2 variables $f(x,y)$, los valores $a$, $b$, $c$, $d$ y $N$ y cuya salida sea el valor de la integral:
+$$
+\int_a^b\int_c^d f(x,y)\,\mathrm{d}y\,\mathrm{d}x
+$$
+donde la integral con respecto a $y$ sea resuelta mediante la regla de los trapecios y la integral con respecto a $x$ sea resuelta con la regla de Simpson.
+
+\item El fin de este ejercicio es verificar experimentalmente que el error del m\'etodo de los trapecios
+aplicado a un integrando con derivadas acotadas en el intervalo de integraci\'on es de orden $\mathcal{O}(h^2)$.
+
+\begin{enumerate}
+\item Haga un programa que calcule la integral $\int_0^1e^{-x}\,\mathrm{d}x$ por la regla de los trapecios con $N =
+10,20,30,\ldots,100$ subintervalos y almacene los errores respectivos. En este caso para calcular el error utilice el valor verdadero de la integral, el cual puede calcularse exactamente.
+\item Grafique en escala logar\'itmica estos errores versus $N$ y la funci\'on $f(N) = (1/N)^{2}$.\\
+\textbf{Sugerencia:} para graficar en escala logar\'itmica utilice el comando \verb+loglog+ en lugar de \verb+plot+;
+la sintaxis de ambos comandos es la misma.
+\item Explique por qu\'e el gr\'afico anterior muestra que el error de la regla de los trapecios es en este
+caso $\mathcal{O}(h^2)$.
+\end{enumerate}
+
+\item El fin de este ejercicio es verificar experimentalmente que el error del m\'etodo de los trapecios aplicado a un integrando con derivadas no acotadas en el intervalo de integraci\'on no es de orden $\mathcal{O}(h^2)$.
+\begin{enumerate}
+\item Repita el ejercicio anterior con la integral  $\int_0^1\sqrt{x}\,\mathrm{d}x$.
+\item Para estimar el orden de convergencia del m\'etodo en este caso, determine por cuadrados
+m\'inimos las constantes $C$ y $\alpha$ que mejor ajustan los errores mediante el modelo
+$$\textrm{error}(h) \approx Ch^{\alpha}.$$
+\item[5.3] Grafique en escala logar\'itmica los errores versus $N$ y la funci\'on $f(N) = (1/N)^{\alpha}$.
+\end{enumerate}
+
+\item
+\begin{enumerate}
+\item Encuentre el \'area entre las curvas $(x,f(x))$ y $(x,g(x))$ con
+$$
+f(x)=e^{x-x^2},\quad g(x) = \arctan x^2, \quad x \in [-3,\,3].
+$$
+{\bf Indicaci\'on:} Grafique las funciones en $[-3,\,3]$ y calcule el \'area entre las curvas utilizando \verb+quad+ y \verb+fzero+ de manera adecuada.
+
+\item Encuentre todos los valores de $x \in [-3,\,3]$ tales que
+$$
+\int_0^x\sin t^2 \, \mathrm{d}t=\frac{\sqrt{\pi}}4.
+$$
+Utilice para ello \verb+fzero+ y \verb+quad+ de manera adecuada.
+\end{enumerate}
+
+
+\item 
+Una \textbf{Serie de Fourier} para $f$ una funci\'on definida en el intervalo $[a,b]$ es una serie de la forma
+$$SF\{f(x)\}=\dfrac{a_0}{2}+\sum_{n=1}^{\infty}\left(a_n\cos\left(\dfrac{2\pi nx}{b-a}\right)+b_n\sen\left(\dfrac{2\pi nx}{b-a}\right)\right),
+$$
+con
+$$
+a_0=\dfrac{2}{b-a}\int_{a}^{b}f(x)\,\mathrm{d}x,\quad a_n=\dfrac{2}{b-a}\int_{a}^{b}f(x)\cos\left(\dfrac{2\pi nx}{b-a}\right)\,\mathrm{d}x \quad \textrm{y}\quad b_n=\dfrac{2}{b-a}\int_{a}^{b}f(x)\sen\left(\dfrac{2\pi nx}{b-a}\right)\,\mathrm{d}x, 
+$$
+la cual converge puntualmente a $f$, cuando $f$ es continua por pedazos en $[a, b]$, es decir $SF\{f(x)\}=f(x)$.
+
+Para $N\in\mathbb{N}$, se define la \textbf{Suma Parcial de Fourier} como
+
+$$
+SF_N\{f(x)\}=\dfrac{a_0}{2}+\sum_{n=1}^{N}\left(a_n\cos\left(\dfrac{2\pi nx}{b-a}\right)+b_n\sen\left(\dfrac{2\pi nx}{b-a}\right)\right).
+$$
+
+\begin{enumerate}
+\item Escriba una funcion en \matlab cuyas entradas sean $f$, el intervalo $[a,b]$ y $N$. Esta funci\'on debe dibujar en un mismo gr\'afico $f$ y la $N$-\'esima Suma Parcial de Fourier en el intervalo $[a,b]$.
+\item Pruebe su funci\'on para distintos valores $N=1,2,5,10$ y las siguientes funciones:
+\begin{enumerate}
+\begin{multicols}{2}
+  \item $f(x)=1$, $x\in[0,1]$.
+  \item $g(x)=x$, $x\in[-1,2]$.
+\end{multicols}
+  \item $\displaystyle h(x)=\left\{
+  \begin{array}{cc}
+    1 & \textrm{si } x\in[-2,0[ \\
+     &  \\
+    x^2 & \textrm{si } x\in[0,1]
+  \end{array}
+  \right.$
+\end{enumerate} 
+Observe que ocurre a medida que crecen los valores de $N$.
+\item Modifique la funci\'on anterior para  que calcule la Suma Parcial de Fourier en el intervalo $[a,b]$, pero que grafique dicha suma en el intervalo $[a-L,b+L]$, con $L=b-a$. >Qu\'e se puede observar?
+\end{enumerate}
+\textbf{Sugerencia:} Es muy \'util el uso de \verb"@(x)" en el c\'alculo de las integrales, considando que se integra una funci\'on que depende de $a$, $b,$ $n$ y la variable $x$.
+
+\item Los pares $(x,y)$ que satisfacen
+$$\frac{x^2}{a^2}+\frac{y^2}{b^2}=1$$
+pertenecen a la elipse con centro en el origen de coordenas, semieje mayor de longitud $a$ y semieje menor de longitud $b$. La ecuaci\'on param\'etrica de esta elipse es:
+$$(x(t), y(t)) = (a \cos(t), b \sen(t)),\quad t \in [-\pi,\pi]$$
+Escriba un rutero \matlab\, en el que:
+\begin{enumerate}
+\item Grafique 200 puntos sobre la elipse de ecuaci\'on param\'etrica $(3 \cos(t), 5 \sen(t))$,  $t \in [-\pi, \pi]$.
+\item Encuentre, con ayuda del comando \verb+quad+ o del comando \verb+quadl+ una aproximaci\'on al
+per\'imetro de la elipse antes graficada. Tenga en cuenta que \'este es igual a
+$$\int_{-\pi}^{\pi}\sqrt{\left(\frac{\textrm{d}x}{\textrm{d}t}\right)^2+\left(\frac{\textrm{d}y}{\textrm{d}t}\right)^2}\,\mathrm{d}t.$$
+\end{enumerate}
+\end{enumerate}
+
+\vfill
+\hfill Revisado a Semestre 2018--1
+\end{document}

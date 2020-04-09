@@ -1,0 +1,366 @@
+\documentclass[letter,11pt]{article}
+\input{preamble}
+
+\begin{document}
+\titulo{1}{2} 				
+\begin{enumerate}
+
+%FMP
+\item Considere las matrices
+$$
+M(n)=%\left\{
+\begin{bmatrix}
+2/n+2   & 0 &cos(\pi n)/n\\
+1   & 1 & 1/n\\
+1+1/n & 0 & 1
+\end{bmatrix}
+%:\quad n\in\mathbb{N}\right\}.
+$$
+
+\begin{enumerate}
+%FMP
+    \item \puntaje{10} Cree una funci\'on de \octave que reciba como entrada el n\'umero $n$ y retorne la $n-$\'esima matriz $M(n)$.
+    \item \puntaje{20} En un rutero de \octave llamado \texttt{matrices.m} y luego grafique en un mismo gr\'afico las soluciones de los sistemas
+    $$
+    M(n)\begin{bmatrix}
+    x\\ y \\ z
+    \end{bmatrix}=\begin{bmatrix}
+    1\\2\\3
+    \end{bmatrix}
+    $$
+    considerando $n\in \{1,2,\cdots,100\}$.
+\end{enumerate}
+\textbf{Desarrollo:}
+\begin{enumerate}
+\item La funci\'on debe ser similar a
+\lstinputlisting{./V1/M.m}
+\hfill\fbox{10 puntos}
+\item y con esta funci\'on un rutero como
+\lstinputlisting{./V1/matrices.m}
+\hfill\fbox{20 puntos}
+
+genera una gr\'afica similar a
+\octaveGraph{./V1/p1.pdf}
+\end{enumerate}
+
+
+% FVM 
+\item El movimiento de un sistema masa--resorte--amortiguador ideal, donde la masa es $m$ kg, la constante del resorte es $R$ N/m y el amortiguador es de coeficiente de difusi\'on $k$ N/(m/s) es modealado por la ecuaci\'on diferencial
+$$ mx''(t) + kx'(t) + Rx(t) = f(t), $$
+donde $x(t)$ es la posici\'on de la masa y $f(t)$ una fuerza externa. \\
+Considere una masa de 2 kg que est\'a unida a una pared por medio de un resorte sin amortiguaci\'on, de constante $R=200$ N/m. El resorte se comprime inicialmente una distancia de 0.03 m y se le suelta con una velocidad de 0.4 m/s hacia la posici\'on de equilibrio. Escriba un programa \octave que permita conocer la posici\'on y velocidad de la masa transcurridos 10 segundos desde que fue soltada, sabiendo que sobre ella no actua ninguna fuerza externa. Grafique igualmente la posici\'on y la velocidad de la masa como funci\'on del tiempo en los primeros 10 segundos. \\
+\textbf{Indicaci\'on:} La posici\'on de equilibrio ($x=0$) es aquella en que el resorte no est\'a comprimido ni estirado. Cuando el resorte est\'a estirado, entonces la posici\'on se considera positiva ($x > 0$) y cuando el resorte est\'a comprimido, la posici\'on se considera negativa ($x < 0$).
+
+\textbf{Desarrollo:} El programa debe ser similar a
+\lstinputlisting{./V1/P2.m}
+\hfill\fbox{20 puntos}
+y el gr\'afico generado es similar a
+\octaveGraph{./V1/P2.pdf}
+\hfill\fbox{10 puntos}
+
+
+\end{enumerate}
+\titulo{2}{2}
+\begin{enumerate}
+%FMP
+\item En un programa de \octave resuelva el siguiente problema.
+
+Una piedra cae desde al cima de un acantilado. En el aire la velocidad promedio es de $16[m/s]$. En el agua la velocidad promedio es de $3[m/s]$ antes de golpear con el fondo marino. La distancia total desde la cima del acantilado al fondo marino es de $127[m]$ y el trayecto completo de la piedra tom\'o $12[s]$.
+\textquestiondown Cu\'anto tiempo estuvo cayendo la piedra en el aire y en el agua?.
+
+\textbf{Desarrollo:} Considerando las variables $t_a$ y $t_m$ como el tiempo de vuelvo en el aire y en el mar respectivamente, y usando la informaci\'on dada en el enunciado se construye el sistema
+$$
+\begin{array}{c}
+16t_a+3t_m=127\\
+t_a+t_m=12
+\end{array}
+$$
+y este se puede resolver seg\'un el rutero
+\lstinputlisting{./V2/P1.m}
+\hfill\fbox{20 puntos}
+obteniendo como respuesta
+\begin{lstlisting}
+>> P1
+x =
+
+   7
+   5
+\end{lstlisting}
+\hfill\fbox{10 puntos}
+
+%MSP
+\item Considere la ecuaci\'on diferencial de segundo orden 
+\begin{eqnarray*}
+\left \{
+\begin{array}{rcl}
+y''(x)&=& -\pi^2 \sen(\pi x), \quad  x \in ]0,1[\\
+y(0)&=&0,\\
+y'(1)&=&\pi,\\
+\end{array}
+\quad \textrm{cuya soluci\'on exacta es $y(x)=\sen(\pi x)$.}\right.
+\end{eqnarray*}
+
+\begin{enumerate}
+\item Transforme esta ecuaci\'on a un sistema de ecuaciones diferenciales de primer orden.
+\item Cree una funci\'on de \octave, llamada \texttt{myeuler.m},  que aproxime la soluci\'on del sistema obtenido en $a)$, utilizando el m\'etodo de {\bf Euler Expl\'icito} con una partici\'on uniforme de $n$ subintervalos. La funci\'on debe:
+\begin{itemize}
+\item Recibir: el par\'ametro  $n$.
+\item Entregar: Un vector que contenga los nodos de la partici\'on $x_0, x_1, ..., x_n$ y la aproximaci\'on de $y(x)$ en cada nodo de la partici\'on.
+\end{itemize}
+\item  En un rutero de \octave llamado \texttt{grafico.m}, grafique la soluci\'on exacta y la aproximaci\'on obtenida en b) considerando $N=128$. 
+\end{enumerate}
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+    \item Las sustituciones necesarias nos llevan al sistema
+    $$
+    \begin{array}{l}
+    u_1'(x)=u_2(x)\\
+    u_2'(x)=-\pi^2 sin(\pi x) \\
+    u_1(0)=0\\
+    u_2(0)=\pi
+    \end{array}
+    $$
+    \hfill\fbox{5 puntos}
+
+    \item La funci\'on solicitada deber ser similar a
+    \lstinputlisting{./V2/myeuler.m}
+    \hfill\fbox{15 puntos}
+
+    \item El rutero debe tener instrucciones similares a
+    \lstinputlisting{./V2/grafico.m}
+    \hfill\fbox{10 puntos}
+    con el que se genera el gr\'afico
+    \octaveGraph{./V2/grafico.pdf}
+    
+\end{enumerate}
+
+\end{enumerate}
+\titulo{3}{2}
+\begin{enumerate}
+%FMP 
+\item En un programa de \octave resuelva el siguiente problema.
+
+Un total de 78 entradas a un concierto fueron vendidas, produciendo un ingreso total de $\$483000$. Si las entradas costaban $\$2500$ y $\$10500$, \textquestiondown Cu\'antas asientos de cada precio fueron vendidas?.
+
+\textbf{Desarrollo:} Siendo $v_1$ y $v_2$ variables que representan el total de entradas vendidas a $\$2500$ y $\$10500$ respectivamente, entonces del enunciado se deduce que
+$$
+\begin{array}{l}
+2500v_1+10500v_2=483000\\
+v_1+v_2=78
+\end{array}
+$$
+lo cual se puede resolver con un rutero como
+
+teniendo por respuesta
+
+
+%MSP
+\item Considere la ecuaci\'on diferencial 
+\begin{eqnarray*}
+\left \{
+\begin{array}{rcl}
+y'(x)&=&-100y(x) + 101e^{-x}, \quad  x \in ]0,1[\\
+y(0)&=&0,\\
+\end{array}
+\quad \textrm{cuya soluci\'on exacta es $y(x)=e^{-x}-e^{-100x}$.}\right.
+\end{eqnarray*}
+
+\begin{enumerate}
+\item Cree una funci\'on de \octave, llamada \texttt{explicito.m},  que aproxime la soluci\'on  de la ecuaci\'on, utilizando el m\'etodo de {\bf Euler Expl\'icito} con una partici\'on uniforme de subintervalos de longitud $h$. La funci\'on debe graficar tanto la soluci\'on exacta como su aproximaci\'on. La funci\'on debe:
+\begin{itemize}
+\item Recibir: el par\'ametro  $h$.
+\item Entregar: Un vector que contenga los nodos de la partici\'on $x_0, x_1, ..., x_n$ y la aproximaci\'on de $y(x)$ en cada nodo de la partici\'on.
+\end{itemize}
+
+
+\item Cree una funci\'on de \octave, llamada \texttt{implicito.m},  que aproxime la soluci\'on de la ecuaci\'on, utilizando el m\'etodo de {\bf Euler Impl\'icito} con una partici\'on uniforme de subintervalos de longitud $h$. La funci\'on debe:
+
+\begin{itemize}
+\item Recibir: el par\'ametro  $h$.
+\item Entregar: Un vector que contenga los nodos de la partici\'on $x_0, x_1, ..., x_n$ y la aproximaci\'on de $y(x)$ en cada nodo de la partici\'on.
+\end{itemize}
+
+\item  Cree un rutero de \octave llamado \texttt{graficos\_euler.m}, que grafique la soluci\'on exacta y la aproximaci\'on obtenida:
+\begin{itemize}
+\item en a) considerando $h = 1/32$. 
+\item en a) considerando $h = 1/100$. 
+\item en b) considerando $h = 1/32$. 
+\end{itemize}
+\end{enumerate}
+\textbf{Desarrollo:}
+
+\begin{enumerate}
+    \item Directamente del enunciado se puede crear una funci\'on como:
+    \lstinputlisting{./V3/explicito.m}
+    
+    \hfill\fbox{10 puntos}
+    \item Despejando $y_{i+1}$ en la siguiente ecuaci\'on
+    $$
+    y_{i+1}=(-100y_{i+1}+101e^{-x_{i+1}})h+y_i
+    $$
+    se puede crear la funci\'on 
+    \lstinputlisting{./V3/implicito.m}
+    
+    \hfill\fbox{10 puntos}
+    
+    \item Finalmente, usando estas funciones un rutero como
+    \lstinputlisting{./V3/graficos_euler.m}
+    
+    \hfill\fbox{10 puntos}
+    logra generar los gr\'aficos
+    \octaveGraph{./V3/graficos_euler.pdf}
+\end{enumerate}
+
+\end{enumerate}
+\titulo{4}{2}
+\begin{enumerate}
+
+
+%MSP
+\item Considere el siguiente problema de valores iniciales
+\begin{eqnarray*}
+\left \{
+\begin{array}{rcl}
+y'(x)&=& f(x,y(x)) \quad  x \in [a,b]\\
+y(a)&=&y_0.
+\end{array}
+\right.
+\end{eqnarray*}
+
+Para aproximar su soluci\'on, se realiza una partici\'on uniforme del intervalo $[a,b]$, formada por $n$ subintervalos de longitud $h$, tal que $a = x_0 <x_1 < ... <x_n=b $. Adem\'as, dado un par\'ametro $\theta \in ]0,1]$ se utiliza el siguiente algoritmo asociado a la familia de m\'etodos RK$_{22}$:
+\begin{align*}
+\textrm{for} \quad\quad i &= 0, 1, ..., n-1\\
+r &= x_i + h \theta \\
+z &= y_i + h \theta f(x_i,y_i)\\
+y_{i+1} &= y_i + h \left(1-\dfrac{1}{2\theta} \right) f(x_i,y_i) + h \left( \dfrac{1}{2\theta}\right) f(r,z)\\
+\textrm{end} \quad \quad &
+\end{align*}
+
+
+Considere la ecuaci\'on diferencial 
+\begin{eqnarray*}
+\left \{
+\begin{array}{rcl}
+y'(x)&=&y(x)+ \pi e^{x}\cos(\pi x), \quad  x \in ]0,1[\\
+y(0)&=&0,\\
+\end{array}
+\quad \textrm{cuya soluci\'on exacta es $y(x)=e^{x}\sen(\pi x)$.}\right.
+\end{eqnarray*}
+
+\begin{enumerate}
+\item Cree una funci\'on de \octave, llamada \texttt{rk22.m},  que aproxime la soluci\'on  de la ecuaci\'on, utilizando este algoritmo RK$_{22}$. La funci\'on debe:
+\begin{itemize}
+\item Recibir: el par\'ametros  $h$ y $\theta$.
+\item Entregar: Un vector que contenga los nodos de la partici\'on $x_0, x_1, ..., x_n$ y la aproximaci\'on de $y(x)$ en cada nodo de la partici\'on.
+\end{itemize}
+
+
+
+
+\item  Cree un rutero de \octave llamado \texttt{ejemplo\_rk22.m}, que grafique la soluci\'on exacta y la aproximaci\'on obtenida:
+\begin{itemize}
+\item considerando $h = 1/32$ y $\theta = 1$. 
+\item considerando $h = 1/32$ y $\theta = 1/2$.
+\end{itemize}
+
+\end{enumerate}
+
+\textbf{Desarrollo:}
+
+\begin{enumerate}
+    \item La funci\'on solicitada debe tener una estructura similar a
+    \lstinputlisting{./V4/rk22.m}
+    \hfill\fbox{20 puntos}
+
+    \item El rutero solicitado debe ser similar a
+    \lstinputlisting{./V4/ejemplo_rk22.m}
+    \hfill\fbox{10 puntos}\\
+    y con el cual se genera un gr\'afico como
+    \octaveGraph{./V4/ejemplo_rk22.pdf}
+    
+\end{enumerate}
+
+\end{enumerate}
+\titulo{5}{2}
+\begin{enumerate}
+
+
+% FVM
+\item La ecuaci\'on 
+$$ \dfrac{dp}{dt} = ap(t) - bp(t)^2 $$
+se conoce como \textbf{ecuaci\'on log\'istica}, y una de sus aplicaciones es el modelamiento de crecimiento de poblaciones. La funci\'on $p(t)$ representa la cantidad de individuos de una poblaci\'on (medida en millones) y $t$ el tiempo (medido en a\~nos). Escriba un programa \octave que:
+\begin{itemize}
+\item[(a)] Para $a=b=1$, calcule la cantidad de individuos de la poblaci\'on, transcurridos dos y cuatro a\~nos, suponiendo que inicialmente hab\'ia 2 millones de individuos.
+\item[(b)] Grafique la soluci\'on exacta del PVI formulado en $(a)$, que est\'a dada por $p(t) = - \dfrac{2e^t}{1-2e^t}$, y la soluci\'on aproximada, para $t\in [0,4]$.
+\end{itemize}
+
+\textbf{Desarrollo:}
+\begin{enumerate}
+    \item Un rutero como
+    \lstinputlisting{./V5/p1a.m}
+    
+    \hfill\fbox{15 puntos}\\
+    retorna
+    \begin{lstlisting}
+    >> p1a
+ans =  1.0726
+ans =  1.0092
+    \end{lstlisting}
+        que son las cantidades aproximadas a los 2 y 4 a\~nos.
+    
+    \item Un rutero como
+    \lstinputlisting{./V5/p1b.m}
+    \hfill\fbox{15 puntos}\\
+    genera la gr\'afica
+    \octaveGraph{./V5/p1b.pdf}
+    
+\end{enumerate}
+
+% FVM
+\item Un cohete con masa inicial de $m_0$ kg se lanza verticalmente desde la superficie de la Tierra. El cohete expele gas a raz\'on de $\alpha$ kg/s y a una velocidad constante de $\beta$ m/seg relativa al cohete. Suponiendo que el campo gravitacional es constante de $g$ kg/s$^2$, la segunda ley de Newton da lugar a la ecuaci\'on
+$$ (m_0 - \alpha t)\dfrac{dv}{dt} - \alpha\beta = -g(m_0 - \alpha t), $$
+donde $v=dx/dt$ es la velocidad del cohete, $x$ es su altura respecto de la superficie de la Tierra y $m_0 - \alpha t$ es la masa del cohete a los $t$ segundos del lanzamiento. Sabiendo que la velocidad inicial es cero, y considerando $g=9,81$, escriba un programa \octave que resuelva el PVI asociado para los primeros 30 segundos, cuando $m_0=1000$, $\alpha = 20$ y $\beta = 1$, y que grafique la velocidad calculada y la velocidad exacta, dada por 
+$$ v (t) = -20\ln(1000 - 20t) - 9.81 t + 20\ln(1000). $$
+?`Cu\'al es la altura del cohete cuando ya han transcurrido 30 segundos desde que despeg\'o?
+
+
+\end{enumerate}
+\textbf{Desarrollo:} Despejando la derivada de la E.D.O. del modelo y remplazando los valores del enunciado se llega al P.V.I.
+$$
+\begin{array}{cl|}
+     x''(t)&=\frac{-9.81(1000-20t)+20}{1000-20t}  \\
+     x(0)   &=0\\
+     x'(0)   &=0\\\hline
+\end{array}
+$$
+el cual se reduce de orden al sistema
+$$
+\begin{array}{cl|}
+     u_1'&=u_2\\
+     u_2'&=\frac{-9.81(1000-20t)+20}{1000-20t}  \\
+     u_1(0)   &=0\\
+     u_2(0)   &=0\\\hline
+\end{array}
+$$
+el cual se puede resolver num\'ericamente con un rutero como
+\lstinputlisting{./V5/p2.m}
+\hfill\fbox{25 puntos}\\
+donde se genera la gr\'afica
+\octaveGraph{./V5/p2.pdf}
+y se obtiene la respuesta de la altura final del cohete
+\begin{lstlisting}
+>> p2
+ans = -4402.8
+
+\end{lstlisting}
+    \hfill\fbox{5 puntos}\\
+
+
+
+\end{document}
+
+%% FVM
+%\item Se considera un mecanismo que modela un piloto autom\'atico. Si $y(t)$ es la direcci\'on real de la nave en el instante $t$ (medido en segundos) y $g(t)$ es la direcci\'on deseada, entonces el error o desviaci\'on real de la nave o desviaci\'on es $e(t)=y(t)-g(t)$. La segunda ley de Newton, expresada en t\'erminos de momentos de las fuerzas, da origen a la ecuaci\'on 
+%$$ I y''(t) = -k e(t), $$
+%donde $I$ es el momento de inercia del eje del tim\'on de la nave y $k$ es una constante positiva. Escriba un programa \octave que permita calcular la desviaci\'on real de la nave al cabo de 10 segundos, sabiendo que el momento de inercia del eje del tim\'on es 3 Kg m$^2$, $k=5$, que la direcci\'on deseada en el tiempo $t$ est\'a dada por $g(t)=2t$, y que inicialmente el eje del tim\'on se encuentra en reposo y que la nave parte alineada con la direcci\'on deseada.

@@ -1,0 +1,85 @@
+Se desea aproximar la funci\'on $f$ definida por $f(x) = \exp(-x)$ en el intervalo $[-1,1]$ por polinomios.
+Construiremos tres alternativas.
+
+\begin{enumerate}
+\item\label{it:three_polynomials_N} (70\%) Escriba una funci\'on \matlab que reciba un grado $N \in \mathbb{N}_0 = \{0, 1, 2, \dotsc \}$ y
+devuelva los siguientes tres polinomios:
+\begin{itemize}
+\item El polinomio $p$ que resulta de interpolar la funci\'on $f$ en $N+1$ puntos equiespaciados en $[-1,1]$ incluyendo los extremos; esto es, en
+%
+\begin{equation*}
+\text{\texttt{linspace(-1, 1, N+1)}}
+\end{equation*}
+%
+\item El polinomio $q$ que resulta de interpolar la funci\'on $f$ en los $N+1$ puntos de cuadratura de Gauss--Lobatto--Chebyshev, los que se pueden expresar como
+%
+\begin{equation*}
+\text{\texttt{cos(linspace(0, pi, N+1))}}
+\end{equation*}
+%
+\item El polinomio $r$ que resulta de truncar la serie de Taylor para la funci\'on $f$ centrada en $0$ hasta el t\'ermino de grado $N$; esto es,
+%
+\begin{equation*}
+r(x) = \sum_{n=0}^N \frac{(-1)^n}{n!} x^n.
+\end{equation*}
+%
+\end{itemize}
+%
+Cada uno de estos polinomios debe ser entregado por la funci\'on en el formato que usa la funci\'on de \matlab \texttt{polyval}; as\'i, por ejemplo, cuando $N = 5$ el polinomio $r$ debe quedar representado por el vector de coeficientes
+%
+\begin{equation*}
+\text{\texttt{[-1/120  1/24  -1/6  1/2  -1  1]}}
+\end{equation*}
+%
+en ese orden. Recuerde tambien que en \matlab la funci\'on exponencial se llama \texttt{exp} y la funci\'on factorial se llama \texttt{factorial}.
+
+\medskip
+\noindent ?`C\'omo nombr\'o a su funci\'on?\newline
+\noindent{\def\arraystretch{1.5}
+\begin{tabularx}{\linewidth}{|p{1.1in}|X|}\hline
+nombre funci\'on & \\\hline
+\end{tabularx}}
+
+\bigskip
+
+\item\label{it:three_polynomials_13} (30\%) Escriba un rutero \matlab que
+\begin{itemize}
+\item llame al programa de la parte anterior para obtener $p$, $q$ y $r$ cuando $N = 13$ y
+\item dibuje $f(x) - p(x)$, $f(x) - q(x)$ y $f(x) - r(x)$ con $x \in [-1, 1]$ en un mismo gr\'afico.
+\end{itemize}
+
+\medskip
+\noindent ?`C\'omo nombr\'o a su rutero?\newline
+\noindent{\def\arraystretch{1.5}
+\begin{tabularx}{\linewidth}{|p{1in}|X|}\hline 
+nombre rutero & \\\hline
+\end{tabularx}}
+\end{enumerate}
+
+\textbf{Desarrollo:} Una funci\'on apropiada para la parte \ref{it:three_polynomials_N} es
+\begin{lstlisting}
+function [p, q, r] = trespolis(N)
+xp = linspace(-1, 1, N+1);
+p = polyfit(xp, exp(-xp), N);
+xq = cos(linspace(0, pi, N+1));
+q = polyfit(xq, exp(-xq), N);
+r = [];
+for n = N:-1:0
+    nuevocoef = (-1)^n/factorial(n);
+    r = [r nuevocoef];
+end
+\end{lstlisting}
+
+Un rutero apropiado para la parte \ref{it:three_polynomials_13} es
+\begin{lstlisting}
+[p, q, r] = trespolis(13);
+xx = linspace(-1, 1, 100);
+% una alternativa a esta manera de dibujar tres curvas juntas es usar
+% 'hold on' y luego dibujarlas por separado
+plot(xx, exp(-xx) - polyval(p, xx), '-', ...
+     xx, exp(-xx) - polyval(q, xx), '-', ...
+     xx, exp(-xx) - polyval(r, xx), '-')
+\end{lstlisting}
+
+
+

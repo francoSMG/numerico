@@ -1,0 +1,41 @@
+\begin{pregunta}
+\puntaje{5}
+\begin{cuerpo}
+Considere el sistema
+$$
+\begin{array}{rl|}
+y''	&=cos(xy)\\
+x'	&=sen(xy)\\
+y(0)	&=1\\
+y'(0)	&=0\\
+x(0)	&=1\\ \hline
+\end{array}
+$$
+\textquestiondown Cual de los siguientes ruteros permite grafica la soluci\'on $x$ de este sistema?.
+\end{cuerpo}
+
+\begin{alternativas}
+{
+\texttt{f=@(x,u) [u(2);cos(u(3)*u(1));sin(u(3)*u(1))];}  \\
+\texttt{[t,u]=ode45(f,[0,2*pi],[1;0;1])}				\\
+\texttt{plot(t,u(:,3),'or');}							
+}
+{
+\texttt{f=@(x,u) [u(2);cos(u(3)*u(1));sin(u(3)*u(1))];}  \\
+\texttt{[t,u]=ode45(f,[0,2*pi],[1;0;1])}				\\
+\texttt{plot(t,u(:,2),'or');}							
+}
+{
+\texttt{f=@(x,u) [cos(u(3)*u(1));sin(u(3)*u(1))];}  \\
+\texttt{[t,u]=ode45(f,[0,2*pi],[0;1])}				\\
+\texttt{plot(t,u(:,2),'or');}							
+}
+{
+\texttt{f=@(x,u) [u(2);sin(u(3)*u(1));sin(u(3)*u(1))];}  \\
+\texttt{[t,u]=ode45(f,[0,2*pi],[1;0;1])}				\\
+\texttt{plot(t,u,'or');}							
+}
+\end{alternativas}
+
+\justificacion{0cm}
+\end{pregunta}

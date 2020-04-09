@@ -1,0 +1,31 @@
+\begin{pregunta}
+\puntaje{5}
+\begin{cuerpo}
+Un tanque de agua que inicialmente est\'a lleno de $100[L]$, es drenado por una bomba con un caudal de $1.1[L/s]$ cada 10 minutos y le entra constantemente un caudal de $0.5[L/s]$. \textquestiondown Cu\'al de los siguientes ruteros de Matlab permite conocer el volumen de agua en el tanque una hora despu\'es de iniciado el llenado del estanque?. 
+\end{cuerpo}
+
+\begin{alternativas}
+{
+\texttt{f=@(t,v) 0.5-1.1*mod(floor(t/(10*60)),2);}\\
+\texttt{[t,v]=ode45(f,[0,60*60],100)}\\
+\texttt{plot(t,v);}							
+}
+{
+\texttt{f=@(t,v) 0.5-1.1;}\\
+\texttt{[t,v]=ode45(f,[0,60*60],100)}\\
+\texttt{plot(t,v);}							
+}
+{
+\texttt{f=@(t,v) 0.5-1.1(if t<10);}\\
+\texttt{[t,v]=ode45(f,[0,60*60],100)}\\
+\texttt{plot(t,v);}							
+}
+{
+\texttt{f=@(t,v) 0.5-1.1*(t<10 || t>20);}\\
+\texttt{[t,v]=ode45(f,[0,60*60],100)}\\
+\texttt{plot(t,v);}								
+}
+\end{alternativas}
+
+\justificacion{0cm}
+\end{pregunta}

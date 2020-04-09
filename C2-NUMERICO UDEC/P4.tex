@@ -1,0 +1,25 @@
+\begin{pregunta}
+\puntaje{5}
+\begin{cuerpo}
+Considere el P.V.I.
+$$
+\begin{array}{rl|}
+\frac{1}{x}y'''-2y'	&=sen(x)cos(y)\\
+y(0)	&=0\\
+y'(0)	&=0\\
+y''(0)	&=1\\ \hline
+\end{array}.
+$$
+Cual de las siguientes funciones de Matlab permite resolver num\'ericamente el P.V.I. mediante la ejecuci\'on del commando 
+\begin{center}
+\texttt{ode45(f,[0,10],[0,0,1]}
+\end{center}
+\end{cuerpo}
+\begin{alternativas}
+{\texttt{@f(x,y) [y(2);y(3);x*(sin(x)*cos(y(1))+2*y(2))];}}
+{\texttt{@f(x,u1,u2,u3) [u2,u3,x*(sin(x)*cos(u1)+2*u2];}}
+{\texttt{@f(x,[u1,u2,u3]) [u3,u2,x*(sin(x)*cos(u1)+2*u2];}}
+{\texttt{@f(x,u) [u2,u3,x*(sin(x)*cos(u1)+2*u2];}}
+\end{alternativas}
+\justificacion{7cm}
+\end{pregunta}

@@ -1,0 +1,445 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{verbatim} % Para el ambiente comment
+\usepackage{dashundergaps} % Para \dashuline
+\usepackage{srcltx}
+
+\theoremstyle{definition}
+\newtheorem{question}{Pregunta}
+\renewcommand{\thequestion}{\Alph{question}}
+\numberwithin{equation}{question}
+
+\newenvironment{solution}{\begin{proof}[Solución]}{\end{proof}}
+
+\renewcommand{\theenumi}{\roman{enumi}}
+
+\pagestyle{empty}
+\usepackage[left=1.5cm, right=1.5cm, top=1.5cm, bottom=2cm]{geometry}
+
+\begin{document}
+\font\bff=cmbx10 at 10truept
+\font\lg=cmdunh10 at 10truept
+\font\bl=cmss10 at 10truept
+
+\noindent{\lg UNIVERSIDAD DE CONCEPCIÓN}\hfill
+\vskip-2truept
+\noindent{\bff FACULTAD DE CIENCIAS FÍSICAS Y MATEMÁTICAS}\hfill
+\vskip-2truept
+\noindent{\bl DEPARTAMENTO DE INGENIERÍA MATEMÁTICA}\hfill
+\vskip4truept\hrule\hrule\vskip4truept
+\par
+\bigskip
+\begin{center}
+\large{\textbf{521230 Cálculo Numérico (2018-I)}}\\
+\large{\textbf{Evaluación 2}
+\par \medskip 6 de julio de 2018}
+\end{center}
+
+\bigskip
+
+\noindent%
+\textbf{Nombre:} \dashuline{\hfill}\\[1.5ex]
+\textbf{Número de matrícula:} \dashuline{\hfill}\\[1.5ex]
+\textbf{Sección:} {\small $\square$ 1 (Prof.~Leonardo Figueroa C.) \hfill $\square$ 2 (Prof.\ Franco Milanese P.) \hfill $\square$ 3 (Prof.~Mauricio Vega H.)}
+
+\bigskip
+
+Esta evaluación consta de \textbf{tres} preguntas con distintas ponderaciones.
+No se permite el uso de calculadoras u otros dispositivos electrónicos.
+Duración: 100 minutos.
+
+\begin{question}[15 puntos]
+Considere el PVI
+%
+\begin{equation}\label{PVI-1}
+\left\{\begin{aligned}
+y'(x) & = (x+1) y(x) - x e^x, \quad x \in [0,3],\\
+y(0) & = 1.
+\end{aligned}\right.
+\end{equation}
+%
+Aproxime su solución mediante el método de \textbf{Euler implícito} con $n = 3$ subintervalos.
+\begin{solution}
+Recordando que el m\'etodo de Euler Impl\'icito est\'a dado por:
+\begin{center}
+\begin{tabular}{|l|}
+\hline
+Para $i=0,\ldots, n-1$, hacer\\
+\quad  $x_{i+1}=a+(i+1)h$\\
+\quad $y_{i+1}=y_{i}+h\,f(x_{i+1},y_{i+1})$\\
+\hline
+\end{tabular}
+\end{center}\medskip
+
+donde $f(x,y)=(x+1) y - x e^x$, $a=0$, $b=3$, $h=(b-a)/n=1$, $y_0=1$ y $x_i=i$, con $i=0,1,2,3$.
+
+\smallskip
+\noindent\framebox{\begin{minipage}{\linewidth}
+2 puntos --- Si se identificó una función apropiada como $f$.
+\end{minipage}}\medskip
+
+Luego, reemplazando en la f\'ormula para $y_{i+1}$, tenemos, para $i=0,1,3$:
+$$
+y_{i+1}=y_i+h\,\left[(x_{i+1}+1) y_{i+1} - x_{i+1} e^x_{i+1}\right] \qquad \Longrightarrow\qquad y_{i+1}=\dfrac{y_i-hx_{i+1
+}e^{x_{i+1}}}{1-h\,(x_{i+1}+1)}.
+$$
+
+\smallskip
+\noindent\framebox{\begin{minipage}{\linewidth}
+4 puntos --- Si despeja $y_{i+1}$ en el esquema de Euler Impl\'icito.
+\end{minipage}}\medskip
+
+Finalmente:
+\begin{itemize}
+\item $i=0$:\quad  $y_1=\dfrac{y_0-hx_{1
+}e^{x_{1}}}{1-h\,(x_{1}+1)}=\dfrac{1-1\cdot 1e^{1}}{1-1\,(1+1)}=e-1$.
+\item $i=1$:\quad  $y_2=\dfrac{y_1-hx_{2
+}e^{x_{2}}}{1-h\,(x_{2}+1)}=\dfrac{e-1-1\cdot 2e^{2}}{1-1\,(2+1)}=\dfrac{2e^2+1-e}{2}$.
+\item $i=2$:\quad  $y_3=\dfrac{y_2-hx_{3
+}e^{x_{3}}}{1-h\,(x_{3}+1)}=\dfrac{(2e^2+1-e)/2-1\cdot 3e^{3}}{1-1\,(3+1)}=\dfrac{6e^3-2e^2+e-1}{6}$.
+\end{itemize}
+
+\smallskip
+\noindent\framebox{\begin{minipage}{\linewidth}
+9 puntos --- 3 puntos por cada valor $y_{i+1}$ calculado.
+\end{minipage}}\medskip
+\end{solution}
+\end{question}
+
+\newpage
+
+\begin{question}[15 puntos]
+Considere el PVI
+%
+\begin{equation}\label{PVI-2}
+\left\{\begin{aligned}
+y'(x) & = \frac{y(x)+1}{x-1}, \quad x \in [-1,0],\\
+y(-1) & = 1.
+\end{aligned}\right.
+\end{equation}
+%
+Aproxime su solución mediante el método de \textbf{Adams--Bashforth} de orden $2$ con $n = 3$ subintervalos.
+Como este método no es de partida autónoma, use que el método de Euler mejorado entrega $y_1 = 2/3$.
+
+\emph{Recordatorio:} En el método de Adams--Bashforth de orden 2, $y_{i+1} = y_i + \int_{x_i}^{x_{i+1}} p(x) \, \mathrm{d} x$, donde $p$ es el único polinomio de grado menor o igual a $k = 1$ que interpola los pares ordenados $(x_{i-1}, f_{i-1})$ y $(x_i, f_i)$.
+\begin{solution}
+Recordando que el polinomio interpolante de dos puntos est\'a determinado por la ecuaci\'on de una recta  y en la partici\'on
+$$
+\{-1,-2/3,-1/3,0\}
+$$
+\hfill\fbox{5 puntos}
+
+usando las aproximaciones del m\'etodo de Euler mejorado
+$$
+y_0=1, \quad y_1=2/3,
+$$
+se tiene que, mediante el m\'etodo de Adams-Bashfort de orden 2 con el interpolante de los puntos
+$$
+(x_0,f_0)=(-1,-1), \quad (x_1,f_1)=(-2/3,-1)
+$$
+se tiene que
+$$
+y_2	=y_1+\int_{-2/3}^{-1/3} -1 \,dx
+	=\frac{2}{3}-\frac{1}{3}=\frac{1}{3}
+$$
+\hfill\fbox{5 puntos}
+
+similarmente, puesto $(x_2,f_2)=(-1/3,-1)$, se tiene que
+$$
+y_3	=y_2+\int_{-1/3}^{0} -1\,dx
+	=\frac{1}{3}+\frac{-1}{3}=0
+$$
+\hfill\fbox{5 puntos}
+
+\end{solution}
+\end{question}
+
+\newpage
+
+\begin{question}[30 puntos]
+Considere el siguiente PVC:
+%
+\begin{equation}\label{PVC}
+\left\{\begin{aligned}
+-y''(x) + 2 y'(x) + y(x) & = 4 \cos(\pi x), \quad x \in [0,4],\\
+y(0) & = 1,\\
+y(4) & = 1.
+\end{aligned}\right.
+\end{equation}
+%
+Considerando el tamaño de paso $h = 1$:
+\begin{enumerate}
+\item\label{it:writeSystem} (15 puntos) Escriba el sistema de ecuaciones lineales que produce el esquema de diferencias finitas basado en diferencias centradas aplicado al PVC \eqref{PVC} (esto es, el tipo de diferencias finitas visto en clase).
+\item\label{it:factorizeSystem} (10 puntos) Calcule la factorización LU sin pivoteo de la matriz del sistema de ecuaciones que obtuvo en la parte \ref{it:writeSystem}.
+\item\label{it:solveSystem} (5 puntos) Resuelva el sistema de ecuaciones que obtuvo en la parte \ref{it:writeSystem}.
+\end{enumerate}
+\begin{solution}\hfill
+
+\textbf{Parte \ref{it:writeSystem}:}
+
+\begin{center}\framebox{\begin{minipage}{0.9\linewidth}
+Cualquiera de los sistemas \eqref{system}, \eqref{system-5x5} y \eqref{system-3x3} que se obtiene abajo es admisible.
+En particular \eqref{system-3x3} puede obtenerse de la forma indicada que se describe a continuación o directamente mediante las fórmulas dadas en clase.
+
+Deducción desde las diferencias centradas: Usar grilla adecuada y entender aproximación sobre ella, 5 puntos; usar condiciones de contorno en los extremos, 2 puntos; usar derivadas centradas apropiadas en nodos interiores, 8 puntos.
+
+Deduccción desde fórmula dada en clase: Usar la grilla adecuada, 5 puntos; identificar coeficientes de la ecuación diferencial, 3 puntos; calcular entradas de la matriz, 4 puntos; calcular entradas del vector de carga/lado derecho, 3 puntos.
+\end{minipage}}\end{center}
+
+Con el tamaño de paso $h = 1$ los nodos de la partición/grilla/malla y las aproximaciones de la solución sobre ellos serán
+%
+\begin{equation*}
+(\forall\,i\in\{0, \dotsc, 4\}) \quad x_i = i \quad\text{e}\quad y_i \approx y(x_i).
+\end{equation*}
+%
+En los extremos sencillamente usamos las condiciones de contorno del problema \eqref{PVC}:
+%
+\begin{equation}\label{BC}
+y_0 = 1, \quad y_4 = 1.
+\end{equation}
+%
+En los nodos interiores usaremos las diferencias centradas para aproximar la primera y segunda derivada de la solución:
+%
+\begin{equation*}
+(\forall\,i\in\{1, 2, 3\}) \quad \left\{
+\begin{aligned}
+y'(x_i) & \approx \frac{y_{i+1} - y_{i-1}}{2h} = \frac{y_{i+1} - y_{i-1}}{2},\\
+y''(x_i) & \approx \frac{y_{i+1} - 2 y_i + y_{i-1}}{h^2} = y_{i+1} - 2 y_i + y_{i-1}.
+\end{aligned}
+\right.
+\end{equation*}
+%
+Usando estas aproximaciones en \eqref{PVC} obtenemos
+%
+\begin{equation}\label{body}
+(\forall\,i\in\{1,2,3\}) \quad
+-y_{i+1} + 2 y_i - y_{i-1} + 2 \frac{y_{i+1} - y_{i-1}}{2} + y_i
+= -2 y_{i-1} + 3 y_i
+= 4 \cos(\pi x_i).
+\end{equation}
+%
+Juntando \eqref{BC} y \eqref{body} en forma expandida y evaluando los cosenos obtenemos el sistema lineal de ecuaciones
+%
+\begin{equation}\label{system}
+y_0 = 1, \quad -2 y_0 + 3 y_1 = -4, \quad -2 y_1 + 3 y_2 = 4, \quad -2 y_2 + 3 y_3 =  -4, \quad y_4 = 1.
+\end{equation}
+%
+En forma matricial,
+%
+\begin{equation}\label{system-5x5}
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0\\
+-2 & 3 & 0 & 0 & 0\\
+0 & -2 & 3 & 0 & 0\\
+0 & 0 & -2 & 3 & 0\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+y_0 \\ y_1 \\ y_2 \\ y_3 \\ y_4
+\end{pmatrix}
+= \begin{pmatrix}
+1 \\ -4 \\ 4 \\ -4 \\ 1
+\end{pmatrix}.
+\end{equation}
+%
+Del sistema \eqref{system-5x5} (equivalentemente, de \eqref{system}) se pueden eliminar las incógnitas $y_0$ e $y_4$ ya que sus valores ya se conocen y se pueden sustituir en las otras ecuaciones en que aparezcan.
+El resultado de eso es el sistema
+%
+\begin{equation}\label{system-3x3}
+\begin{pmatrix}
+3 & 0 & 0\\
+-2 & 3 & 0\\
+0 & -2 & 3\\
+\end{pmatrix}
+\begin{pmatrix}
+y_1 \\ y_2 \\ y_3
+\end{pmatrix}
+= \begin{pmatrix}
+-4 - (-2) \, y_0 \\ 4 \\ -4 - 0 \, y_4
+\end{pmatrix}
+= \begin{pmatrix}
+-2 \\ 4 \\ -4
+\end{pmatrix}.
+\end{equation}
+%
+
+\emph{Alternativamente}, si uno se acuerda de las fórmulas, se puede reconocer que la ecuación diferencial de \eqref{PVC} tiene la forma
+%
+\begin{equation*}
+-y'' + r \, y' + k \, y = f
+\qquad\text{con}\qquad
+r = 2, \quad k = 1 \quad\text{y}\quad f(x) = 4 \cos(\pi x).
+\end{equation*}
+%
+Entonces las aproximaciones de la solución en los nodos internos son solución del sistema
+%
+\begin{equation*}
+\begin{pmatrix}
+b_1 & c_1 & 0\\
+a_2 & b_2 & c_2\\
+0 & a_3 & b_3
+\end{pmatrix}
+\begin{pmatrix} y_1 \\ y_2 \\ y_3 \end{pmatrix}
+= h^2 \begin{pmatrix} f_1 \\ f_2 \\ f_3 \end{pmatrix}
+- \begin{pmatrix} a_1 \times 1 \\ 0 \\ c_3 \times 1 \end{pmatrix},
+\end{equation*}
+%
+donde
+%
+\begin{equation*}
+a_i = -1 - \frac{r h}{2}, \quad
+b_i = 2 + k h^2, \quad
+c_i = -1 + \frac{r h}{2}, \quad
+f_i = f(x_i).
+\end{equation*}
+%
+Sustituyendo los datos del problema se obtiene el mismo sistema \eqref{system-3x3}.
+
+\medskip
+
+\textbf{Parte \ref{it:factorizeSystem}:}
+
+\begin{center}\framebox{\begin{minipage}{0.9\linewidth}
+Es admisible factorizar a la matriz del sistema \eqref{system-5x5} o a la matriz del sistema \eqref{system-3x3}.
+Saber qué hacer: 5 puntos.
+Aritmética exitosa: 5 puntos.
+\end{minipage}}\end{center}
+
+Denotando por $\boldsymbol{A}$ a la matriz de \eqref{system-5x5},
+%
+\begin{multline*}
+\boldsymbol{A} =
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0\\
+-2 & 3 & 0 & 0 & 0\\
+0 & -2 & 3 & 0 & 0\\
+0 & 0 & -2 & 3 & 0\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\stackrel{\substack{m_{2,1} = -2\\m_{3,1} = 0\\m_{4,1} = 0\\m_{5,1} = 0}}{\sim}
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 3 & 0 & 0 & 0\\
+0 & -2 & 3 & 0 & 0\\
+0 & 0 & -2 & 3 & 0\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\stackrel{\substack{m_{3,2} = -2/3\\m_{4,2} = 0\\m_{5,2} = 0}}{\sim}
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 3 & 0 & 0 & 0\\
+0 & 0 & 3 & 0 & 0\\
+0 & 0 & -2 & 3 & 0\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}\\
+\stackrel{\substack{m_{4,3} = -2/3\\m_{5,3} = 0}}{\sim}
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 3 & 0 & 0 & 0\\
+0 & 0 & 3 & 0 & 0\\
+0 & 0 & 0 & 3 & 0\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\stackrel{\substack{m_{5,4} = 0}}{\sim}
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 3 & 0 & 0 & 0\\
+0 & 0 & 3 & 0 & 0\\
+0 & 0 & 0 & 3 & 0\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix},
+\end{multline*}
+%
+por lo que $\boldsymbol{A} = \boldsymbol{L} \boldsymbol{U}$, donde
+%
+\begin{equation*}
+\boldsymbol{L} =
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0\\
+-2 & 1 & 0 & 0 & 0\\
+0 & -2/3 & 1 & 0 & 0\\
+0 & 0 & -2/3 & 1 & 0\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+\quad\text{y}\quad
+\boldsymbol{U} =
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0\\
+0 & 3 & 0 & 0 & 0\\
+0 & 0 & 3 & 0 & 0\\
+0 & 0 & 0 & 3 & 0\\
+0 & 0 & 0 & 0 & 1
+\end{pmatrix}.
+\end{equation*}
+%
+
+Alternativamente, denotando por $\boldsymbol{A}$ a la matriz del sistema \eqref{system-3x3},
+%
+\begin{equation*}
+\boldsymbol{A} =
+\begin{pmatrix}
+3 & 0 & 0\\
+-2 & 3 & 0\\
+0 & -2 & 3\\
+\end{pmatrix}
+\stackrel{\substack{m_{2,1} = -2/3\\m_{3,1} = 0}}{\sim}
+\begin{pmatrix}
+3 & 0 & 0\\
+0 & 3 & 0\\
+0 & -2 & 3\\
+\end{pmatrix}
+\stackrel{\substack{m_{3,2} = -2/3}}{\sim}
+\begin{pmatrix}
+3 & 0 & 0\\
+0 & 3 & 0\\
+0 & 0 & 3\\
+\end{pmatrix},
+\end{equation*}
+%
+por lo que $\boldsymbol{A} = \boldsymbol{L} \boldsymbol{U}$, donde
+%
+\begin{equation*}
+\boldsymbol{L} =
+\begin{pmatrix}
+1 & 0 & 0\\
+-2/3 & 1 & 0\\
+0 & -2/3 & 1
+\end{pmatrix}
+\quad\text{y}\quad
+\boldsymbol{U} =
+\begin{pmatrix}
+3 & 0 & 0\\
+0 & 3 & 0\\
+0 & 0 & 3\\
+\end{pmatrix}.
+\end{equation*}
+
+\textbf{Parte \ref{it:solveSystem}:}
+
+\begin{center}\framebox{\begin{minipage}{0.9\linewidth}
+5 puntos.
+El sistema \eqref{system} se puede resolver a mano rápidamente, que es lo que mostramos aquí.
+Alternativamente, tanto el sistema \eqref{system-5x5} como el sistema \eqref{system-3x3} se pueden resolver rápidamente mediante sustitución progresiva.
+Otra alternativa, que no es tan rápida, es explotar la factorización de la matriz correspondiente a cualquiera de estos dos sistemas, resolviendo un problema auxiliar con $\boldsymbol{L}$ y otro con $\boldsymbol{U}$ mediante sustitución progresiva y regresiva, respectivamente.
+\end{minipage}}\end{center}
+
+Inmediatamente sabemos que $y_0 = 1$ e $y_4 = 1$.
+Como $-4 = -2 y_0 + 3y_1 = -2 + 3 y_1$, obtenemos que $y_1 = -2/3$.
+Como $4 = -2 y_1 + 3 y_2 = 4/3 + 3 y_2$, obtenemos que $y_2 = 8/9$.
+Como $-4 = -2 y_2 + 3 y_3 = -16/9 + 3 y_3$, obtenemos que $y_3 = -20/27$.
+En resumen,
+%
+\begin{equation*}
+y_0 = 1, \quad y_1 = -\frac{2}{3}, \quad y_2 = \frac{8}{9}, \quad y_3 = -\frac{20}{27}, \quad y_4 = 1.
+\end{equation*}
+
+\end{solution}
+\end{question}
+
+
+\end{document}

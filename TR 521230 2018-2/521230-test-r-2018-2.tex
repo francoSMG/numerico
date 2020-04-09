@@ -1,0 +1,62 @@
+\documentclass[letter,11pt]{article}
+\input{preamble}
+
+\begin{document}
+\titulo{1}{2}
+\begin{enumerate}
+\item La funcion de tres variables reales
+$$
+f(x,\mu,\sigma)=\frac{1}{\sqrt{2\pi\sigma^2}}\, e^{\frac{-(x-\mu)^2}{2\sigma^2}}
+$$
+es conocida funci\'on de densidad de probabilidad de la distribuci\'on normal.
+\begin{enumerate}
+    \item En un programa de \octave grafique a la funci\'on $f$ con $x\in[-5,5]$ para los siguientes valores de $\mu$ y $\sigma$
+    $$
+    \begin{array}{c|cccccccc}
+    \mu      &  0  & 1 & 2 & -1 & -2 \\ \hline
+    \sigma   &  1  & 1 & 2 & 1 & 2
+    \end{array}
+    $$
+    \item Usando esta distribuci\'on se define la probabilidad acumulada en $[a,b]$ como
+    $$
+    P(a,b)=\int_a^b f(x,\mu,\sigma) dx.
+    $$
+    Usando funciones de cuadratura de \octave cree una matriz que tenga las componentes de la siguiente tabla
+    $$
+    \begin{array}{c|ccccc}
+    a / b   & 0.1           & 0.2           & \cdots    & 5 \\ \hline
+    -0.1    & P(-0.1,0.1)   & P(-0.1,0.2)   & \cdots    & P(-0.1,5)\\
+    -0.2    & P(-0.2,0.1)   & P(-0.2,0.2)   & \cdots    & P(-0.2,5)\\ 
+    \vdots  & \vdots        & \vdots        &           & \vdots\\
+    -5      & P(-5,0.1)     & P(-5,0.2)     & \cdots    & P(-5,5)\\
+    \end{array}
+    $$
+    considerando los par\'amtros $\mu=0$ y $\sigma=1$.
+
+\end{enumerate}
+
+\item Un sistema para rastrear naves indica que el barco est\'a en la trayectoria descrita por
+$2y^2-x^2=1$. El proceso de rastreo se repite y se encuentra que el barco est\'a en la trayectoria
+$2x^2-y^2=1$. Si sabemos que la nave est\'a en el primer cuadrante, determine las coordenadas exactas en las que est\'a el barco.
+\end{enumerate}
+
+\titulo{2}{2} 				
+\begin{enumerate}
+%% FVM
+\item El siguiente sistema de E.D.O. y condiciones iniciales
+$$
+\begin{array}{c}
+c'(t) = 0.4c(t)-0.4c(t)z(t)\\
+z'(t)=0.02c(t)z(t)-2z(t)\\
+c(0)=100,\quad z(0)=8;
+\end{array}
+$$
+es conocido como un modelo presa-depredador. Este modela las funciones $c(t)$ y $z(t)$ que corresponden a la cantidad de individuos de la especie deprededada y la deprededadora respectivamente en un ambiente.
+
+En un rutero de \octave resuelva este sistema, grafique ambas soluciones y determine cual es la menor cantidad de individuos posibles en cada especie.
+
+\item Se considera un mecanismo que modela un piloto autom\'atico. Si $y(t)$ es la direcci\'on real de la nave en el instante $t$ (medido en segundos) y $g(t)$ es la direcci\'on deseada, entonces el error o desviaci\'on real de la nave o desviaci\'on es $e(t)=y(t)-g(t)$. La segunda ley de Newton, expresada en t\'erminos de momentos de las fuerzas, da origen a la ecuaci\'on 
+$$ I y''(t) = -k e(t), $$
+donde $I$ es el momento de inercia del eje del tim\'on de la nave y $k$ es una constante positiva. Escriba un programa \octave que permita calcular la desviaci\'on real de la nave al cabo de 10 segundos, sabiendo que el momento de inercia del eje del tim\'on es 3 Kg m$^2$, $k=5$, que la direcci\'on deseada en el tiempo $t$ est\'a dada por $g(t)=2t$, y que inicialmente el eje del tim\'on se encuentra en reposo y que la nave parte alineada con la direcci\'on deseada.
+\end{enumerate}
+\end{document}

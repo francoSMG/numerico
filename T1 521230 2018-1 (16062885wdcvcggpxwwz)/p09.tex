@@ -1,0 +1,50 @@
+Se desea ajustar los par\'ametros $c_1, \dotsc, c_4$ del modelo
+%
+\begin{equation*}
+f(\theta) = c_1 + c_2 \frac{\sen(2\theta)}{\sen(\theta)} + c_3 \frac{\sen(3\theta)}{\sen(\theta)} + c_4 \frac{\sen(4\theta)}{\sen(\theta)}
+\end{equation*}
+%
+a los puntos $(\theta_i, f_i)$, $i \in \{1, \dotsc, 8\}$, descritos en la siguiente tabla:
+%
+\begin{center}
+\begin{tabular}{c|cccccccc}
+$\theta_i$ & 0.36 & 1.46 & 1.53 & 1.81 & 2.24 & 2.46 & 2.72 & 2.84\\\hline
+$f_i$ & 0.48 & 0.21 & 0.08 & -0.44 & -0.97 & -0.97 & -0.63 & -0.31
+\end{tabular}
+\end{center}
+
+Escriba un rutero \matlab que realice el ajuste y grafique conjuntamente la curva ajustada en el intervalo $\theta \in [0.1,3.1]$ y los ocho pares ordenados de la tabla (recuerde que en \matlab la funci\'on seno se llama \texttt{sin}).
+
+Complete la siguiente tabla:
+
+\noindent{\def\arraystretch{1.5}%
+\begin{tabularx}{\linewidth}{|p{1em}|X|p{1em}|X|p{1em}|X|p{1em}|X|}\hline
+$c_1$ & & $c_2$ & & $c_3$ & & $c_4$ & \\\hline
+\end{tabularx}%
+}
+
+\medskip
+\noindent ?`C\'omo nombr\'o a su rutero?\newline
+\noindent{\def\arraystretch{1.5}
+\begin{tabularx}{\linewidth}{|p{1in}|X|}\hline 
+nombre rutero & \\\hline
+\end{tabularx}}
+
+\textbf{Desarrollo:} Un rutero que realiza las tareas solicitadas es:
+\begin{lstlisting}
+t = [0.36 1.46 1.53 1.81 2.24 2.46 2.72 2.84]';
+f = [0.48 0.21 0.08 -0.44 -0.97 -0.97 -0.63 -0.31]';
+A = [ones(size(t)) sin(2*t)./sin(t) sin(3*t)./sin(t) sin(4*t)./sin(t)];
+c = A\f
+tt = linspace(0.1,3.1,512);
+ff = c(1) + c(2)*sin(2*tt)./sin(tt) + c(3)*sin(3*tt)./sin(tt) + c(4)*sin(4*tt)./sin(tt);
+plot(tt, ff, '-', t, f, 'o')
+\end{lstlisting}
+
+En \textsc{Octave} obtuve \texttt{c = [-0.0045619; 0.6630383; -0.0011977; -0.2696056]}.
+
+A alguien podría ocurr\'irsele multiplicar el modelo por $\sen(\theta)$ y aplicar m\'inimos cuadrados a ese modelo modificado.
+Eso tambi\'en es admisible.
+En ese caso los par\'ametros ajustados son parecidos pero distintos: \texttt{c = [-0.021768; 0.628855; -0.019332; -0.229573]}.
+
+

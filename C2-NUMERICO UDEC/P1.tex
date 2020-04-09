@@ -1,0 +1,44 @@
+\begin{pregunta}
+\puntaje{5}
+\begin{cuerpo}
+Sobre el rutero de Matlab
+\begin{lstlisting}
+f=@(t,u) [u(2);300+exp(-t*u(1))];
+[t,u]=ode45(f,[0,100],[9;1]);
+plot(t,u(:,1),'.b')
+\end{lstlisting}
+es correcto afirmar que
+\end{cuerpo}
+\begin{multicols}{2}
+\begin{alternativas}
+{Resuelve num\'ericamente y grafica la soluci\'on obtenida del P.V.I.
+$$
+\begin{array}{rl|}
+y''(t) &=300+e^{-t \, y(t)} \\
+y(0)	&=9\\
+y'(0)	&=1\\ \hline
+\end{array}
+$$
+}
+{Resuelve num\'ericamente y grafica la soluci\'on obtenida del P.V.I.
+$$
+\begin{array}{rl|}
+y''(t) &=300+e^{-t } \\
+y(0)	&=9\\
+y'(0)	&=1\\ \hline
+\end{array}
+$$.}
+{Resuelve un P.V.I. de orden 3.}
+{Grafica la soluci\'on del P.V.I
+$$
+\begin{array}{rl|}
+y''(t) &=300+e^{-t \, y(t)} \\
+y(0)	&=9\\
+y'(0)	&=1\\ \hline
+\end{array}
+$$
+}
+\end{alternativas}
+\end{multicols}
+\justificacion{0cm}
+\end{pregunta}
