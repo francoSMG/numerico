@@ -1,16 +1,16 @@
 # Métodos numéricos (materiales y evaluaciones)
 
-_Un breve colección de materiales y fuentes LaTeX sobre contenidos introductorios de métodos numéricos.
+Una breve colección de materiales y fuentes LaTeX sobre contenidos introductorios de métodos numéricos.
 
-_A brief collections of standar contains in a basic numerical methods course.
+A brief collections of standar contains in a basic numerical methods course.
 
 ## De donde? 🚀
 
-_Son cursos dictados entre el 2014-2018 en Universidades: del Bío-bío, UCSC, UDEC.
+Son cursos dictados entre el 2014-2018 en Universidades: del Bío-bío, UCSC, UDEC.
 
 ### Pre-requisitos 📋
 
-_Cualquier puede hacer pull o descargar por el sistema github. Funcionan con el compilador pdfLatex.
+Cualquier puede hacer pull o descargar por el sistema github. Funcionan con el compilador pdfLatex.
 
 ```
 https://www.overleaf.com/read/twzzpfcmksgd
